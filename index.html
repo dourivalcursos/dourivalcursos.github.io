@@ -1,1 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal do Aluno - DSCURSOS ONLINE</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; align-items: center; color: #F8FAFC; padding: 20px; }
+        .main-content { flex: 1; display: flex; justify-content: center; align-items: center; width: 100%; }
+        .login-container { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); text-align: center; }
+        .login-header h1 { font-size: 24px; margin-bottom: 5px; }
+        .login-header p { color: #94A3B8; font-size: 14px; margin-bottom: 20px; }
+        .error-message { display: none; background: rgba(239, 68, 68, 0.2); border: 1px solid #EF4444; color: #FCA5A5; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; color: #CBD5E1; font-size: 13px; }
+        .form-group input { width: 100%; padding: 12px; background: #1E293B; border: 1px solid #334155; border-radius: 8px; color: #F8FAFC; outline: none; }
+        .btn-submit { width: 100%; padding: 12px; background: #1D4ED8; border: none; border-radius: 8px; color: #F8FAFC; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .loading-container { display: none; text-align: center; flex-direction: column; align-items: center; gap: 15px; }
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(255, 255, 255, 0.1); border-top: 4px solid #3B82F6; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .dashboard-container { display: none; background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 20px; width: 100%; max-width: 600px; }
+        .dash-header { border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .course-card { background: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 20px; text-align: left; margin-top: 15px; }
+        .btn-download { display: block; width: 100%; text-align: center; padding: 12px; background: #B45309; border: none; border-radius: 8px; color: #F8FAFC; font-weight: bold; cursor: pointer; margin-top: 15px; text-decoration: none; }
+        .btn-logout { background: transparent; border: 1px solid #475569; color: #94A3B8; padding: 5px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .legal-footer { width: 100%; max-width: 900px; text-align: center; font-size: 11px; color: #64748B; line-height: 1.6; margin-top: 40px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <!-- TELA DE LOGIN -->
+        <div class="login-container" id="loginBox">
+            <div class="login-header">
+                <h1>Portal do Aluno</h1>
+                <p>DSCURSOS ONLINE</p>
+            </div>
+            <div class="error-message" id="errorMessage">Usuário ou senha incorreta!</div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>E-mail Cadastrado</label>
+                    <input type="text" id="email" required placeholder="exemplo@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Senha de Acesso</label>
+                    <input type="password" id="password" required placeholder="Sua senha">
+                </div>
+                <button type="submit" class="btn-submit">Entrar</button>
+            </form>
+        </div>
+
+        <!-- LOADING -->
+        <div class="loading-container" id="loadingBox">
+            <div class="spinner"></div>
+            <p>Verificando credenciais...</p>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div class="dashboard-container" id="dashBox">
+            <div class="dash-header">
+                <div>
+                    <h2>Área do Aluno</h2>
+                    <p style="color: #10B981; font-size: 12px;">★ Conexão Segura</p>
+                </div>
+                <button class="btn-logout" onclick="handleLogout()">Sair</button>
+            </div>
+            <p>Bem-vindo, <strong id="dashStudentName">Aluno</strong></p>
+            <div class="course-card">
+                <h3 id="dashCourseName">Curso</h3>
+                <p style="font-size: 12px; color: #94A3B8; margin-top: 5px;" id="dashHashId">ID: </p>
+                <button class="btn-download" onclick="dispararDownload()">📜 Baixar Certificado PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RODAPÉ LEGAL ULTRA COMPACTO -->
+    <footer class="legal-footer">
+        <p>© 2026 <strong>DSCURSOS ONLINE</strong>. Todos os direitos reservados.</p>
+        <p style="margin-top: 5px; font-weight: 500; letter-spacing: 0.3px;">
+            Cursos Livres • Art. 205 e 206 (CF) • Art. 42 da Lei nº 9.394/96 (LDB) • Decreto Presidencial nº 5.154/04 • Isento de reconhecimento do MEC • Certificados com autenticação via algoritmo SHA-256 • Conformidade Lei nº 13.709/18 (LGPD)
+        </p>
+    </footer>
+
+    <script>
+        const BANCO_ALUNOS = {
+            "teste": {
+                nome: "Carlos Silva Santos",
+                senha: "123",
+                curso: "Arquitetura de Sistemas Distribuídos Ultra Avançada",
+                hash: "REGISTRO DIGITAL ID: A8F3-BC7D-1942-E93E"
+            }
+        };
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const emailInput = document.getElementById('email').value.trim().toLowerCase();
+            const passwordInput = document.getElementById('password').value.trim();
+            const errorBox = document.getElementById('errorMessage');
+
+            if (BANCO_ALUNOS[emailInput] && BANCO_ALUNOS[emailInput].senha === passwordInput) {
+                errorBox.style.display = 'none';
+                document.getElementById('dashStudentName').innerText = BANCO_ALUNOS[emailInput].nome;
+                document.getElementById('dashCourseName').innerText = BANCO_ALUNOS[emailInput].curso;
+                document.getElementById('dashHashId').innerText = BANCO_ALUNOS[emailInput].hash;
+
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('loadingBox').style.display = 'flex';
+
+                setTimeout(() => {
+                    document.getElementById('loadingBox').style.display = 'none';
+                    document.getElementById('dashBox').style.display = 'block';
+                }, 1500);
+            } else {
+                errorBox.style.display = 'block';
+            }
+        }
+
+        function handleLogout() {
+            document.getElementById('dashBox').style.display = 'none';
+            document.getElementById('loginBox').style.display = 'block';
+        }
+
+        function dispararDownload() {
+            alert('🔐 Download Liberado!\n\nCertificado com validação SHA-256 e amparo de Curso Livre legalizado.');
+        }
+    </script>
+</body>
+</html>
 

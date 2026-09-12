@@ -8,7 +8,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background: #0F172A; min-height: 100vh; display: flex; flex-direction: column; color: #F8FAFC; overflow-x: hidden; }
         
-        /* TELA DE LOGIN */
         .login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); display: flex; justify-content: center; align-items: center; z-index: 100; padding: 20px; }
         .login-container { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); text-align: center; backdrop-filter: blur(10px); }
         .login-header h1 { font-size: 24px; margin-bottom: 5px; letter-spacing: 0.5px; }
@@ -20,15 +19,12 @@
         .btn-submit { width: 100%; padding: 12px; background: #1D4ED8; border: none; border-radius: 8px; color: #F8FAFC; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.3s; }
         .btn-submit:hover { background: #2563EB; }
 
-        /* LOADING */
         .loading-container { display: none; text-align: center; flex-direction: column; align-items: center; gap: 15px; }
         .spinner { width: 40px; height: 40px; border: 4px solid rgba(255, 255, 255, 0.1); border-top: 4px solid #3B82F6; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* 🏢 ESTRUTURA DA ÁREA DE MEMBROS (DASHBOARD COMPLETO) */
-        .app-container { display: none; flex: 1; display: flex; width: 100%; height: 100vh; }
+        .app-container { display: none; flex: 1; width: 100%; height: 100vh; }
         
-        /* MENU LATERAL FLUTUANTE DE MÓDULOS */
         .sidebar { width: 300px; background: #1E293B; border-right: 1px solid #334155; display: flex; flex-direction: column; height: 100%; }
         .sidebar-header { padding: 20px; border-bottom: 1px solid #334155; text-align: center; }
         .sidebar-header h2 { font-size: 18px; color: #F8FAFC; }
@@ -37,22 +33,19 @@
         .module-item:hover { background: rgba(255,255,255,0.05); color: #F8FAFC; }
         .module-item.active { background: #1D4ED8; color: #F8FAFC; font-weight: 600; }
 
-        /* ÁREA CENTRAL DE CONTEÚDO DA AULA */
         .main-content { flex: 1; display: flex; flex-direction: column; background: #0F172A; height: 100%; overflow-y: auto; }
         .navbar { height: 65px; background: #1E293B; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; }
         .navbar h3 { font-size: 16px; color: #CBD5E1; }
         
         .content-body { flex: 1; padding: 40px; max-width: 850px; width: 100%; margin: 0 auto; }
         .lesson-header { margin-bottom: 25px; }
-        .lesson-header h1 { font-size: 28px; margin-bottom: 5px; color: #F8FAFC; }
+        .lesson-header h1 { font-size: 24px; margin-bottom: 5px; color: #F8FAFC; }
         .lesson-meta { font-size: 13px; color: #64748B; display: flex; gap: 15px; }
         
-        /* Bloco de conteúdo da aula simulando o player/texto */
-        .lesson-player-placeholder { width: 100%; height: 350px; background: #1E293B; border: 1px solid #334155; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 30px; padding: 30px; text-align: center; }
-        .lesson-player-placeholder h4 { font-size: 18px; margin-bottom: 10px; color: #3B82F6; }
-        .lesson-player-placeholder p { font-size: 14px; color: #94A3B8; max-width: 500px; line-height: 1.5; }
+        .lesson-player-placeholder { width: 100%; background: #1E293B; border: 1px solid #334155; border-radius: 12px; display: flex; flex-direction: column; margin-bottom: 30px; padding: 30px; }
+        .lesson-player-placeholder h4 { font-size: 16px; margin-bottom: 10px; color: #3B82F6; }
+        .lesson-player-placeholder p { font-size: 14px; color: #CBD5E1; line-height: 1.6; }
 
-        /* 🔘 BOTÕES DE NAVEGAÇÃO INTERNOS */
         .navigation-row { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #334155; }
         .btn-nav { padding: 12px 24px; background: #334155; border: none; border-radius: 8px; color: #F8FAFC; font-weight: 600; font-size: 14px; cursor: pointer; transition: background 0.2s; }
         .btn-nav:hover { background: #475569; }
@@ -60,20 +53,19 @@
         .btn-cert { padding: 12px 24px; background: #B45309; border: none; border-radius: 8px; color: #F8FAFC; font-weight: bold; font-size: 14px; cursor: pointer; transition: background 0.2s; }
         .btn-cert:hover { background: #D97706; }
 
-        /* ⚖️ RODAPÉ LEGAL */
         .legal-footer { text-align: center; font-size: 11px; color: #475569; line-height: 1.6; padding: 20px; background: #0F172A; border-top: 1px solid rgba(255,255,255,0.02); width: 100%; }
     </style>
 </head>
 <body>
 
-    <!-- 🔑 TELA DE LOGIN & VENDAS -->
+    <!-- 🔑 TELA DE LOGIN -->
     <div class="login-screen" id="loginScreen">
         <div class="login-container" id="loginBox">
             <div class="login-header">
                 <h1>Portal do Aluno</h1>
                 <p>DSCURSOS ONLINE</p>
             </div>
-            <div class="error-message" id="errorMessage">Chave de acesso inválida!</div>
+            <div class="error-message" id="errorMessage">Chave de acesso incorreta!</div>
             <form onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label>E-mail Cadastrado</label>
@@ -90,29 +82,24 @@
         <!-- LOADING -->
         <div class="loading-container" id="loadingBox">
             <div class="spinner"></div>
-            <p style="color: #94A3B8;">Carregando ambiente de aprendizagem...</p>
+            <p style="color: #94A3B8; margin-top: 10px;">Carregando ambiente de aprendizagem...</p>
         </div>
     </div>
 
-    <!-- 🏢 INTERFACE COMPLETA DA ÁREA DE MEMBROS -->
+    <!-- 🏢 ÁREA DE MEMBROS -->
     <div class="app-container" id="appInterface">
-        
-        <!-- 🎛️ MENU LATERAL FLUTUANTE DE MÓDULOS -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2 id="txtCurso">Nome do Curso</h2>
                 <p style="font-size: 11px; color: #64748B; margin-top: 4px;">Progresso: 100%</p>
             </div>
-            <nav class="modules-list" id="modulesList">
-                <!-- Injetado dinamicamente via JS -->
-            </nav>
+            <nav class="modules-list" id="modulesList"></nav>
         </aside>
 
-        <!-- 📺 ÁREA DE CONTEÚDO CENTRAL -->
         <main class="main-content">
             <div class="navbar">
                 <h3 id="txtAluno">Bem-vindo, Aluno</h3>
-                <button class="btn-logout" style="background: transparent; border: 1px solid #475569; color: #94A3B8; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;" onclick="handleLogout()">Sair do Curso</button>
+                <button class="btn-logout" onclick="handleLogout()">Sair do Curso</button>
             </div>
             
             <div class="content-body">
@@ -124,16 +111,14 @@
                     </div>
                 </div>
 
-                <!-- Simulador de Player de Vídeo / Texto Avançado -->
                 <div class="lesson-player-placeholder">
                     <h4>📘 CONTEÚDO TEÓRICO DA AULA</h4>
-                    <p id="lessonTeoria" style="margin-bottom: 20px;">Texto teórico da ementa.</p>
+                    <p id="lessonTeoria" style="margin-bottom: 20px;">Texto teórico.</p>
                     
                     <h4 style="color: #10B981;">🛠️ LABORATÓRIO PRÁTICO</h4>
-                    <p id="lessonPratica">Desafio prático aplicado.</p>
+                    <p id="lessonPratica">Desafio prático.</p>
                 </div>
 
-                <!-- 🔘 BOTÕES DE NAVEGAÇÃO DA ÁREA DE MEMBROS -->
                 <div class="navigation-row">
                     <button class="btn-nav" id="btnPrev" onclick="mudarAula(-1)">← Aula Anterior</button>
                     <button class="btn-cert" onclick="dispararCertificado()">📜 Emitir Certificado SHA-256</button>
@@ -141,7 +126,6 @@
                 </div>
             </div>
 
-            <!-- RODAPÉ LEGAL INTEGRADO -->
             <footer class="legal-footer">
                 <p>© 2026 <strong>DSCURSOS ONLINE</strong>. Todos os direitos reservados.</p>
                 <p style="margin-top: 5px; color: #334155;">
@@ -152,6 +136,13 @@
     </div>
 
     <script>
-        // BANCO DE DADOS DINÂMICO DOS CURSOS (Aulas com navegação interna)
+        // BANCO DE DADOS CORRIGIDO
         const BANCO_ALUNOS = {
             "teste": {
+                nome: "Carlos Silva Santos",
+                senha: "123",
+                curso: "Medicina de Precisão e Genômica Clínica",
+                hash: "MED9-883F-112A-C75D",
+                modulos: [
+                    { t: "Módulo 01 • Sequenciamento de Nova Geração (NGS)", c: "30h", e: "Análise profunda de alinhamento de leituras, calibração de bases e algoritmos de Variant Calling. Mapeamento de exoma completo e genoma total.", p: "Simulação de pipeline computacional para identificação de mutações raras em banco de dados genômico público." },
+                    { t: "Módulo 02 • Oncologia Molecular e Biópsia Líquida", c: "30h", e: "Rastreamento de DNA tumoral circulante (ctDNA). Mecanismos epigenéticos de evasão tumoral e farmacogenômica aplicada à escolha de terapias-alvo.", p: "Desenho de painel terapêutico customizado baseado no perfil de mutações de um caso clínico complexo." },

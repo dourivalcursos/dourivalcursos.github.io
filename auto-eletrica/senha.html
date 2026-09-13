@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Elétrica — Super Avançado | DSCursos Online</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        :root { --laranja: #FF7A00; --escuro: #1A1A1A; }
+        body { background: linear-gradient(135deg, #2A2A2A, #1A1A1A); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .caixa { background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); width: 100%; max-width: 450px; text-align: center; }
+        h1 { color: var(--laranja); margin-bottom: 0.5rem; font-size: 1.6rem; }
+        .destaque { color: #333; font-weight: bold; margin-bottom: 1rem; }
+        .carga { background: #FFF3E8; color: #E66A00; padding: 0.8rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: bold; }
+        input { width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; margin-bottom: 1rem; outline: none; }
+        input:focus { border-color: var(--laranja); }
+        button { width: 100%; padding: 1rem; background: var(--laranja); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+        button:hover { background: #E66A00; }
+        .erro { color: #D32F2F; margin-top: 1rem; display: none; }
+        .voltar { display: inline-block; margin-top: 1.5rem; color: #888; text-decoration: none; font-size: 0.9rem; }
+        .voltar:hover { color: var(--laranja); }
+        
+        /* Duda */
+        #duda-assistente { position: fixed; bottom: 20px; right: 20px; z-index: 9999; cursor: pointer; }
+        .duda-botao { width: 60px; height: 60px; background: linear-gradient(135deg, #FF7A00, #E66A00); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .duda-botao:hover { transform: scale(1.1); }
+        #duda-chat { position: fixed; bottom: 90px; right: 20px; width: 350px; max-height: 500px; background: white; border-radius: 16px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); display: none; flex-direction: column; z-index: 9998; }
+        .duda-cabecalho { background: linear-gradient(135deg, #FF7A00, #E66A00); color: white; padding: 15px; border-radius: 16px 16px 0 0; font-weight: bold; display: flex; justify-content: space-between; }
+        .duda-cabecalho button { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+        .duda-mensagens { padding: 15px; overflow-y: auto; background: #f9f9f9; min-height: 300px; }
+        .duda-msg { padding: 12px; border-radius: 12px; margin-bottom: 10px; max-width: 90%; }
+        .duda-msg-eu { background: #FFF3E8; margin-left: auto; }
+        .duda-msg-duda { background: #E8F0FE; margin-right: auto; }
+        .duda-entrada { padding: 15px; border-top: 1px solid #eee; display: flex; }
+        .duda-entrada input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        .duda-entrada button { margin-left: 8px; background: #FF7A00; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        @media (max-width: 400px) { #duda-chat { width: calc(100% - 40px); } }
+    </style>
+</head>
+<body>
+
+<div class="caixa">
+    <h1>⚡ Auto Elétrica — Super Avançado</h1>
+    <p class="destaque">Master Diagnóstico • 120 Horas</p>
+    <div class="carga">🏆 Formação Completa com Glossário</div>
+    
+    <input type="password" id="senha" placeholder="Digite sua senha de acesso">
+    <button onclick="verificarSenha()">Entrar no Curso</button>
+    
+    <p class="erro" id="mensagemErro">Senha incorreta! Contate o suporte.</p>
+    <a href="../cursos.html" class="voltar">← Voltar para Cursos</a>
+</div>
+
+<script>
+const SENHA_CORRETA = "AutoEletrica2026!";
+
+function verificarSenha() {
+    const digitada = document.getElementById('senha').value;
+    if (digitada === SENHA_CORRETA) {
+        localStorage.setItem('acesso_autoeletrica', 'liberado');
+        window.location.href = 'curso-completo.html';
+    } else {
+        document.getElementById('mensagemErro').style.display = 'block';
+        document.getElementById('senha').value = '';
+    }
+}
+
+document.getElementById('senha').addEventListener('keypress', e => e.key === 'Enter' && verificarSenha());
+
+if (localStorage.getItem('acesso_autoeletrica') === 'liberado') {
+    window.location.href = 'curso-completo.html';
+}
+</script>
+
+<!-- DUDA -->
+<div id="duda-assistente"><div class="duda-botao" onclick="alternarDuda()">🤖</div></div>
+<div id="duda-chat">
+    <div class="duda-cabecalho">🤖 Duda — Assistente Virtual<button onclick="fecharDuda()">×</button></div>
+    <div class="duda-mensagens" id="duda-msg">
+        <div class="duda-msg duda-msg-duda"><strong>Duda 💙</strong><br>Olá! Bem-vindo ao curso de Auto Elétrica ⚡! Senha: AutoEletrica2026! 💙</div>
+    </div>
+    <div class="duda-entrada">
+        <input type="text" id="duda-in" placeholder="Pergunte algo...">
+        <button onclick="enviarDuda()">Enviar</button>
+    </div>
+</div>
+<script>
+const baseDuda = {
+  "duda": "Sou sua assistente! 💙 Este é o curso de Auto Elétrica Super Avançado — 120h! ⚡",
+  "senha": "A senha é: AutoEletrica2026! ✅",
+  "acesso": "Digite a senha acima → entra direto no curso completo! 📚",
+  "carga": "São 120 horas de formação completa com glossário incluso! 🏆",
+  "contato": "📧 redelinecftv@gmail.com | 📱 (67) 99903-0758"
+};
+const naoSabe = "Desculpe 😊 Pergunte sobre acesso, senha ou conteúdo do curso! 💙";
+function alternarDuda() { const c = document.getElementById('duda-chat'); c.style.display = c.style.display === 'flex' ? 'none' : 'flex'; }
+function fecharDuda() { document.getElementById('duda-chat').style.display = 'none'; }
+function enviarDuda() {
+    const i = document.getElementById('duda-in'), m = i.value.trim(); if (!m) return;
+    const caixa = document.getElementById('duda-msg');
+    caixa.innerHTML += `<div class="duda-msg duda-msg-eu">${m}</div>`; i.value = '';
+    setTimeout(() => {
+        let r = naoSabe; const p = m.toLowerCase();
+        for (const [k, v] of Object.entries(baseDuda)) if (p.includes(k)) { r = v; break; }
+        caixa.innerHTML += `<div class="duda-msg duda-msg-duda"><strong>Duda 💙</strong><br>${r}</div>`;
+        caixa.scrollTop = caixa.scrollHeight;
+    }, 600);
+}
+document.getElementById('duda-in').addEventListener('keypress', e => e.key === 'Enter' && enviarDuda());
+</script>
+
+</body>
+</html>

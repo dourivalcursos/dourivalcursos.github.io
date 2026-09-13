@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Avançado — DS Cursos Online</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+        :root{--primario:#2563eb;--fundo:#0f0f1a;--meio:#1a1a2e;--texto:#f8f9fa;--cinza:#94a3b8}
+        body{background:var(--fundo);color:var(--texto);display:flex;min-height:100vh}
+        .cabecalho{position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,#2563eb,#4f46e5);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;z-index:1000}
+        .logo{font-weight:800;font-size:1.3rem;color:white}
+        .barra-progresso{height:8px;background:rgba(255,255,255,.3);border-radius:4px;overflow:hidden;width:200px}
+        .progresso-preenchido{height:100%;background:white;width:0%;transition:.5s}
+        .btn-voltar{color:white;text-decoration:none;font-weight:700;background:rgba(255,255,255,.2);padding:.5rem 1rem;border-radius:8px;margin-right:.5rem}
+        .btn-reset{background:#e74c3c;color:white;border:none;padding:.5rem 1rem;border-radius:8px;cursor:pointer;font-weight:700}
+        aside{width:320px;background:rgba(255,255,255,.03);padding:1.5rem;position:fixed;top:70px;bottom:0;overflow-y:auto;border-right:1px solid rgba(255,255,255,.05)}
+        aside h3{color:#2563eb;margin-bottom:1rem}
+        .btn-modulo{width:100%;background:rgba(37,99,235,.1);border:2px solid transparent;color:#2563eb;padding:.9rem;border-radius:10px;text-align:left;font-weight:700;cursor:pointer;transition:.3s;margin-bottom:.5rem}
+        .btn-modulo.ativo,.btn-modulo:hover{border-color:#2563eb;background:rgba(37,99,235,.2)}
+        .lista-aulas{padding-left:1rem;display:none}
+        .lista-aulas.aberta{display:block}
+        .btn-aula{width:100%;background:transparent;border:none;color:#ccc;padding:.7rem;border-radius:8px;text-align:left;cursor:pointer;transition:.2s;margin-bottom:.3rem}
+        .btn-aula:hover,.btn-aula.ativa{background:rgba(255,255,255,.05);color:white}
+        main{flex:1;margin-left:340px;margin-top:70px;padding:2rem;max-width:900px}
+        .inicio-curso{text-align:center;padding:4rem 2rem}
+        .inicio-curso h1{font-size:2.5rem;color:#2563eb;margin-bottom:1rem}
+        .btn-iniciar{background:linear-gradient(90deg,#2563eb,#4f46e5);color:white;border:none;padding:1rem 3rem;font-size:1.2rem;border-radius:12px;cursor:pointer;font-weight:800;transition:.3s}
+        .btn-iniciar:hover{transform:scale(1.05)}
+        .conteudo-aula h2{color:#2563eb;margin-bottom:.5rem}
+        .meta-aula{color:#888;margin-bottom:2rem}
+        .corpo-aula{line-height:1.8;font-size:1.05rem}
+        .corpo-aula h3{color:#4f46e5;margin:2rem 0 1rem}
+        .destaque{background:rgba(37,99,235,.1);border-left:4px solid #2563eb;padding:1rem;border-radius:0 10px 10px 0;margin:1.5rem 0}
+        .exercicio{background:rgba(16,185,129,.1);border-left:4px solid #10b981;padding:1rem;border-radius:0 10px 10px 0;margin:1.5rem 0}
+        .espaco-video{background:rgba(0,0,0,.3);border:2px dashed #444;border-radius:12px;padding:3rem;text-align:center;color:#777;margin:2rem 0}
+        .quiz{background:rgba(255,255,255,.03);border-radius:15px;padding:2rem;margin-top:3rem;border:1px solid rgba(255,255,255,.05)}
+        .quiz h3{color:#2563eb;margin-bottom:1.5rem}
+        .pergunta{margin-bottom:1.5rem}
+        .opcao{display:block;padding:.8rem;background:rgba(255,255,255,.05);border-radius:8px;margin:.5rem 0;cursor:pointer}
+        .opcao:hover{background:rgba(255,255,255,.1)}
+        .opcao.correta{background:rgba(46,204,113,.2);border-left:4px solid #2ecc71}
+        .navegacao{display:flex;justify-content:space-between;margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.1)}
+        .btn-navega{background:rgba(37,99,235,.2);color:#2563eb;border:none;padding:.8rem 1.5rem;border-radius:8px;font-weight:700;cursor:pointer}
+        .rodape{text-align:center;padding:2rem;color:#666;border-top:1px solid rgba(255,255,255,.1);margin-top:3rem}
+    </style>
+</head>
+<body>
+
+<div class="cabecalho">
+    <div style="display:flex;align-items:center">
+        <a href="index.html" class="btn-voltar">← Voltar</a>
+        <span class="logo">📊 Excel Avançado</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem">
+        <div><small style="color:rgba(255,255,255,.8)">Progresso</small><div class="barra-progresso"><div class="progresso-preenchido" id="barraProgresso"></div></div></div>
+        <button class="btn-reset" onclick="resetarProgresso()">🔄 Reset</button>
+    </div>
+</div>
+
+<aside id="menuLateral" style="display:none">
+    <h3>📘 MÓDULOS DO CURSO</h3>
+    
+    <div class="modulo">
+        <button class="btn-modulo" onclick="alternarModulo(1)">Módulo 1 — Revisão e Estrutura</button>
+        <div class="lista-aulas" id="modulo1">
+            <button class="btn-aula" onclick="abrirAula(1,1)">Aula 1 — Interface e navegação rápida</button>
+            <button class="btn-aula" onclick="abrirAula(1,2)">Aula 2 — Formatação profissional</button>
+            <button class="btn-aula" onclick="abrirAula(1,3)">Aula 3 — Seleção e preenchimento automático</button>
+            <button class="btn-aula" onclick="abrirAula(1,4)">Aula 4 — Validação de dados</button>
+            <button class="btn-aula" onclick="abrirAula(1,5)">Aula 5 — Listas suspensas</button>
+            <button class="btn-aula" onclick="abrirAula(1,6)">Aula 6 — Exercício prático</button>
+            <button class="btn-aula" onclick="abrirAula(1,'quiz')">📝 Quiz Módulo 1</button>
+        </div>
+    </div>
+
+    <div class="modulo">
+        <button class="btn-modulo" onclick="alternarModulo(2)">Módulo 2 — Fórmulas e Funções</button>
+        <div class="lista-aulas" id="modulo2">
+            <button class="btn-aula" onclick="abrirAula(2,1)">Aula 1 — SOMA, MÉDIA, MÁXIMO e MÍNIMO</button>
+            <button class="btn-aula" onclick="abrirAula(2,2)">Aula 2 — SE: tomando decisões</button>
+            <button class="btn-aula" onclick="abrirAula(2,3)">Aula 3 — SOMASE e CONT.SE</button>
+            <button class="btn-aula" onclick="abrirAula(2,4)">Aula 4 — PROCV: buscando dados</button>
+            <button class="btn-aula" onclick="abrirAula(2,5)">Aula 5 — Data e Hora automáticas</button>
+            <button class="btn-aula" onclick="abrirAula(2,6)">Aula 6 — Fórmulas combinadas</button>
+            <button class="btn-aula" onclick="abrirAula(2,'quiz')">📝 Quiz Módulo 2</button>
+        </div>
+    </div>
+
+    <div class="modulo">
+        <button class="btn-modulo" onclick="alternarModulo(3)">Módulo 3 — Tabelas e Gráficos</button>
+        <div class="lista-aulas" id="modulo3">
+            <button class="btn-aula" onclick="abrirAula(3,1)">Aula 1 — Tabela inteligente</button>
+            <button class="btn-aula" onclick="abrirAula(3,2)">Aula 2 — Gráficos que impressionam</button>
+            <button class="btn-aula" onclick="abrirAula(3,3)">Aula 3 — Filtros e classificação</button>
+            <button class="btn-aula" onclick="abrirAula(3,4)">Aula 4 — Formatação condicional</button>
+            <button class="btn-aula" onclick="abrirAula(3,5)">Aula 5 — Tabela Dinâmica</button>
+            <button class="btn-aula" onclick="abrirAula(3,6)">Aula 6 — Atualização automática</button>
+            <button class="btn-aula" onclick="abrirAula(3,'quiz')">📝 Quiz Módulo 3</button>
+        </div>
+    </div>
+
+    <div class="modulo">
+        <button class="btn-modulo" onclick="alternarModulo(4)">Módulo 4 — Produtividade e Aplicação</button>
+        <div class="lista-aulas" id="modulo4">
+            <button class="btn-aula" onclick="abrirAula(4,1)">Aula 1 — Protegendo planilhas</button>
+            <button class="btn-aula" onclick="abrirAula(4,2)">Aula 2 — Impressão perfeita</button>
+            <button class="btn-aula" onclick="abrirAula(4,3)">Aula 3 — Controle de caixa</button>
+            <button class="btn-aula" onclick="abrirAula(4,4)">Aula 4 — Folha de pagamento</button>
+            <button class="btn-aula" onclick="abrirAula(4,5)">Aula 5 — Relatórios rápidos</button>
+            <button class="btn-aula" onclick="abrirAula(4,6)">Aula 6 — Projeto Final</button>
+            <button class="btn-aula" onclick="abrirAula(4,'quiz')">📝 Quiz Módulo 4</button>
+        </div>
+    </div>
+
+    <div class="modulo">
+        <button class="btn-modulo" onclick="alternarModulo(5)">Módulo 5 — Avançado e Mercado</button>
+        <div class="lista-aulas" id="modulo5">
+            <button class="btn-aula" onclick="abrirAula(5,1)">Aula 1 — Macros e automação</button>
+            <button class="btn-aula" onclick="abrirAula(5,2)">Aula 2 — Valores e erros</button>
+            <button class="btn-aula" onclick="abrirAula(5,3)">Aula 3 — Importando dados</button>
+            <button class="btn-aula" onclick="abrirAula(5,4)">Aula 4 — Compartilhando planilhas</button>
+            <button class="btn-aula" onclick="abrirAula(5,5)">Aula 5 — Excel no currículo</button>
+            <button class="btn-aula" onclick="abrirAula(5,6)">Aula 6 — Como cobrar serviços</button>
+            <button class="btn-aula" onclick="abrirAula(5,'quiz')">📝 Quiz Módulo 5</button>
+        </div>
+    </div>
+</aside>
+
+<main id="conteudoPrincipal">
+    <div class="inicio-curso" id="telaInicio">
+        <h1>📊 Excel Avançado — Tabelas, Fórmulas e Gráficos</h1>
+        <p>Do básico às funções que impressionam empregadores! Automação, tabelas dinâmicas e como ganhar dinheiro com planilhas.</p>
+        <button class="btn-iniciar" onclick="iniciarCurso()">🚀 Iniciar Curso</button>
+        <p style="margin-top:2rem;color:#888">Ou continue de onde parou:</p>
+        <button class="btn-iniciar" style="background:linear-gradient(90deg,#10b981,#059669);font-size:1rem;padding:.8rem 2rem;margin-top:.5rem" onclick="continuarDeOndeParou()">📌 Continuar de Onde Parou</button>
+    </div>
+    <div id="areaAulas"></div>
+</main>
+
+<script>
+let progresso = JSON.parse(localStorage.getItem('progExcelAvancado')) || {ultimoModulo:1,ultimaAula:1,concluidas:[]};
+const totalAulas = 30;
+
+function atualizarBarra(){document.getElementById('barraProgresso').style.width = (progresso.concluidas.length/totalAulas*100)+'%'}
+function iniciarCurso(){document.getElementById('telaInicio').style.display='none';document.getElementById('menuLateral').style.display='block';abrirAula(1,1);alternarModulo(1)}
+function continuarDeOndeParou(){document.getElementById('telaInicio').style.display='none';document.getElementById('menuLateral').style.display='block';alternarModulo(progresso.ultimoModulo);abrirAula(progresso.ultimoModulo,progresso.ultimaAula)}
+function alternarModulo(n){document.getElementById('modulo'+n).classList.toggle('aberta')}
+
+function abrirAula(mod,aula){
+    progresso.ultimoModulo=mod;progresso.ultimaAula=aula;localStorage.setItem('progExcelAvancado',JSON.stringify(progresso));
+    if(!progresso.concluidas.includes(mod+'-'+aula) && aula!='quiz'){progresso.concluidas.push(mod+'-'+aula);localStorage.setItem('progExcelAvancado',JSON.stringify(progresso));atualizarBarra()}
+    
+    let html=`<div class="conteudo-aula visivel">`;
+    if(aula=='quiz'){
+        html+=`<div class="quiz"><h3>📝 Quiz — Módulo ${mod}</h3>
+        <div class="pergunta"><p><strong>1. Função para buscar valor em tabela:</strong></p>
+        <label class="opcao"><input type="radio"> SOMA</label><label class="opcao correta"><input type="radio"> PROCV</label><label class="opcao"><input type="radio"> MÉDIA</label></div>
+        <div class="pergunta"><p><strong>2. Para decisão condicional:</strong></p>
+        <label class="opcao"><input type="radio"> BUSCA</label><label class="opcao correta"><input type="radio"> SE</label><label class="opcao"><input type="radio"> FILTRO</label></div>
+        <button class="btn-navega" onclick="alert('Correto em verde! ✅')">Verificar</button></div>`;
+    }else{
+        html+=`<h2>Módulo ${mod} — Aula ${aula}</h2><p class="meta-aula">Conteúdo prático e exercícios ✅</p>
+        <div class="espaco-video">🎥 Espaço para vídeo — cole o link aqui</div>
+        <div class="corpo-aula"><h3>📝 Resumo</h3><p>Conteúdo detalhado: conceitos, passo a passo e exemplos reais.</p>
+        <div class="destaque"><strong>💡 Dica:</strong> Sempre use referências absolutas ($) quando fixar células!</div>
+        <div class="exercicio"><strong>✍️ Prática:</strong> Crie uma planilha de controle de gastos com fórmulas automáticas.</div></div>`;
+    }
+    html+=`<div class="navegacao"><button class="btn-navega" onclick="navegar(-1)">← Anterior</button><button class="btn-navega" onclick="navegar(1)">Próxima →</button></div>
+    <div class="rodape"><p>© 2026 DS Cursos Online — Direitos Reservados</p></div></div>`;
+    document.getElementById('areaAulas').innerHTML=html;window.scrollTo(0,0);
+}
+
+function navegar(delta){
+    let aulasPorModulo=7,atual=(progresso.ultimoModulo-1)*aulasPorModulo+progresso.ultimaAula+delta;
+    if(atual<1)return;let mod=Math.ceil(atual/aulasPorModulo),aul=atual-(mod-1)*aulasPorModulo;if(aul>6)aul='quiz';
+    if(mod>5){alert('🎉 Excel dominado! Pronto para o mercado!');return}
+    alternarModulo(mod);abrirAula(mod,aul);
+}
+function resetarProgresso(){if(confirm('Apagar todo progresso?')){progresso={ultimoModulo:1,ultimaAula:1,concluidas:[]};localStorage.removeItem('progExcelAvancado');atualizarBarra();location.reload()}}
+atualizarBarra();
+</script>
+</body>
+</html>

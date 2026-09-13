@@ -110,6 +110,176 @@
     </p>
     <p style="color: #888; font-size: 0.9rem;">© 2026 DSCursos Online — Todos os direitos reservados</p>
 </footer>
+<!-- DUDA ASSISTENTE VIRTUAL -->
+<style>
+#duda-assistente {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    cursor: pointer;
+}
+.duda-botao {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #FF7A00, #E66A00);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.3s;
+}
+.duda-botao:hover { transform: scale(1.1); }
+#duda-chat {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    max-height: 500px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 9998;
+}
+.duda-cabecalho {
+    background: linear-gradient(135deg, #FF7A00, #E66A00);
+    color: white;
+    padding: 15px;
+    border-radius: 16px 16px 0 0;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.duda-cabecalho button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+.duda-mensagens {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f9f9f9;
+    min-height: 300px;
+}
+.duda-msg {
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    max-width: 90%;
+}
+.duda-msg-eu {
+    background: #FFF3E8;
+    margin-left: auto;
+}
+.duda-msg-duda {
+    background: #E8F0FE;
+    margin-right: auto;
+}
+.duda-entrada {
+    padding: 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+}
+.duda-entrada input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+.duda-entrada button {
+    margin-left: 8px;
+    background: #FF7A00;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.duda-entrada button:hover { background: #E66A00; }
+@media (max-width: 400px) {
+    #duda-chat { width: calc(100% - 40px); }
+}
+</style>
 
+<div id="duda-assistente">
+    <div class="duda-botao" onclick="alternarDuda()">🤖</div>
+</div>
+
+<div id="duda-chat">
+    <div class="duda-cabecalho">
+        🤖 Duda — Assistente Virtual
+        <button onclick="fecharDuda()">×</button>
+    </div>
+    <div class="duda-mensagens" id="duda-mensagens">
+        <div class="duda-msg duda-msg-duda">
+            <strong>Duda 💙</strong><br>
+            Olá! Tudo bem? Sou a Duda, sua assistente virtual da DSCursos Online! 😊<br>
+            Em que posso te ajudar hoje?
+        </div>
+    </div>
+    <div class="duda-entrada">
+        <input type="text" id="duda-input" placeholder="Digite sua pergunta...">
+        <button onclick="enviarMensagemDuda()">Enviar</button>
+    </div>
+</div>
+
+<script>
+const baseDuda = {
+  "duda": "Sou a sua assistente virtual! 💙 Estou aqui para te ajudar com tudo sobre os cursos, acesso, senhas, certificado e muito mais! É só perguntar!",
+  "contato": "Fale com a gente! 📧 redelinecftv@gmail.com | 📱 (67) 99903-0758 — Respondemos em até 48h úteis! 💙",
+  "senha": "A senha do Curso Iniciante é: Iniciante2026! ✅ Se não funcionar, contate-nos que enviamos novamente! 💙",
+  "acesso": "Vá em Cursos → Já sou aluno → digite a senha → entra no painel com todas as aulas! 📚",
+  "certificado": "Após concluir todas as aulas e entregar o projeto, você recebe o certificado gratuitamente por e-mail! 📄✅",
+  "projeto": "Reúna todos os arquivos criados nas aulas, compacte em .ZIP e envie para redelinecftv@gmail.com! 💙",
+  "preço": "Entre em contato pelo WhatsApp (67) 99903-0758 que combinamos tudo! 💙",
+  "horário": "Atendemos em dias úteis, das 8h às 18h, horário de Mato Grosso do Sul! ⏰",
+  "dourival": "É o Dourival Silva, nosso professor e responsável! 💙 CPF 729.011.529-53 — Itaquirai/MS!",
+  "obrigado": "De nada! 🥰 É um prazer te ajudar! Conte comigo sempre! 💙💙",
+  "obrigada": "De nada! 🥰 É um prazer te ajudar! Conte comigo sempre! 💙💙"
+};
+
+const naoSabe = "Desculpe 😊 Ainda não fui treinada para responder isso! Mas pode perguntar sobre os cursos, acesso, certificado e contato que te ajudo! 💙";
+const palavrasChave = ["duda", "contato", "email", "telefone", "senha", "acesso", "certificado", "projeto", "preço", "valor", "pagamento", "horário", "dourival", "professor", "obrigado", "obrigada"];
+
+function alternarDuda() {
+  const chat = document.getElementById('duda-chat');
+  chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+}
+function fecharDuda() {
+  document.getElementById('duda-chat').style.display = 'none';
+}
+function enviarMensagemDuda() {
+  const input = document.getElementById('duda-input');
+  const mensagem = input.value.trim();
+  if (!mensagem) return;
+  const caixa = document.getElementById('duda-mensagens');
+  caixa.innerHTML += `<div class="duda-msg duda-msg-eu">${mensagem}</div>`;
+  input.value = '';
+
+  setTimeout(() => {
+    let resposta = naoSabe;
+    const pergunta = mensagem.toLowerCase();
+    for (const [chave, resp] of Object.entries(baseDuda)) {
+      if (pergunta.includes(chave)) { resposta = resp; break; }
+    }
+    const relevante = palavrasChave.some(palavra => pergunta.includes(palavra));
+    if (!relevante) resposta = naoSabe;
+    
+    caixa.innerHTML += `<div class="duda-msg duda-msg-duda"><strong>Duda 💙</strong><br>${resposta}</div>`;
+    caixa.scrollTop = caixa.scrollHeight;
+  }, 600);
+}
+document.getElementById('duda-input').addEventListener('keypress', e => e.key === 'Enter' && enviarMensagemDuda());
+</script>
 </body>
 </html>

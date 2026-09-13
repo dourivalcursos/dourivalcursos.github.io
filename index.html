@@ -3,231 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DS Cursos Online — Do Zero ao Profissional</title>
+    <title>DS Cursos Online — Educação Profissionalizante</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Roboto',sans-serif}
         :root{
-            --primario:#ff7a00;--secundario:#ffb300;--azul:#2563eb;--verde:#10b981;--roxo:#8b5cf6;
-            --fundoEscuro:#05050f;--fundoMeio:#12122b;--fundoClaro:#1e1e3f;--texto:#fff;--cinza:#94a3b8;
-            --sombra:0 10px 40px rgba(255,122,0,.15);--sombraHover:0 15px 50px rgba(255,122,0,.35);
+            --primario:#0066cc;
+            --secundario:#ff6600;
+            --destaque:#009933;
+            --claro:#ffffff;
+            --fundo:#f5f7fa;
+            --texto:#333333;
+            --cinza:#666666;
+            --borda:#e0e0e0;
+            --sombra:0 2px 12px rgba(0,0,0,.08);
+            --sombraHover:0 4px 20px rgba(0,102,204,.15);
         }
-        body{background:linear-gradient(180deg,var(--fundoEscuro)0%,var(--fundoMeio)50%,var(--fundoEscuro)100%);color:var(--texto);min-height:100vh;}
-        header{position:sticky;top:0;z-index:999;background:rgba(5,5,15,.8);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,122,0,.15);padding:1rem 2rem;}
-        .cabecalho-conteudo{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
-        .logo{font-size:1.8rem;font-weight:900;background:linear-gradient(90deg,var(--primario),var(--secundario),var(--primario));background-size:200%;animation:brilho 3s linear infinite;-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-        @keyframes brilho{0%{background-position:0% center}100%{background-position:200% center}}
-        .navegacao{display:flex;gap:.5rem;flex-wrap:wrap}
-        .nav-link{color:var(--texto);text-decoration:none;padding:.7rem 1.2rem;border-radius:12px;font-weight:600;transition:.3s;}
-        .nav-link:hover,.nav-link.ativo{background:rgba(255,122,0,.15);color:var(--secundario)}
-        .busca{background:rgba(255,255,255,.05);border:1px solid rgba(255,122,0,.2);border-radius:50px;padding:.9rem 1.4rem;color:white;width:300px;outline:none;transition:.3s;font-size:1rem;}
-        .busca:focus{border-color:var(--primario);box-shadow:0 0 0 4px rgba(255,122,0,.15)}
-        .banner{padding:5rem 2rem 4rem;max-width:1400px;margin:0 auto;text-align:center;position:relative;overflow:hidden;}
-        .banner::before,.banner::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;filter:blur(80px);opacity:.3;}
-        .banner::before{background:var(--primario);top:0;left:10%}
-        .banner::after{background:var(--azul);bottom:0;right:10%}
-        .banner-conteudo{position:relative;z-index:1}
-        .banner h1{font-size:clamp(2.2rem,6vw,4rem);margin-bottom:1.5rem;line-height:1.1;}
-        .banner h1 span{background:linear-gradient(90deg,var(--primario),var(--secundario));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-        .banner p{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--cinza);max-width:750px;margin:0 auto 2.5rem;line-height:1.7;}
-        .estatisticas{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;margin-top:1rem;}
-        .estatistica span{font-size:2.5rem;font-weight:900;background:linear-gradient(90deg,var(--primario),var(--secundario));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-        .estatistica p{color:var(--cinza);font-size:.95rem;margin-top:.3rem}
-        .categorias{max-width:1400px;margin:0 auto 2rem;padding:0 2rem}
-        .titulo-secao{font-size:1.4rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem;color:var(--secundario);}
-        .categorias-lista{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2rem}
-        .cat-btn{background:transparent;border:2px solid rgba(255,122,0,.3);color:var(--secundario);padding:.7rem 1.4rem;border-radius:50px;cursor:pointer;transition:.3s;font-weight:700;font-size:.95rem;}
-        .cat-btn.ativo,.cat-btn:hover{background:linear-gradient(90deg,var(--primario),var(--secundario));border-color:transparent;color:white;box-shadow:var(--sombra);transform:translateY(-2px);}
-        .container{max-width:1400px;margin:0 auto;padding:0 2rem 5rem}
-        .grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.8rem;}
-        .card{background:linear-gradient(145deg,rgba(30,30,63,.8),rgba(18,18,43,.9));border:1px solid rgba(255,122,0,.1);border-radius:24px;overflow:hidden;transition:.4s cubic-bezier(.175,.885,.32,1.275);cursor:pointer;}
-        .card:hover{transform:translateY(-10px) scale(1.02);border-color:rgba(255,122,0,.4);box-shadow:var(--sombraHover);}
-        .card-cabecalho{height:160px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;position:relative;overflow:hidden;}
-        .card-cabecalho::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,122,0,.2),rgba(37,99,235,.15));}
-        .card-cabecalho span{position:relative;z-index:1}
-        .card-corpo{padding:1.6rem}
-        .card-tag{display:inline-block;background:rgba(255,122,0,.15);color:var(--secundario);font-size:.75rem;padding:.35rem .9rem;border-radius:50px;margin-bottom:.9rem;font-weight:700;letter-spacing:.5px;}
-        .card h3{font-size:1.15rem;margin-bottom:.8rem;line-height:1.4}
-        .card p{color:var(--cinza);font-size:.9rem;margin-bottom:1.2rem;line-height:1.6}
-        .card-meta{display:flex;gap:1rem;font-size:.8rem;color:#64748b;margin-bottom:1rem}
-        .progresso-pequeno{height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;margin-bottom:1rem}
-        .progresso-preenchido{height:100%;background:linear-gradient(90deg,var(--verde),#34d399);border-radius:3px;transition:.6s ease}
-        .card-botao{display:block;text-align:center;text-decoration:none;font-weight:800;padding:.9rem;border-radius:14px;transition:.3s;font-size:1rem;}
-        .card-botao.iniciar{background:linear-gradient(90deg,var(--primario),var(--secundario));color:white}
-        .card-botao.continuar{background:linear-gradient(90deg,var(--verde),#059669);color:white}
-        .card-botao.concluido{background:linear-gradient(90deg,var(--azul),var(--roxo));color:white}
-        .card-botao:hover{transform:scale(1.05)}
-        footer{background:rgba(0,0,0,.3);border-top:1px solid rgba(255,122,0,.15);padding:3.5rem 2rem;text-align:center;color:var(--cinza);margin-top:2rem;}
-        .redes{display:flex;justify-content:center;gap:1rem;margin:1.5rem 0;flex-wrap:wrap}
-        .rede{background:rgba(255,255,255,.05);padding:.9rem 1.3rem;border-radius:12px;color:white;text-decoration:none;transition:.3s;font-weight:600;}
-        .rede:hover{background:var(--primario);transform:translateY(-3px)}
-        .aviso-vazio{grid-column:1/-1;text-align:center;padding:3rem;color:var(--cinza)}
-        @media(max-width:768px){.busca{width:100%}.grade{grid-template-columns:1fr}.estatisticas{gap:1.5rem}.banner{padding:3rem 1rem}}
+        body{background:var(--fundo);color:var(--texto);line-height:1.6}
+
+        /* CABEÇALHO */
+        header{background:var(--claro);box-shadow:var(--sombra);position:sticky;top:0;z-index:999}
+        .cabecalho{max-width:1280px;margin:0 auto;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+        .logo{font-size:1.5rem;font-weight:800;color:var(--primario);text-decoration:none}
+        .logo span{color:var(--secundario)}
+        .menu{display:flex;gap:2rem;flex-wrap:wrap}
+        .menu a{color:var(--texto);text-decoration:none;font-weight:500;padding:.5rem 0;border-bottom:2px solid transparent;transition:.3s}
+        .menu a:hover,.menu a.ativo{border-bottom-color:var(--primario);color:var(--primario)}
+        .btn-contato{background:var(--secundario);color:white;padding:.7rem 1.5rem;border-radius:6px;font-weight:700;text-decoration:none;transition:.3s}
+        .btn-contato:hover{background:#e65c00;transform:translateY(-1px)}
+
+        /* BANNER PRINCIPAL */
+        .banner{background:linear-gradient(135deg,#0066cc 0%,#0052a3 100%);color:white;padding:4rem 2rem}
+        .banner-conteudo{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 400px;gap:3rem;align-items:center}
+        .banner-texto h1{font-size:clamp(2rem,5vw,3rem);margin-bottom:1.5rem;line-height:1.2}
+        .banner-texto p{font-size:1.1rem;opacity:.9;margin-bottom:2rem;max-width:500px}
+        .banner-botoes{display:flex;gap:1rem;flex-wrap:wrap}
+        .btn-principal{background:var(--secundario);color:white;border:none;padding:1rem 2rem;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:.3s;text-decoration:none;display:inline-block}
+        .btn-principal:hover{background:#e65c00;transform:scale(1.03)}
+        .btn-secundario{background:rgba(255,255,255,.2);color:white;border:none;padding:1rem 2rem;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:.3s;text-decoration:none}
+        .btn-secundario:hover{background:rgba(255,255,255,.3)}
+        .banner-destaques{display:flex;flex-direction:column;gap:1.5rem}
+        .destaque-item{background:rgba(255,255,255,.1);padding:1.2rem;border-radius:10px;backdrop-filter:blur(4px)}
+        .destaque-item strong{font-size:1.5rem;display:block}
+
+        /* ESTATÍSTICAS */
+        .estatisticas{background:white;padding:2rem;margin-top:-2rem;position:relative;z-index:10;border-radius:12px;box-shadow:var(--sombra);max-width:1280px;margin-left:auto;margin-right:auto}
+        .estat-lista{display:flex;justify-content:space-around;flex-wrap:wrap;gap:2rem;text-align:center}
+        .estat-item span{font-size:2rem;font-weight:800;color:var(--primario);display:block}
+        .estat-item p{color:var(--cinza);margin-top:.3rem}
+
+        /* CATEGORIAS */
+        .secao{max-width:1280px;margin:3rem auto;padding:0 2rem}
+        .titulo-secao{font-size:1.8rem;margin-bottom:1.5rem;color:var(--texto);display:flex;align-items:center;gap:.5rem}
+        .categorias{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+        .cat-card{background:white;padding:1.5rem;border-radius:10px;box-shadow:var(--sombra);cursor:pointer;transition:.3s;border-left:4px solid transparent}
+        .cat-card:hover{transform:translateY(-3px);box-shadow:var(--sombraHover);border-left-color:var(--primario)}
+        .cat-card h3{font-size:1.1rem;margin-bottom:.5rem}
+        .cat-card p{color:var(--cinza);font-size:.9rem}
+        .cat-card .qtd{font-weight:700;color:var(--primario);margin-top:.5rem}
+
+        /* CURSOS EM DESTAQUE */
+        .grade-cursos{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+        .curso-card{background:white;border-radius:12px;overflow:hidden;box-shadow:var(--sombra);transition:.3s;cursor:pointer}
+        .curso-card:hover{transform:translateY(-5px);box-shadow:var(--sombraHover)}
+        .curso-imagem{height:140px;display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,#f0f7ff,#e6f0fa)}
+        .curso-corpo{padding:1.3rem}
+        .curso-categoria{display:inline-block;background:var(--fundo);color:var(--primario);font-size:.75rem;padding:.3rem .7rem;border-radius:4px;font-weight:600;margin-bottom:.8rem}
+        .curso-titulo{font-size:1rem;margin-bottom:.5rem;line-height:1.4}
+        .curso-desc{color:var(--cinza);font-size:.9rem;margin-bottom:1rem;line-height:1.5}
+        .curso-meta{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:var(--cinza);padding-top:.8rem;border-top:1px solid var(--borda)}
+        .curso-avaliacao{color:#f59e0b;font-weight:700}
+        .curso-botao{display:block;text-align:center;background:var(--primario);color:white;padding:.8rem;border-radius:6px;text-decoration:none;font-weight:700;margin-top:1rem;transition:.3s}
+        .curso-botao:hover{background:#0052a3}
+
+        /* RODAPÉ */
+        footer{background:#1a1a2e;color:#ccc;padding:3rem 2rem;margin-top:4rem}
+        .rodape-conteudo{max-width:1280px;margin:0 auto}
+        .rodape-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-bottom:2rem}
+        .rodape-col h3{color:white;margin-bottom:1rem;font-size:1rem}
+        .rodape-col a{display:block;color:#aaa;text-decoration:none;margin-bottom:.5rem;transition:.2s}
+        .rodape-col a:hover{color:white}
+        .rodape-bottom{border-top:1px solid #333;padding-top:2rem;text-align:center;font-size:.9rem;color:#888}
+
+        /* RESPONSIVO */
+        @media(max-width:768px){
+            .banner-conteudo{grid-template-columns:1fr}
+            .menu{gap:1rem}
+        }
     </style>
 </head>
 <body>
 
+<!-- CABEÇALHO -->
 <header>
-    <div class="cabecalho-conteudo">
-        <div class="logo">🎓 DS CURSOS</div>
-        <nav class="navegacao">
-            <a href="#" class="nav-link ativo">Início</a>
-            <a href="#todos" class="nav-link">Cursos</a>
-            <a href="#categorias" class="nav-link">Categorias</a>
-            <a href="contato.html" class="nav-link">📞 Contato</a>
-            <a href="https://chat.whatsapp.com/FMmoCYv5blIEoZIxKcV4vh" target="_blank" class="nav-link">💬 Suporte</a>
+    <div class="cabecalho">
+        <a href="#" class="logo">DS<span>Cursos</span></a>
+        <nav class="menu">
+            <a href="#" class="ativo">Início</a>
+            <a href="#cursos">Cursos</a>
+            <a href="#categorias">Categorias</a>
+            <a href="contato.html">Contato</a>
         </nav>
-        <input type="text" class="busca" id="campoBusca" placeholder="🔍 Buscar curso..." oninput="filtrarCursos()">
+        <a href="https://chat.whatsapp.com/FMmoCYv5blIEoZIxKcV4vh" target="_blank" class="btn-contato">💬 Suporte</a>
     </div>
 </header>
 
+<!-- BANNER PRINCIPAL -->
 <section class="banner">
     <div class="banner-conteudo">
-        <h1>Aprenda e Conquiste o Seu Futuro com <span>DS Cursos Online</span></h1>
-        <p>Do zero ao profissional — informática, elétrica, tecnologia, serviços e negócios. Estude no seu ritmo e transforme conhecimento em renda!</p>
-        <div class="estatisticas">
-            <div class="estatistica"><span id="qtdCursos">5</span><p>Cursos Disponíveis</p></div>
-            <div class="estatistica"><span>✅</span><p>Já prontos</p></div>
-            <div class="estatistica"><span>100%</span><p>Gratuito</p></div>
-            <div class="estatistica"><span>⭐</span><p>Didático</p></div>
+        <div class="banner-texto">
+            <h1>Educação Profissionalizante ao Alcance de Todos</h1>
+            <p>Aprenda novas habilidades, conquiste sua vaga no mercado e transforme seu futuro. Cursos completos com certificado.</p>
+            <div class="banner-botoes">
+                <a href="#cursos" class="btn-principal">📚 Ver Cursos</a>
+                <a href="#categorias" class="btn-secundario">🔍 Explorar Áreas</a>
+            </div>
+        </div>
+        <div class="banner-destaques">
+            <div class="destaque-item">
+                <strong>5+</strong>
+                <span>Cursos Disponíveis</span>
+            </div>
+            <div class="destaque-item">
+                <strong>4.8★</strong>
+                <span>Avaliação Média</span>
+            </div>
+            <div class="destaque-item">
+                <strong>100%</strong>
+                <span>Gratuito</span>
+            </div>
+            <div class="destaque-item">
+                <strong>Certificado</strong>
+                <span>Reconhecido</span>
+            </div>
         </div>
     </div>
 </section>
 
-<section class="categorias" id="categorias">
-    <h2 class="titulo-secao">📂 Filtrar por Área</h2>
-    <div class="categorias-lista" id="listaCategorias">
-        <button class="cat-btn ativo" data-cat="todos">✨ Todos</button>
-        <button class="cat-btn" data-cat="informatica">💻 Informática</button>
-        <button class="cat-btn" data-cat="eletrica">⚡ Elétrica / Auto</button>
-        <button class="cat-btn" data-cat="construcao">🏗️ Construção</button>
-        <button class="cat-btn" data-cat="seguranca">📹 Segurança</button>
+<!-- ESTATÍSTICAS -->
+<section class="estatisticas">
+    <div class="estat-lista">
+        <div class="estat-item">
+            <span id="qtdCursos">5</span>
+            <p>Cursos Disponíveis</p>
+        </div>
+        <div class="estat-item">
+            <span>120+</span>
+            <p>Aulas Práticas</p>
+        </div>
+        <div class="estat-item">
+            <span>Didático</span>
+            <p>Passo a Passo</p>
+        </div>
+        <div class="estat-item">
+            <span>Certificado</span>
+            <p>Ao Concluir</p>
+        </div>
     </div>
 </section>
 
-<section class="container" id="todos">
-    <h2 class="titulo-secao">📚 Nossos Cursos</h2>
-    <div class="grade" id="gradeCursos"></div>
+<!-- CATEGORIAS -->
+<section class="secao" id="categorias">
+    <h2 class="titulo-secao">📂 Categorias</h2>
+    <div class="categorias" id="listaCategorias">
+        <div class="cat-card" data-cat="todos" onclick="filtrarPorCategoria('todos')">
+            <h3>✨ Todos os Cursos</h3>
+            <p>Explore nossa biblioteca completa</p>
+            <span class="qtd" id="cat-todos">5 cursos</span>
+        </div>
+        <div class="cat-card" data-cat="informatica" onclick="filtrarPorCategoria('informatica')">
+            <h3>💻 Informática</h3>
+            <p>Do básico ao avançado</p>
+            <span class="qtd">2 cursos</span>
+        </div>
+        <div class="cat-card" data-cat="eletrica" onclick="filtrarPorCategoria('eletrica')">
+            <h3>⚡ Elétrica e Auto</h3>
+            <p>Técnico e profissional</p>
+            <span class="qtd">1 curso</span>
+        </div>
+        <div class="cat-card" data-cat="seguranca" onclick="filtrarPorCategoria('seguranca')">
+            <h3>📹 Segurança</h3>
+            <p>CFTV e monitoramento</p>
+            <span class="qtd">1 curso</span>
+        </div>
+        <div class="cat-card" data-cat="construcao" onclick="filtrarPorCategoria('construcao')">
+            <h3>🏗️ Construção</h3>
+            <p>Obras e acabamentos</p>
+            <span class="qtd">1 curso</span>
+        </div>
+    </div>
 </section>
 
+<!-- CURSOS -->
+<section class="secao" id="cursos">
+    <h2 class="titulo-secao">📚 Cursos em Destaque</h2>
+    <div class="grade-cursos" id="gradeCursos">
+        <!-- Cursos carregados pelo JavaScript -->
+    </div>
+</section>
+
+<!-- RODAPÉ -->
 <footer>
-    <h3 style="font-size:1.4rem;margin-bottom:.5rem">🎓 DS Cursos Online</h3>
-    <p style="max-width:600px;margin:0 auto;">Educação profissionalizante de qualidade ao alcance de todos.</p>
-    <div class="redes">
-        <a href="contato.html" class="rede">📞 Contato</a>
-        <a href="privacidade.html" class="rede">🔒 Privacidade</a>
-        <a href="termos.html" class="rede">📄 Termos de Uso</a>
-        <a href="https://chat.whatsapp.com/FMmoCYv5blIEoZIxKcV4vh" target="_blank" class="rede">💬 Grupo WhatsApp</a>
+    <div class="rodape-conteudo">
+        <div class="rodape-grid">
+            <div class="rodape-col">
+                <h3>DS Cursos Online</h3>
+                <p style="color:#aaa;max-width:300px">Educação profissionalizante de qualidade para todos. Aprenda, pratique e conquiste!</p>
+            </div>
+            <div class="rodape-col">
+                <h3>Links Rápidos</h3>
+                <a href="#">Início</a>
+                <a href="#cursos">Cursos</a>
+                <a href="contato.html">Contato</a>
+            </div>
+            <div class="rodape-col">
+                <h3>Legal</h3>
+                <a href="termos.html">Termos de Uso</a>
+                <a href="privacidade.html">Política de Privacidade</a>
+            </div>
+            <div class="rodape-col">
+                <h3>Comunidade</h3>
+                <a href="https://chat.whatsapp.com/FMmoCYv5blIEoZIxKcV4vh" target="_blank">Grupo WhatsApp</a>
+            </div>
+        </div>
+        <div class="rodape-bottom">
+            <p>© 2026 DS Cursos Online — Todos os direitos reservados.<br>
+            Conteúdo didático para formação profissional.</p>
+        </div>
     </div>
-    <p style="margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08)">
-        © 2026 DS Cursos Online — Todos os direitos reservados.<br>
-        Conteúdo didático — Proibida reprodução sem autorização.
-    </p>
 </footer>
 
 <script>
-// ✅ CURSOS EXISTENTES — caminhos corretos das suas pastas
+// BANCO DE DADOS — SEUS CURSOS EXISTENTES
 const listaCursos = [
     {
         id:'iniciante',
         titulo:'Informática — Nível Iniciante',
-        desc:'Do zero: Windows, Word, Excel, Internet, currículo e entrevista. Primeiros passos no mundo digital!',
+        desc:'Do zero: Windows, Word, Excel, Internet, currículo e entrevista. Conquiste sua primeira oportunidade!',
         icone:'💻',
         categoria:'informatica',
         modulos:4,
         aulas:24,
+        avaliacao:'4.9',
         link:'iniciante/'
     },
     {
         id:'avancado',
         titulo:'Informática — Nível Avançado',
-        desc:'Funções avançadas, automação, ferramentas de produtividade e preparação para o mercado de trabalho!',
+        desc:'Ferramentas, produtividade, automação e preparação para o mercado de trabalho.',
         icone:'🚀',
         categoria:'informatica',
         modulos:4,
         aulas:24,
+        avaliacao:'4.8',
         link:'avancado/'
     },
     {
         id:'auto-eletrica',
         titulo:'Auto Elétrica Completa',
-        desc:'Bateria, sistema de partida, carga, iluminação, diagramas e diagnóstico. Torne-se técnico!',
+        desc:'Bateria, partida, carga, iluminação, diagramas e diagnóstico. Torne-se técnico!',
         icone:'⚡',
         categoria:'eletrica',
         modulos:4,
         aulas:24,
+        avaliacao:'4.9',
         link:'auto-eletrica/'
     },
     {
         id:'cftv',
         titulo:'CFTV — Instalação e Configuração',
-        desc:'Câmeras, cabos, DVR, visualização no celular e manutenção. Comece a instalar hoje!',
+        desc:'Câmeras, cabos, DVR, visualização no celular e manutenção. Comece a faturar hoje!',
         icone:'📹',
         categoria:'seguranca',
         modulos:4,
         aulas:24,
+        avaliacao:'4.7',
         link:'cftv/'
     },
     {
         id:'pedreiro',
         titulo:'Pedreiro e Construção Civil',
-        desc:'Fundação, alvenaria, reboco, acabamentos, ferramentas e como orçar e executar obras com qualidade!',
+        desc:'Fundação, alvenaria, reboco, acabamentos, orçamento e execução de obras com qualidade!',
         icone:'🏗️',
         categoria:'construcao',
         modulos:4,
         aulas:24,
+        avaliacao:'5.0',
         link:'pedreiro/'
     }
 ];
 
-function carregarCursos(filtro='todos', busca=''){
+let filtroAtual = 'todos';
+
+function carregarCursos(){
     const grade = document.getElementById('gradeCursos');
     grade.innerHTML = '';
-    let filtrados = listaCursos;
-    if(filtro !== 'todos') filtrados = filtrados.filter(c => c.categoria === filtro);
-    if(busca){
-        const termo = busca.toLowerCase();
-        filtrados = filtrados.filter(c => c.titulo.toLowerCase().includes(termo) || c.desc.toLowerCase().includes(termo));
-    }
+    
+    const filtrados = filtroAtual === 'todos' 
+        ? listaCursos 
+        : listaCursos.filter(c => c.categoria === filtroAtual);
+
     if(filtrados.length === 0){
-        grade.innerHTML = '<p class="aviso-vazio">Nenhum curso encontrado 😕 Tente outro termo!</p>';
-        document.getElementById('qtdCursos').textContent = '0';
+        grade.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#666;padding:2rem;">Nenhum curso encontrado nesta categoria.</p>';
         return;
     }
+
     filtrados.forEach(curso => {
         const chave = 'prog' + curso.id.replace(/-/g,'');
         const salvo = JSON.parse(localStorage.getItem(chave));
         const pct = salvo ? Math.round((salvo.concluidas.length / curso.aulas) * 100) : 0;
-        const concluido = pct >= 100;
-        let classeBotao = 'iniciar', textoBotao = '🚀 Começar Agora';
-        if(pct > 0 && !concluido){ classeBotao='continuar'; textoBotao='📌 Continuar '+pct+'%'; }
-        else if(concluido){ classeBotao='concluido'; textoBotao='✅ Revisar'; }
+        
         const card = document.createElement('div');
-        card.className = 'card';
+        card.className = 'curso-card';
         card.innerHTML = `
-            <div class="card-cabecalho"><span>${curso.icone}</span></div>
-            <div class="card-corpo">
-                <span class="card-tag">${curso.categoria.toUpperCase()}</span>
-                <h3>${curso.titulo}</h3>
-                <p>${curso.desc}</p>
-                <div class="card-meta"><span>📘 ${curso.modulos} Módulos</span><span>📝 ${curso.aulas} Aulas</span></div>
-                ${pct>0?`<div class="progresso-pequeno"><div class="progresso-preenchido" style="width:${pct}%"></div></div>`:''}
-                <a href="${curso.link}" class="card-botao ${classeBotao}">${textoBotao}</a>
-            </div>`;
+            <div class="curso-imagem">${curso.icone}</div>
+            <div class="curso-corpo">
+                <span class="curso-categoria">${curso.categoria.toUpperCase()}</span>
+                <h3 class="curso-titulo">${curso.titulo}</h3>
+                <p class="curso-desc">${curso.desc}</p>
+                <div class="curso-meta">
+                    <span>📘 ${curso.modulos} Módulos</span>
+                    <span class="curso-avaliacao">⭐ ${curso.avaliacao}</span>
+                </div>
+                ${pct > 0 ? `<p style="margin-top:.8rem;font-size:.9rem;color:var(--primario)">📌 ${pct}% concluído</p>` : ''}
+                <a href="${curso.link}" class="curso-botao">${pct > 0 ? 'Continuar Curso' : 'Começar Agora'}</a>
+            </div>
+        `;
         grade.appendChild(card);
     });
-    document.getElementById('qtdCursos').textContent = filtrados.length;
 }
-document.querySelectorAll('.cat-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('ativo'));
-        btn.classList.add('ativo');
-        carregarCursos(btn.dataset.cat, document.getElementById('campoBusca').value);
+
+function filtrarPorCategoria(cat){
+    filtroAtual = cat;
+    // Destaque visual na categoria selecionada
+    document.querySelectorAll('.cat-card').forEach(card => {
+        card.style.borderLeftColor = card.dataset.cat === cat ? 'var(--primario)' : 'transparent';
+        card.style.background = card.dataset.cat === cat ? '#f0f7ff' : 'white';
     });
-});
-function filtrarCursos(){
-    const cat = document.querySelector('.cat-btn.ativo').dataset.cat;
-    carregarCursos(cat, document.getElementById('campoBusca').value);
+    carregarCursos();
 }
+
+// Inicializar
 carregarCursos();
 </script>
 </body>

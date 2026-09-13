@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Aluno — Curso Avançado | DSCursos Online</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        :root {
+            --azul: #1976D2;
+            --azul-escuro: #1565C0;
+            --sucesso: #4CAF50;
+            --escuro: #1A1A1A;
+        }
+        body { background: #f5f5f5; color: #333; line-height: 1.7; }
+
+        .topo { background: white; padding: 1rem 2rem; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 1rem; }
+        .topo h1 { font-size: 1.2rem; color: var(--azul); }
+        .topo a { color: #888; text-decoration: none; }
+        .topo a:hover { color: var(--azul); }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+        
+        .cabecalho { text-align: center; margin-bottom: 2rem; }
+        .cabecalho h2 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .progresso { background: #ddd; height: 12px; border-radius: 6px; margin: 1rem auto; max-width: 400px; overflow: hidden; }
+        .barra { background: var(--sucesso); height: 100%; width: 0%; transition: width 0.5s; border-radius: 6px; }
+        .porcentagem { font-weight: bold; color: var(--sucesso); }
+
+        .modulo { background: white; border-radius: 12px; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow: hidden; }
+        .modulo-titulo { background: #f0f4f8; padding: 1.2rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: var(--azul); }
+        .modulo-titulo:hover { background: #e3eaf2; }
+        .seta { transition: transform 0.3s; }
+        .modulo.aberto .seta { transform: rotate(90deg); }
+        .aulas { padding: 0; display: none; }
+        .modulo.aberto .aulas { display: block; }
+        .aula { padding: 1rem 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .aula:last-child { border-bottom: none; }
+        .aula-concluida { color: var(--sucesso); }
+        .aula-link { color: #333; text-decoration: none; flex: 1; }
+        .aula-link:hover { color: var(--azul); }
+        .botao-projeto { display: block; text-align: center; padding: 1.2rem; background: var(--sucesso); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 2rem; font-size: 1.1rem; }
+        .botao-projeto:hover { background: #45A049; }
+        .botao-sair { display: inline-block; margin-top: 1rem; color: #888; text-decoration: none; font-size: 0.9rem; }
+        .botao-sair:hover { color: var(--azul); }
+        .em-breve { color: #888; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="topo">
+    <h1>🔵 Curso Avançado — Painel</h1>
+    <a href="../index.html">← Sair</a>
+</div>
+
+<div class="container">
+    <div class="cabecalho">
+        <h2>Bem-vindo(a) ao Avançado! 🚀</h2>
+        <p>Domine ferramentas profissionais e destaque-se no mercado!</p>
+        <div class="progresso">
+            <div class="barra" id="barraProgresso"></div>
+        </div>
+        <p id="textoProgresso">0 de 0 aulas concluídas</p>
+    </div>
+
+    <!-- MÓDULO 1 -->
+    <div class="modulo aberto" id="modulo1">
+        <div class="modulo-titulo" onclick="alternarModulo('modulo1')">
+            💻 Módulo 1 — Windows Profissional
+            <span class="seta">▶</span>
+        </div>
+        <div class="aulas">
+            <div class="aula">
+                <span class="aula-link em-breve">Aula 1.1 — Manutenção e Otimização ← Em breve</span>
+                <span>○</span>
+            </div>
+            <div class="aula">
+                <span class="aula-link em-breve">Aula 1.2 — Configurações Avançadas ← Em breve</span>
+                <span>○</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÓDULO 2 -->
+    <div class="modulo" id="modulo2">
+        <div class="modulo-titulo" onclick="alternarModulo('modulo2')">
+            📊 Módulo 2 — Excel Avançado
+            <span class="seta">▶</span>
+        </div>
+        <div class="aulas">
+            <div class="aula">
+                <span class="aula-link em-breve">Aula 2.1 — Tabelas Dinâmicas ← Em breve</span>
+                <span>○</span>
+            </div>
+            <div class="aula">
+                <span class="aula-link em-breve">Aula 2.2 — Fórmulas e Macros ← Em breve</span>
+                <span>○</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÓDULO 3 -->
+    <div class="modulo" id="modulo3">
+        <div class="modulo-titulo" onclick="alternarModulo('modulo3')">
+            🤖 Módulo 3 — Inteligência Artificial
+            <span class="seta">▶</span>
+        </div>
+        <div class="aulas">
+            <div class="aula">
+                <span class="aula-link em-breve">Aula 3.1 — Usando IA no dia a dia ← Em breve</span>
+                <span>○</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROJETO FINAL -->
+    <span class="botao-projeto em-breve">🏆 Projeto Final ← Em desenvolvimento</span>
+    <a href="senha.html" class="botao-sair" onclick="localStorage.removeItem('acesso_avancado')">← Sair da conta</a>
+</div>
+
+<script>
+// Verificar acesso
+if (localStorage.getItem('acesso_avancado') !== 'liberado') {
+    window.location.href = 'senha.html';
+}
+
+// Alternar módulos
+function alternarModulo(id) {
+    const mod = document.getElementById(id);
+    mod.classList.toggle('aberto');
+}
+</script>
+
+<!-- COLE O CÓDIGO DA DUDA AQUI ← antes de </body> -->
+
+</body>
+</html>

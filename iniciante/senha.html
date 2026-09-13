@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso — Curso Iniciante | DSCursos Online</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        :root { --laranja: #FF7A00; --laranja-escuro: #E66A00; --escuro: #1A1A1A; }
+        body { background: linear-gradient(135deg, #2A2A2A, #1A1A1A); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        
+        .caixa { background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); width: 100%; max-width: 420px; text-align: center; }
+        .caixa h1 { color: var(--laranja); margin-bottom: 0.5rem; font-size: 1.6rem; }
+        .caixa p { color: #666; margin-bottom: 2rem; }
+        .aviso { background: #E8F5E9; color: #2E7D32; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.95rem; }
+        
+        input { width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; margin-bottom: 1rem; outline: none; transition: border 0.3s; }
+        input:focus { border-color: var(--laranja); }
+        button { width: 100%; padding: 1rem; background: var(--laranja); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+        button:hover { background: var(--laranja-escuro); }
+        .erro { color: #D32F2F; margin-top: 1rem; display: none; }
+        .voltar { display: inline-block; margin-top: 1.5rem; color: #888; text-decoration: none; font-size: 0.9rem; }
+        .voltar:hover { color: var(--laranja); }
+    </style>
+</head>
+<body>
+
+<div class="caixa">
+    <h1>🟢 Curso Iniciante</h1>
+    <p>Digite sua senha de acesso para continuar</p>
+    
+    <div class="aviso">
+        💡 A senha foi enviada no momento da inscrição. Contate-nos se não recebeu!
+    </div>
+    
+    <input type="password" id="senha" placeholder="Digite sua senha aqui">
+    <button onclick="verificarSenha()">Entrar no Curso</button>
+    
+    <p class="erro" id="mensagemErro">Senha incorreta! Tente novamente ou contate o suporte.</p>
+    
+    <a href="../index.html" class="voltar">← Voltar para a Página Inicial</a>
+</div>
+
+<script>
+const SENHA_CORRETA = "Iniciante2026!";
+
+function verificarSenha() {
+    const digitada = document.getElementById('senha').value;
+    if (digitada === SENHA_CORRETA) {
+        localStorage.setItem('acesso_iniciante', 'liberado');
+        window.location.href = 'dashboard.html';
+    } else {
+        document.getElementById('mensagemErro').style.display = 'block';
+        document.getElementById('senha').value = '';
+    }
+}
+
+document.getElementById('senha').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') verificarSenha();
+});
+
+if (localStorage.getItem('acesso_iniciante') === 'liberado') {
+    window.location.href = 'dashboard.html';
+}
+</script>
+
+</body>
+</html>

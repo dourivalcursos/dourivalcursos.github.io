@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso — Curso Iniciante | DSCursos Online</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        :root { --laranja: #FF7A00; --laranja-escuro: #E66A00; --escuro: #1A1A1A; }
+        body { background: linear-gradient(135deg, #2A2A2A, #1A1A1A); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        
+        .caixa { background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); width: 100%; max-width: 420px; text-align: center; }
+        .caixa h1 { color: var(--laranja); margin-bottom: 0.5rem; font-size: 1.6rem; }
+        .caixa p { color: #666; margin-bottom: 2rem; }
+        .aviso { background: #E8F5E9; color: #2E7D32; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.95rem; }
+        
+        input { width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; margin-bottom: 1rem; outline: none; transition: border 0.3s; }
+        input:focus { border-color: var(--laranja); }
+        button { width: 100%; padding: 1rem; background: var(--laranja); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+        button:hover { background: var(--laranja-escuro); }
+        .erro { color: #D32F2F; margin-top: 1rem; display: none; }
+        .voltar { display: inline-block; margin-top: 1.5rem; color: #888; text-decoration: none; font-size: 0.9rem; }
+        .voltar:hover { color: var(--laranja); }
+    </style>
+</head>
+<body>
+
+<div class="caixa">
+    <h1>🟢 Curso Iniciante</h1>
+    <p>Digite sua senha de acesso para continuar</p>
+    
+    <div class="aviso">
+        💡 A senha foi enviada no momento da inscrição. Contate-nos se não recebeu!
+    </div>
+    
+    <input type="password" id="senha" placeholder="Digite sua senha aqui">
+    <button onclick="verificarSenha()">Entrar no Curso</button>
+    
+    <p class="erro" id="mensagemErro">Senha incorreta! Tente novamente ou contate o suporte.</p>
+    
+    <a href="../index.html" class="voltar">← Voltar para a Página Inicial</a>
+</div>
+
+<script>
+const SENHA_CORRETA = "Iniciante2026!";
+
+function verificarSenha() {
+    const digitada = document.getElementById('senha').value;
+    if (digitada === SENHA_CORRETA) {
+        localStorage.setItem('acesso_iniciante', 'liberado');
+        window.location.href = 'dashboard.html';
+    } else {
+        document.getElementById('mensagemErro').style.display = 'block';
+        document.getElementById('senha').value = '';
+    }
+}
+
+document.getElementById('senha').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') verificarSenha();
+});
+
+if (localStorage.getItem('acesso_iniciante') === 'liberado') {
+    window.location.href = 'dashboard.html';
+}
+</script>
+<!-- DUDA ASSISTENTE VIRTUAL -->
+<style>
+#duda-assistente {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    cursor: pointer;
+}
+.duda-botao {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #FF7A00, #E66A00);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.3s;
+}
+.duda-botao:hover { transform: scale(1.1); }
+#duda-chat {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    max-height: 500px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 9998;
+}
+.duda-cabecalho {
+    background: linear-gradient(135deg, #FF7A00, #E66A00);
+    color: white;
+    padding: 15px;
+    border-radius: 16px 16px 0 0;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.duda-cabecalho button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+.duda-mensagens {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f9f9f9;
+    min-height: 300px;
+}
+.duda-msg {
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    max-width: 90%;
+}
+.duda-msg-eu {
+    background: #FFF3E8;
+    margin-left: auto;
+}
+.duda-msg-duda {
+    background: #E8F0FE;
+    margin-right: auto;
+}
+.duda-entrada {
+    padding: 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+}
+.duda-entrada input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+.duda-entrada button {
+    margin-left: 8px;
+    background: #FF7A00;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.duda-entrada button:hover { background: #E66A00; }
+@media (max-width: 400px) {
+    #duda-chat { width: calc(100% - 40px); }
+}
+</style>
+
+<div id="duda-assistente">
+    <div class="duda-botao" onclick="alternarDuda()">🤖</div>
+</div>
+
+<div id="duda-chat">
+    <div class="duda-cabecalho">
+        🤖 Duda — Assistente Virtual
+        <button onclick="fecharDuda()">×</button>
+    </div>
+    <div class="duda-mensagens" id="duda-mensagens">
+        <div class="duda-msg duda-msg-duda">
+            <strong>Duda 💙</strong><br>
+            Olá! Tudo bem? Sou a Duda, sua assistente virtual da DSCursos Online! 😊<br>
+            Em que posso te ajudar hoje?
+        </div>
+    </div>
+    <div class="duda-entrada">
+        <input type="text" id="duda-input" placeholder="Digite sua pergunta...">
+        <button onclick="enviarMensagemDuda()">Enviar</button>
+    </div>
+</div>
+
+<script>
+const baseDuda = {
+  "duda": "Sou a sua assistente virtual! 💙 Estou aqui para te ajudar com tudo sobre os cursos, acesso, senhas, certificado e muito mais! É só perguntar!",
+  "contato": "Fale com a gente! 📧 redelinecftv@gmail.com | 📱 (67) 99903-0758 — Respondemos em até 48h úteis! 💙",
+  "senha": "A senha do Curso Iniciante é: Iniciante2026! ✅ Se não funcionar, contate-nos que enviamos novamente! 💙",
+  "acesso": "Vá em Cursos → Já sou aluno → digite a senha → entra no painel com todas as aulas! 📚",
+  "certificado": "Após concluir todas as aulas e entregar o projeto, você recebe o certificado gratuitamente por e-mail! 📄✅",
+  "projeto": "Reúna todos os arquivos criados nas aulas, compacte em .ZIP e envie para redelinecftv@gmail.com! 💙",
+  "preço": "Entre em contato pelo WhatsApp (67) 99903-0758 que combinamos tudo! 💙",
+  "horário": "Atendemos em dias úteis, das 8h às 18h, horário de Mato Grosso do Sul! ⏰",
+  "dourival": "É o Dourival Silva, nosso professor e responsável! 💙 CPF 729.011.529-53 — Itaquirai/MS!",
+  "obrigado": "De nada! 🥰 É um prazer te ajudar! Conte comigo sempre! 💙💙",
+  "obrigada": "De nada! 🥰 É um prazer te ajudar! Conte comigo sempre! 💙💙"
+};
+
+const naoSabe = "Desculpe 😊 Ainda não fui treinada para responder isso! Mas pode perguntar sobre os cursos, acesso, certificado e contato que te ajudo! 💙";
+const palavrasChave = ["duda", "contato", "email", "telefone", "senha", "acesso", "certificado", "projeto", "preço", "valor", "pagamento", "horário", "dourival", "professor", "obrigado", "obrigada"];
+
+function alternarDuda() {
+  const chat = document.getElementById('duda-chat');
+  chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+}
+function fecharDuda() {
+  document.getElementById('duda-chat').style.display = 'none';
+}
+function enviarMensagemDuda() {
+  const input = document.getElementById('duda-input');
+  const mensagem = input.value.trim();
+  if (!mensagem) return;
+  const caixa = document.getElementById('duda-mensagens');
+  caixa.innerHTML += `<div class="duda-msg duda-msg-eu">${mensagem}</div>`;
+  input.value = '';
+
+  setTimeout(() => {
+    let resposta = naoSabe;
+    const pergunta = mensagem.toLowerCase();
+    for (const [chave, resp] of Object.entries(baseDuda)) {
+      if (pergunta.includes(chave)) { resposta = resp; break; }
+    }
+    const relevante = palavrasChave.some(palavra => pergunta.includes(palavra));
+    if (!relevante) resposta = naoSabe;
+    
+    caixa.innerHTML += `<div class="duda-msg duda-msg-duda"><strong>Duda 💙</strong><br>${resposta}</div>`;
+    caixa.scrollTop = caixa.scrollHeight;
+  }, 600);
+}
+document.getElementById('duda-input').addEventListener('keypress', e => e.key === 'Enter' && enviarMensagemDuda());
+</script>
+</body>
+</html>

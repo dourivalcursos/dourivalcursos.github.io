@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 1.1 — Windows Profissional | DSCursos Online</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        :root { --azul: #1976D2; --sucesso: #4CAF50; }
+        body { background: #f5f5f5; line-height: 1.8; }
+        .topo { background: white; padding: 1rem 2rem; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top:0; }
+        .topo a { color: var(--azul); text-decoration: none; }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+        .aula-conteudo { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 2rem; }
+        .aula-conteudo h2 { color: var(--azul); margin-bottom: 1.5rem; }
+        .navegacao { display: flex; justify-content: space-between; margin-top: 2rem; }
+        .botao { padding: 0.8rem 1.5rem; background: var(--azul); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; }
+        .botao:hover { background: #1565C0; }
+        .botao-desabilitado { background: #ccc; cursor: not-allowed; }
+        
+        /* Duda */
+        #duda-assistente { position: fixed; bottom: 20px; right: 20px; z-index: 9999; cursor: pointer; }
+        .duda-botao { width: 60px; height: 60px; background: linear-gradient(135deg, #FF7A00, #E66A00); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .duda-botao:hover { transform: scale(1.1); }
+        #duda-chat { position: fixed; bottom: 90px; right: 20px; width: 350px; max-height: 500px; background: white; border-radius: 16px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); display: none; flex-direction: column; z-index: 9998; }
+        .duda-cabecalho { background: linear-gradient(135deg, #FF7A00, #E66A00); color: white; padding: 15px; border-radius: 16px 16px 0 0; font-weight: bold; display: flex; justify-content: space-between; }
+        .duda-cabecalho button { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+        .duda-mensagens { padding: 15px; overflow-y: auto; background: #f9f9f9; min-height: 300px; }
+        .duda-msg { padding: 12px; border-radius: 12px; margin-bottom: 10px; max-width: 90%; }
+        .duda-msg-eu { background: #FFF3E8; margin-left: auto; }
+        .duda-msg-duda { background: #E8F0FE; margin-right: auto; }
+        .duda-entrada { padding: 15px; border-top: 1px solid #eee; display: flex; }
+        .duda-entrada input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        .duda-entrada button { margin-left: 8px; background: #FF7A00; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        @media (max-width: 400px) { #duda-chat { width: calc(100% - 40px); } }
+    </style>
+</head>
+<body>
+
+<div class="topo">
+    <a href="dashboard.html">← Voltar ao Painel</a>
+    <span>🔵 Curso Avançado — Aula 1.1</span>
+</div>
+
+<div class="container">
+    <div class="aula-conteudo">
+        <h2>💻 Aula 1.1 — Manutenção e Otimização do Windows</h2>
+        
+        <p><strong>O que vamos aprender:</strong></p>
+        <ul style="margin: 1rem 0 1rem 2rem;">
+            <li>✅ Limpar arquivos temporários</li>
+            <li>✅ Desativar programas que iniciam sozinhos</li>
+            <li>✅ Verificar e corrigir erros do sistema</li>
+            <li>✅ Deixar o computador mais rápido!</li>
+        </ul>
+
+        <h3 style="margin: 1.5rem 0 1rem;">📝 Passo a Passo:</h3>
+        
+        <p><strong>1. Limpeza de Arquivos:</strong><br>
+        Pressione <code>Windows + R</code> → digite <code>cleanmgr</code> → Enter → Selecione C: → Marque tudo → OK</p>
+        
+        <p><strong>2. Gerenciar Inicialização:</strong><br>
+        Pressione <code>Ctrl + Shift + Esc</code> → Aba "Inicializar" → Clique com botão direito → Desativar programas que não usa</p>
+        
+        <p><strong>3. Verificação de Erros:</strong><br>
+        Abra o Prompt de Comando como Administrador → digite: <code>sfc /scannow</code> → Enter → Espere terminar!</p>
+
+        <p style="margin-top: 2rem; padding: 1rem; background: #E8F5E9; border-radius: 8px;">
+            ✅ <strong>Concluiu?</strong> Marque como concluído no painel e avance para a próxima aula!
+        </p>
+    </div>
+
+    <div class="navegacao">
+        <a href="dashboard.html" class="botao botao-desabilitado">← Anterior</a>
+        <a href="aula1-2.html" class="botao">Próxima Aula →</a>
+    </div>
+</div>
+
+<!-- DUDA -->
+<div id="duda-assistente"><div class="duda-botao" onclick="alternarDuda()">🤖</div></div>
+<div id="duda-chat">
+    <div class="duda-cabecalho">🤖 Duda — Assistente Virtual<button onclick="fecharDuda()">×</button></div>
+    <div class="duda-mensagens" id="duda-msg"><div class="duda-msg duda-msg-duda"><strong>Duda 💙</strong><br>Olá! Estou aqui pra te ajudar com a aula! 😊</div></div>
+    <div class="duda-entrada">
+        <input type="text" id="duda-in" placeholder="Pergunte algo...">
+        <button onclick="enviarDuda()">Enviar</button>
+    </div>
+</div>
+<script>
+const baseDuda = {
+  "duda": "Sou sua assistente! 💙 Pergunte sobre a aula, acesso ou certificado!",
+  "aula": "Esta é a Aula 1.1 — Manutenção do Windows! 💙 Siga os passos e me chama se travar!",
+  "ajuda": "Conte comigo! 💙 Qual passo não entendeu?",
+  "certificado": "Conclua todas as aulas + projeto → recebe por e-mail! ✅",
+  "senha": "Avancado2026! ✅"
+};
+const naoSabe = "Vou te ajudar com isso! 💙 Pergunte sobre a aula, acesso ou contato!";
+function alternarDuda(){const c=document.getElementById('duda-chat');c.style.display=c.style.display==='flex'?'none':'flex';}
+function fecharDuda(){document.getElementById('duda-chat').style.display='none';}
+function enviarDuda(){const i=document.getElementById('duda-in'),m=i.value.trim();if(!m)return;const caixa=document.getElementById('duda-msg');caixa.innerHTML+=`<div class="duda-msg duda-msg-eu">${m}</div>`;i.value='';setTimeout(()=>{let r=naoSabe;const p=m.toLowerCase();for(const[k,v]of Object.entries(baseDuda))if(p.includes(k)){r=v;break;}caixa.innerHTML+=`<div class="duda-msg duda-msg-duda"><strong>Duda 💙</strong><br>${r}</div>`;caixa.scrollTop=caixa.scrollHeight;},600);}
+document.getElementById('duda-in').addEventListener('keypress',e=>e.key==='Enter'&&enviarDuda());
+</script>
+
+</body>
+</html>

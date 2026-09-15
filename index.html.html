@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DS CURSOS ONLINE - 120 Cursos | Vitrine Formalizada</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>body{background:#08080f;color:#fff;font-family:Inter,system-ui} .card:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(139,92,246,.3)} ::-webkit-scrollbar{width:6px} ::-webkit-scrollbar-thumb{background:#8b5cf6;border-radius:10px}</style>
+</head>
+<body>
+<div id="studentPortal">
+  <!-- NAV IGUAL DA FOTO - 120 CURSOS ONLINE + VITRINE + Seu e-mail + Senha + Entrar -->
+  <nav class="flex flex-col md:flex-row justify-between items-center p-4 border-b border-white/10 bg-black/80 backdrop-blur sticky top-0 z-50 gap-3">
+    <div class="flex items-center gap-3 cursor-pointer select-none" id="logoTrigger"><div class="w-9 h-9 bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-xl flex items-center justify-center font-black">DS</div><span class="font-bold">120 CURSOS ONLINE</span><span class="text-[10px] bg-violet-500/20 text-violet-300 px-2 py-1 rounded-full ml-2">VITRINE</span></div>
+    <div class="flex items-center gap-2 w-full md:w-auto">
+      <div id="loginInline" class="flex gap-2 w-full md:w-auto">
+        <input id="emailInput" placeholder="Seu e-mail" class="flex-1 md:w-[200px] bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 text-xs outline-none focus:border-violet-500">
+        <input id="senhaInput" type="password" placeholder="Senha" class="w-[110px] bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 text-xs outline-none focus:border-violet-500">
+        <button id="loginBtn" class="bg-gradient-to-r from-violet-600 to-fuchsia-600 px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap hover:scale-[1.02] transition">Entrar</button>
+      </div>
+      <div id="userArea" class="hidden flex items-center gap-3">
+        <div class="text-right hidden md:block"><p id="userName" class="text-xs font-bold"></p><p id="userQtd" class="text-[10px] text-zinc-400"></p></div>
+        <div class="w-8 h-8 bg-violet-600 rounded-full flex items-center justify-center text-xs">👤</div>
+        <button id="logoutBtn" class="text-[10px] border border-white/20 px-3 py-1.5 rounded-full hover:bg-white/10">Sair</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- VITRINE COM 5 COMBOS - IGUAL DA SUA FOTO -->
+  <div id="heroVitrine" class="bg-gradient-to-br from-violet-900/40 via-fuchsia-900/20 to-black p-6 md:p-8 text-center border-b border-white/5">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="mt-2 grid grid-cols-2 md:grid-cols-5 gap-3">
+        <a href="https://pay.kiwify.com.br/bBS2NDM" target="_blank" class="bg-[#15151f] border border-white/10 rounded-2xl p-4 hover:border-violet-500 transition">
+          <p class="text-[10px] bg-white/10 px-2 py-1 rounded-full inline-block">Combo 1</p>
+          <p class="text-[11px] text-zinc-400 mt-2">1 CURSO</p>
+          <span class="mt-2 block bg-white text-black text-xs font-bold py-2 rounded-xl">COMPRAR</span>
+        </a>
+        <a href="https://pay.kiwify.com.br/B5VZTEf" target="_blank" class="bg-[#15151f] border border-white/10 rounded-2xl p-4 hover:border-violet-500 transition">
+          <p class="text-[10px] bg-violet-500/20 text-violet-300 px-2 py-1 rounded-full inline-block">Combo 2</p>
+          <span class="mt-3 block bg-violet-600 text-white text-xs font-bold py-2 rounded-xl">COMPRAR</span>
+        </a>
+        <a href="https://pay.kiwify.com.br/2NyArqV" target="_blank" class="bg-[#15151f] border-2 border-yellow-400/30 rounded-2xl p-4 hover:border-yellow-400 transition relative">
+          <span class="absolute -top-2 -right-2 bg-yellow-400 text-black text-[8px] font-black px-2 py-1 rounded-full">MAIS VENDIDO</span>
+          <p class="text-[10px] bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded-full inline-block">Combo 3</p>
+          <span class="mt-3 block bg-yellow-400 text-black text-xs font-black py-2 rounded-xl">COMPRAR</span>
+        </a>
+        <a href="https://pay.kiwify.com.br/FfKyMdZ" target="_blank" class="bg-[#15151f] border border-white/10 rounded-2xl p-4 hover:border-fuchsia-500/50 transition">
+          <p class="text-[10px] bg-fuchsia-500/20 text-fuchsia-300 px-2 py-1 rounded-full inline-block">Combo 4</p>
+          <span class="mt-3 block bg-fuchsia-600 text-white text-xs font-bold py-2 rounded-xl">COMPRAR</span>
+        </a>
+        <a href="https://pay.kiwify.com.br/vhdCkdI" target="_blank" class="bg-gradient-to-br from-fuchsia-600 to-violet-600 rounded-2xl p-4 hover:scale-[1.02] transition col-span-2 md:col-span-1 border-2 border-fuchsia-500/50 relative shadow-xl shadow-fuchsia-600/20">
+          <span class="absolute -top-2 left-1/2 -translate-x-1/2 bg-fuchsia-500 text-white text-[8px] font-black px-3 py-1 rounded-full whitespace-nowrap">COMPLETO 120 CURSOS</span>
+          <p class="text-[10px] bg-black/30 px-2 py-1 rounded-full inline-block mt-2">DS CURSOS</p>
+          <span class="mt-3 block bg-black text-white text-xs font-black py-2.5 rounded-xl">💰 COMPRAR 120</span>
+        </a>
+      </div>
+      <p class="mt-4 text-zinc-500 text-[10px]">PIX + 2 Cartões + Apple Pay • Kiwify Seguro • CPF 729.011.529-53 • Hotmart Widget dourivalcursos.github.io</p>
+    </div>
+    <div id="loginError" class="hidden mt-4 text-xs text-red-400 bg-red-500/10 border border-red-500/20 p-3 rounded-xl max-w-[500px] mx-auto"></div>
+  </div>
+
+  <!-- GRADE DE CURSOS IGUAL DA FOTO - Todos os Cursos Disponíveis -->
+  <div id="coursesSection" class="p-6 max-w-[1400px] mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+      <h2 class="font-bold text-sm">🎓 Todos os Cursos Disponíveis - Escolha e comece hoje</h2>
+      <p class="text-xs text-zinc-500">120 cursos • Com fotos prévias por categoria • Clique para comprar</p>
+    </div>
+    <div class="mt-4 flex gap-2 overflow-x-auto pb-2 scrollbar-none" id="categoryFilters"></div>
+    <div id="coursesGrid" class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+  </div>
+
+  <footer class="mt-12 border-t border-white/10 p-8 bg-[#050508]"><div class="grid md:grid-cols-4 gap-8 max-w-[1200px] mx-auto text-sm"><div><p class="font-bold">DS CURSOS ULTRA 1000</p><p class="text-zinc-500 mt-2 text-xs">120 cursos • Duda IA • Banco vetorial<br>📱 (67) 99903-0758<br>✉️ redelinecftv@gmail.com</p></div><div><p class="font-bold">Cursos</p><p class="text-zinc-400 mt-2 text-xs">Design • Marketing • Informática<br>Certificado • Vitalício</p></div><div><p class="font-bold">Suporte</p><p class="text-zinc-400 mt-2 text-xs"><a href="https://wa.me/5567999030758" class="text-green-400 font-bold">WhatsApp: (67) 99903-0758</a></p></div><div><p class="font-bold">Legal</p><p class="text-zinc-400 mt-2 text-xs">PIX: (67) 99903-0758<br>🔒 Kiwify Seguro</p></div></div><div class="text-center text-xs text-zinc-600 mt-8">© 2025 DS Cursos - Dourival Silva - Itaquiraí MS - Gerador Duda Ultra 1000</div></footer>
+</div>
+
+<div id="adminPortal" class="hidden min-h-screen bg-[#020208]">
+  <nav class="p-4 border-b border-violet-500/20 flex justify-between items-center bg-black sticky top-0 z-50"><span class="font-black text-violet-400 text-xs">DUDA ULTRA 1000 - FÁBRICA IA • Portal + Gerador em 1 HTML</span><button id="exitAdmin" class="text-xs border border-white/20 px-3 py-1.5 rounded-full">Sair</button></nav>
+  <div class="flex border-b border-white/10 text-sm overflow-x-auto"><button data-tab="fabrica" class="tabBtn px-6 py-3 border-b-2 border-violet-500">🏭 Fábrica 1000</button><button data-tab="pdf" class="tabBtn px-6 py-3 opacity-60">📄 PDF</button><button data-tab="alunos" class="tabBtn px-6 py-3 opacity-60">👥 Alunos</button><button data-tab="export" class="tabBtn px-6 py-3 opacity-60">💾 Exportar</button></div>
+  <div class="p-6">
+    <div id="tab-fabrica"><div class="flex gap-3 mb-6 flex-wrap"><button onclick="gerarCategorias(50)" class="bg-violet-600 px-4 py-2 rounded-xl text-sm">+50 Cats</button><button onclick="gerarCategorias(500)" class="bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-2 rounded-xl text-sm font-black">🚀 GERAR 500</button><span id="totalCats" class="ml-4 text-xs text-zinc-400 bg-white/5 px-3 py-1 rounded-full"></span></div><div id="catGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3"></div></div>
+    <div id="tab-pdf" class="hidden"><div id="dropZone" class="border-2 border-dashed border-violet-500/30 rounded-2xl p-12 text-center"><p>📄 Solte PDFs aqui</p><input type="file" id="pdfInput" multiple accept=".pdf" class="hidden"><button onclick="document.getElementById('pdfInput').click()" class="mt-4 bg-white text-black px-6 py-2 rounded-xl text-sm font-bold">Selecionar PDFs</button></div><div id="pdfList" class="mt-6 space-y-2"></div></div>
+    <div id="tab-alunos" class="hidden"><div class="bg-black rounded-xl border border-white/10 p-4 text-xs">Alunos: redelinecftv@gmail.com - 120 cursos - APPROVED</div></div>
+    <div id="tab-export" class="hidden"><button id="downloadFinal" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-black font-black py-4 rounded-xl">⬇️ BAIXAR index.html FINAL</button></div>
+  </div>
+</div>
+
+<div id="adminLogin" class="hidden fixed inset-0 bg-black/80 backdrop-blur z-[200] flex items-center justify-center p-4"><div class="bg-[#111119] border border-violet-500/30 rounded-2xl p-8 w-full max-w-[380px]"><h3 class="font-bold text-center">Admin</h3><input id="adminSenha" type="password" placeholder="Senha" class="w-full mt-6 bg-black border border-white/10 rounded-xl px-4 py-3 text-sm"><button id="adminLoginBtn" class="w-full mt-3 bg-violet-600 py-3 rounded-xl font-bold">Entrar</button></div></div>
+
+<a href="https://wa.me/5567999030758" target="_blank" class="fixed bottom-5 right-5 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center text-2xl shadow-lg z-50">💬</a>
+
+<script>
+const EXEC_URL="https://script.google.com/macros/s/AKfycbzczw1uTxb05dYPJEyVXl1eSB61bZYDeLYXF54eSJPY2QA62cpy0qzPJ9C5C6bhT2cZ/exec";
+const CHECKOUTS_KIWIFY = {"1curso":"https://pay.kiwify.com.br/bBS2NDM","2cursos":"https://pay.kiwify.com.br/B5VZTEf","3cursos":"https://pay.kiwify.com.br/2NyArqV","4cursos":"https://pay.kiwify.com.br/FfKyMdZ","120cursos":"https://pay.kiwify.com.br/vhdCkdI"};
+let categorias = JSON.parse(localStorage.getItem('duda_cats')||'null') || ["Design Gráfico","Marketing Digital","Informática","Administração","Idiomas","Programação","Finanças","Saúde"];
+let cursos = ["Photoshop Profissional","Illustrator Master","Corel Draw Completo","Figma UI/UX Design","Premiere Pro","After Effects","Canva Pro","Marketing Digital","Tráfego Pago","Social Media","Copywriting","Excel Avançado","Word Completo","PowerPoint","Inglês Zero ao Avançado","Espanhol","Python Zero","JavaScript Master","Gestão Financeira","Beleza e Estética","Barbearia","Culinária Chef","Fotografia","AutoCAD","Eletricista Predial","Mecânica Automotiva"];
+while(cursos.length<120){cursos.push("Curso Profissionalizante "+(cursos.length+1)+" - Certificado");}
+const catImages = {"Design Gráfico":"https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600","Marketing Digital":"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600","Informática":"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600","Administração":"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600","Idiomas":"https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600","Programação":"https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600","Finanças":"https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600","Saúde":"https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600"};
+function getCatImage(c){ return catImages[c] || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600";}
+function renderCats(){
+  const grid=document.getElementById('catGrid'); if(!grid) return;
+  grid.innerHTML=categorias.map(c=>`<div class="bg-white/[0.04] border border-white/10 rounded-xl overflow-hidden"><div class="h-20"><img src="${getCatImage(c)}" class="w-full h-full object-cover"></div><div class="p-3"><p class="font-bold text-xs">${c}</p></div></div>`).join('');
+  const totalEl=document.getElementById('totalCats'); if(totalEl) totalEl.innerText=categorias.length+" cats";
+  const f=document.getElementById('categoryFilters'); if(f) f.innerHTML='<button class="bg-violet-600 px-4 py-1.5 rounded-full text-xs">Todos</button>'+categorias.map(c=>`<button class="bg-white/10 px-4 py-1.5 rounded-full text-xs whitespace-nowrap">${c}</button>`).join('');
+}
+function renderCourses(){
+  const g=document.getElementById('coursesGrid'); if(!g) return;
+  g.innerHTML=cursos.map((t,i)=>{
+    const cat=categorias[i%categorias.length];
+    const img=getCatImage(cat);
+    return `<div class="card bg-[#15151f] border border-white/10 rounded-2xl overflow-hidden group"><div class="h-[140px] relative overflow-hidden"><img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"><div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div><div class="absolute bottom-2 left-2 bg-black/70 px-2 py-1 rounded-full text-[10px]">${cat}</div><div class="absolute top-2 right-2 bg-black/70 text-[10px] px-2 py-1 rounded-full">R$97</div></div><div class="p-3"><p class="font-bold text-sm">${t}</p><p class="text-[11px] text-zinc-500 mt-1">20h • Certificado</p><a href="${CHECKOUTS_KIWIFY["120cursos"]}" target="_blank" class="mt-3 w-full bg-white/10 hover:bg-violet-600 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2">💰 Comprar Agora - Kiwify</a></div></div>`;
+  }).join('');
+}
+renderCats(); renderCourses();
+document.getElementById('loginBtn').onclick=async()=>{
+  const email=document.getElementById('emailInput').value.trim();
+  const senha=document.getElementById('senhaInput').value.trim();
+  if(!email||!senha){document.getElementById('loginError').innerText="Digite e-mail e senha"; document.getElementById('loginError').classList.remove('hidden'); return;}
+  document.getElementById('loginError').classList.add('hidden');
+  document.getElementById('userArea').classList.remove('hidden');
+  document.getElementById('loginInline').classList.add('hidden');
+  document.getElementById('userName').innerText=email.split('@')[0];
+};
+document.getElementById('logoutBtn').onclick=()=>{document.getElementById('userArea').classList.add('hidden'); document.getElementById('loginInline').classList.remove('hidden');};
+let logoClicks=0;
+document.getElementById('logoTrigger').onclick=()=>{logoClicks++; if(logoClicks>=7){document.getElementById('adminLogin').classList.remove('hidden'); logoClicks=0;} setTimeout(()=>logoClicks=0,3000);};
+if(location.search.includes('admin')) document.getElementById('adminLogin').classList.remove('hidden');
+document.getElementById('adminLoginBtn').onclick=()=>{
+  if(['admin123','999030758'].includes(document.getElementById('adminSenha').value)){
+    document.getElementById('adminLogin').classList.add('hidden');
+    document.getElementById('studentPortal').classList.add('hidden');
+    document.getElementById('adminPortal').classList.remove('hidden');
+    renderCats();
+  }
+};
+document.getElementById('exitAdmin').onclick=()=>{document.getElementById('adminPortal').classList.add('hidden');document.getElementById('studentPortal').classList.remove('hidden');};
+document.querySelectorAll('.tabBtn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabBtn').forEach(x=>{x.classList.remove('border-violet-500','border-b-2'); x.classList.add('opacity-60')});
+  b.classList.add('border-violet-500','border-b-2'); b.classList.remove('opacity-60');
+  ['fabrica','pdf','alunos','export'].forEach(id=>document.getElementById('tab-'+id).classList.add('hidden'));
+  document.getElementById('tab-'+b.dataset.tab).classList.remove('hidden');
+});
+function gerarCategorias(n){for(let i=0;i<n;i++)categorias.push("Categoria "+(categorias.length+1)); renderCats();}
+document.getElementById('downloadFinal').onclick=()=>{
+  const html=document.documentElement.outerHTML;
+  const blob=new Blob([html],{type:'text/html'}); const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='index.html'; a.click();
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrar | DS Cursos</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+:root{--l:#FF7A00;--v:#2E7D32;--e:#1A1A1A;--vermelho:#d32f2f;}
+body{background:linear-gradient(135deg,var(--l),#ff9800);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;}
+.caixa{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 8px 32px rgba(0,0,0,.2);width:100%;max-width:420px;}
+.caixa h1{text-align:center;color:var(--e);margin-bottom:.5rem;font-size:1.6rem;}
+.caixa p{text-align:center;color:#666;margin-bottom:2rem;}
+.grupo{margin-bottom:1.2rem;}
+.grupo label{display:block;margin-bottom:.5rem;font-weight:bold;color:#333;}
+.grupo input{width:100%;padding:.9rem;border:2px solid #ddd;border-radius:8px;font-size:1rem;}
+.grupo input:focus{border-color:var(--l);outline:none;}
+.botao{width:100%;padding:1rem;border:none;border-radius:8px;font-size:1.1rem;font-weight:bold;cursor:pointer;transition:.3s;}
+.botao-principal{background:var(--v);color:#fff;margin-top:.5rem;}
+.botao-principal:hover{background:#266d2b;}
+.botao-secundario{background:transparent;color:var(--l);border:2px solid var(--l);margin-top:.8rem;}
+.botao-secundario:hover{background:#fff3e0;}
+.erro{color:var(--vermelho);background:#ffebee;padding:.8rem;border-radius:6px;margin:1rem 0;display:none;}
+.rodape{text-align:center;margin-top:1.5rem;color:#888;font-size:.9rem;}
+</style>
+</head>
+<body>
+<div class="caixa">
+<h1>📚 DS Cursos</h1>
+<p>Entre com seus dados de acesso</p>
+
+<div class="erro" id="avisoErro"></div>
+
+<div class="grupo">
+<label for="email">E-mail</label>
+<input type="email" id="email" placeholder="seuemail@exemplo.com">
+</div>
+
+<div class="grupo">
+<label for="senha">Senha</label>
+<input type="password" id="senha" placeholder="Sua senha">
+</div>
+
+<button class="botao botao-principal" onclick="entrar()">Entrar na Plataforma</button>
+
+<button class="botao botao-secundario" onclick="window.location.href='cadastro.html'">Não tenho conta → Cadastrar</button>
+
+<div class="rodape">
+<a href="index.html" style="color:#888;">← Voltar para a página inicial</a>
+</div>
+</div>
+
+<script>
+const CHAVE = 'dscursos_2026_seguro';
+
+function entrar(){
+const email = document.getElementById('email').value.trim();
+const senha = document.getElementById('senha').value;
+const aviso = document.getElementById('avisoErro');
+
+if(!email || !senha){
+aviso.textContent = 'Preencha e-mail e senha!';
+aviso.style.display = 'block';
+return;
+}
+
+const dados = JSON.parse(localStorage.getItem(CHAVE) || '{"alunos":[]}');
+const aluno = dados.alunos.find(a=>a.email===email && a.senha===btoa(senha));
+
+if(!aluno){
+aviso.textContent = 'E-mail ou senha incorretos!';
+aviso.style.display = 'block';
+return;
+}
+
+// Contar aparelhos
+const aparelhos = aluno.aparelhos || [];
+const idAparelho = navigator.userAgent.slice(0, 100);
+
+if(!aparelhos.includes(idAparelho)){
+if(aparelhos.length >= 2){
+aviso.textContent = '⚠️ Você já está em 2 aparelhos. Saia de um primeiro!';
+aviso.style.display = 'block';
+return;
+}
+aparelhos.push(idAparelho);
+aluno.aparelhos = aparelhos;
+localStorage.setItem(CHAVE, JSON.stringify(dados));
+}
+
+sessionStorage.setItem('alunoLogado', JSON.stringify({
+nome: aluno.nome,
+email: aluno.email,
+cursos: aluno.cursos || []
+}));
+
+window.location.href = 'aluno-dashboard.html';
+}
+</script>
+</body>
+</html>

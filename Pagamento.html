@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formas de Pagamento | DS Cursos Online</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,Arial,sans-serif;}
+        :root{--laranja:#FF7A00;--verde:#2E7D32;--azul:#0066CC;--rosa:#E91E63;--escuro:#1A1A1A;}
+        body{background:linear-gradient(135deg,#2A2A2A,#1A1A1A);min-height:100vh;}
+        .cabecalho{background:var(--laranja);color:white;padding:2rem;text-align:center;}
+        .cabecalho a{color:white;text-decoration:none;opacity:0.8;}
+        .conteudo{max-width:900px;margin:0 auto;padding:2rem;background:white;min-height:70vh;}
+        h2{color:var(--laranja);margin:2rem 0 1rem;border-bottom:2px solid #eee;padding-bottom:.5rem;}
+        h2:first-child{margin-top:0;}
+        .opcao-pagamento{border:2px solid #eee;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;transition:0.3s;}
+        .opcao-pagamento:hover{border-color:var(--laranja);box-shadow:0 4px 12px rgba(255,122,0,0.15);}
+        .opcao-pagamento.pix{border-left:5px solid var(--verde);}
+        .opcao-pagamento.hotmart{border-left:5px solid var(--vermelho:#E53935);}
+        .opcao-pagamento.kiwify{border-left:5px solid var(--rosa);}
+        .titulo-opcao{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+        .icone{font-size:2rem;}
+        .titulo-opcao h3{font-size:1.3rem;color:#333;}
+        .btn-pagar{display:inline-block;padding:1rem 2rem;border-radius:10px;font-weight:bold;text-decoration:none;font-size:1rem;transition:0.3s;border:none;cursor:pointer;text-align:center;width:100%;max-width:300px;}
+        .btn-pix{background:var(--verde);color:white;}
+        .btn-pix:hover{background:#27692A;}
+        .btn-hotmart{background:#E53935;color:white;}
+        .btn-hotmart:hover{background:#C62828;}
+        .btn-kiwify{background:var(--rosa);color:white;}
+        .btn-kiwify:hover{background:#C2185B;}
+        .dados-pix{background:#E8F5E9;padding:1.5rem;border-radius:10px;margin:1rem 0;}
+        .codigo-pix{background:white;padding:1rem;border:2px dashed var(--verde);border-radius:8px;font-family:monospace;word-break:break-all;margin:1rem 0;}
+        .aviso{background:#FFF8E1;border-left:4px solid #FF7A00;padding:1rem;margin:1.5rem 0;}
+        .btn-voltar{display:inline-block;margin-top:2rem;padding:.8rem 1.5rem;background:#eee;color:#333;text-decoration:none;border-radius:8px;}
+        footer{background:#1A1A1A;color:#ccc;padding:2rem 1.5rem;margin-top:0;text-align:center;border-top:3px solid #FF7A00;}
+        footer a{color:#FF7A00;text-decoration:none;}
+        .copiar{background:var(--verde);color:white;border:none;padding:.5rem 1rem;border-radius:5px;cursor:pointer;margin-top:.5rem;}
+    </style>
+</head>
+<body>
+
+<div class="cabecalho">
+    <h1>💳 Formas de Pagamento</h1>
+    <p><a href="cursos.html">← Voltar para os Cursos</a></p>
+</div>
+
+<div class="conteudo">
+    <h2>Escolha como quer pagar</h2>
+    <p style="margin-bottom:2rem;">Após o pagamento, envie o comprovante pelo WhatsApp <strong>(67) 99903-0758</strong> para receber sua senha de acesso imediato! 🚀</p>
+
+    <!-- PIX -->
+    <div class="opcao-pagamento pix">
+        <div class="titulo-opcao">
+            <span class="icone">💚</span>
+            <h3>Pix — Imediato</h3>
+        </div>
+        <p>Pagamento instantâneo! Após pagar, envie o comprovante e receba a senha na hora.</p>
+        
+        <div class="dados-pix">
+            <p><strong>Chave Pix:</strong> dourivalcursos@gmail.com</p>
+            <p><strong>Titular:</strong> Dourival Silva</p>
+            <p><strong>CPF:</strong> ***.***.***-**</p>
+            
+            <div class="codigo-pix" id="codigoPix">
+                copie-aqui-sua-chave-pix-completa-ou-copia-e-cola-o-qr-code
+            </div>
+            <button class="copiar" onclick="copiarPix()">📋 Copiar Chave Pix</button>
+            
+            <p style="margin-top:1rem;"><strong>Valor:</strong> R$ 00,00 (digite o valor do curso)</p>
+        </div>
+    </div>
+
+    <!-- HOTMART -->
+    <div class="opcao-pagamento hotmart">
+        <div class="titulo-opcao">
+            <span class="icone">🔴</span>
+            <h3>Hotmart — Cartão, Boleto, Pix</h3>
+        </div>
+        <p>Pague com cartão em até 12x, boleto ou Pix. Acesso automático após confirmação!</p>
+        <a href="https://seu-link-hotmart.com" target="_blank" class="btn-pagar btn-hotmart">
+            🔗 Pagar pela Hotmart
+        </a>
+        <p style="margin-top:1rem;font-size:.9rem;color:#666;">
+            *Acesso automático após pagamento. Verifique seu e-mail!
+        </p>
+    </div>
+
+    <!-- KIWIFY -->
+    <div class="opcao-pagamento kiwify">
+        <div class="titulo-opcao">
+            <span class="icone">💗</span>
+            <h3>Kiwify — Cartão, Pix, Boleto</h3>
+        </div>
+        <p>Plataforma simples e rápida! Pagamento aprovado → acesso liberado na hora!</p>
+        <a href="https://seu-link-kiwify.com" target="_blank" class="btn-pagar btn-kiwify">
+            🔗 Pagar pela Kiwify
+        </a>
+        <p style="margin-top:1rem;font-size:.9rem;color:#666;">
+            *Confira a caixa de entrada do e-mail cadastrado!
+        </p>
+    </div>
+
+    <div class="aviso">
+        <p><strong>📌 Importante:</strong></p>
+        <ul style="margin:.5rem 0 0 1.5rem;">
+            <li>Pagamento por Pix → envie o comprovante no WhatsApp para liberação</li>
+            <li>Hotmart e Kiwify → liberação automática após aprovação</li>
+            <li>Certificado incluso em todos os cursos!</li>
+            <li>Prazo de desistência: 7 dias conforme Código de Defesa do Consumidor</li>
+        </ul>
+    </div>
+
+    <a href="cursos.html" class="btn-voltar">← Voltar para lista de cursos</a>
+</div>
+
+<script>
+function copiarPix(){
+  const texto = document.getElementById('codigoPix').innerText;
+  navigator.clipboard.writeText(texto).then(()=>{
+    alert('✅ Chave copiada! É só colar no app do banco!');
+  });
+}
+</script>
+
+<footer>
+    <p style="margin-bottom:.5rem;">© 2026 Dourival Silva - PF | DS Cursos Online</p>
+    <p style="font-size:.85rem;color:#999;">
+        Curso Livre — Lei nº 9.394/1996<br>
+        <strong style="color:#FF7A00;">Não reconhecido pelo MEC — Qualificação profissional livre.</strong>
+    </p>
+    <p style="margin-top:1rem;">
+        <a href="quem-somos.html" style="color:#FF7A00;margin:0 .5rem;">Quem Somos</a> •
+        <a href="avisos-legais.html" style="color:#FF7A00;margin:0 .5rem;">Avisos Legais</a> •
+        <a href="privacidade.html" style="color:#FF7A00;margin:0 .5rem;">Privacidade</a> •
+        <a href="termos-uso.html" style="color:#FF7A00;margin:0 .5rem;">Termos de Uso</a> •
+        <a href="contato.html" style="color:#FF7A00;margin:0 .5rem;">Contato</a>
+    </p>
+    <p style="margin-top:1rem;">📍 Itaquiraí — MS • 📞 <a href="https://wa.me/5567999030758">(67) 99903-0758</a></p>
+</footer>
+</body>
+</html>

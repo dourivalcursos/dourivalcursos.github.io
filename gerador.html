@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador DS Cursos</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+:root{--l:#FF7A00;--v:#2E7D32;--e:#1A1A1A;--a:#0066CC;--s:#D32F2F;}
+body{background:#f0f2f5;}
+header{background:var(--e);color:#fff;padding:1rem;position:sticky;top:0;z-index:100;}
+.nav{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;}
+.logo{color:var(--l);font-size:1.4rem;font-weight:bold;text-decoration:none;}
+.abas{display:flex;gap:.5rem;flex-wrap:wrap;}
+.aba{padding:.7rem 1.2rem;background:#333;border:none;color:#ccc;border-radius:8px 8px 0 0;cursor:pointer;}
+.aba.ativa{background:var(--l);color:#fff;font-weight:bold;}
+.conteudo{max-width:1200px;margin:0 auto;padding:1.5rem;}
+.painel{display:none;}
+.painel.ativo{display:block;animation:aparece .3s;}
+@keyframes aparece{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.upload-area{border:3px dashed #ccc;border-radius:12px;padding:3rem;text-align:center;margin:1rem 0;cursor:pointer;transition:.3s;}
+.upload-area:hover{border-color:var(--l);background:#fff8f0;}
+.upload-area.arrastando{border-color:var(--v);background:#e8f5e9;}
+.icone{font-size:3rem;color:#ccc;margin-bottom:1rem;}
+.grupo{margin-bottom:1rem;}
+.grupo label{display:block;font-weight:bold;margin-bottom:.5rem;color:#333;}
+.grupo input,.grupo textarea{width:100%;padding:.9rem;border:2px solid #ddd;border-radius:8px;font-size:1rem;}
+.grupo textarea{min-height:150px;resize:vertical;}
+.botoes{display:flex;gap:.8rem;flex-wrap:wrap;margin:1.5rem 0;}
+.btn{padding:.9rem 1.5rem;border:none;border-radius:8px;font-weight:bold;cursor:pointer;transition:.3s;font-size:1rem;}
+.btn-laranja{background:var(--l);color:#fff;}
+.btn-verde{background:var(--v);color:#fff;}
+.btn-azul{background:var(--a);color:#fff;}
+.btn-cinza{background:#888;color:#fff;}
+.btn-vermelho{background:var(--s);color:#fff;}
+.previa{background:#fff;border-radius:12px;padding:2rem;box-shadow:0 4px 12px rgba(0,0,0,.1);margin-top:2rem;}
+.aula-previa{border-left:4px solid var(--v);padding:1rem;margin:1rem 0;background:#f9f9f9;border-radius:0 8px 8px 0;}
+.codigo-resultado{background:#1e1e1e;color:#0f0;padding:1.5rem;border-radius:8px;overflow-x:auto;max-height:400px;margin:1rem 0;font-family:monospace;font-size:.85rem;white-space:pre;}
+.sucesso{background:#e8f5e9;border-left:4px solid var(--v);padding:1rem;margin:1rem 0;border-radius:4px;display:none;}
+.erro{background:#ffebee;border-left:4px solid var(--s);padding:1rem;margin:1rem 0;border-radius:4px;display:none;}
+.lista-cursos{margin-top:2rem;}
+.item-curso{background:#fff;padding:1rem;border-radius:8px;margin-bottom:.8rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;box-shadow:0 2px 6px rgba(0,0,0,.05);}
+.etiqueta{background:var(--a);color:#fff;padding:.3rem .8rem;border-radius:20px;font-size:.85rem;font-weight:bold;}
+.etiqueta.publicado{background:var(--v);}
+</style>
+</head>
+<body>
+
+<header>
+<div class="nav">
+<div class="logo">⚙️ Gerador DS Cursos</div>
+<div class="abas">
+<button class="aba ativa" onclick="trocarAba('importar')">📁 Importar</button>
+<button class="aba" onclick="trocarAba('editar')">✏️ Editar</button>
+<button class="aba" onclick="trocarAba('previa')">👁️ Prévia</button>
+<button class="aba" onclick="trocarAba('publicar')">🚀 Publicar</button>
+<button class="aba" onclick="trocarAba('lista')">📋 Meus Cursos</button>
+</div>
+<a href="admin.html" style="color:#fff;text-decoration:none;">← Admin</a>
+</div>
+</header>
+
+<div class="conteudo">
+
+<div class="painel ativo" id="painel-importar">
+<h2>📁 Importar Arquivo → Virar Curso</h2>
+<p style="color:#666;margin-bottom:1rem;">Aceita: .txt .html .mp4 .webm</p>
+
+<div class="upload-area" id="zonaUpload" 
+onclick="document.getElementById('arquivo').click()"
+ondragover="event.preventDefault();this.classList.add('arrastando')"
+ondragleave="this.classList.remove('arrastando')"
+ondrop="soltouArquivo(event)">
+<div class="icone">📂</div>
+<h3>Arraste o arquivo aqui</h3>
+<p>ou clique para selecionar</p>
+<input type="file" id="arquivo" style="display:none;" onchange="arquivoSelecionado(this.files[0])">
+</div>
+
+<div class="grupo" style="margin-top:2rem;">
+<label>📌 Nome do Curso</label>
+<input type="text" id="nomeCurso" placeholder="Ex: Excel Completo">
+</div>
+<div class="grupo">
+<label>🔑 Senha de Acesso</label>
+<input type="text" id="senhaCurso" placeholder="Ex: excel123">
+</div>
+<div class="grupo">
+<label>📂 Nome da Pasta (sem espaços)</label>
+<input type="text" id="nomePasta" placeholder="Ex: excel">
+</div>
+<div class="grupo">
+<label>📝 Descrição</label>
+<textarea id="descCurso" placeholder="Breve descrição..."></textarea>
+</div>
+<div class="botoes">
+<button class="btn btn-verde" onclick="processarArquivo()">✅ Processar</button>
+<button class="btn btn-cinza" onclick="limparTudo()">🗑️ Limpar</button>
+</div>
+<div class="sucesso" id="sucessoImportar">✅ Convertido! Vá em Editar.</div>
+<div class="erro" id="erroImportar"></div>
+</div>
+
+<div class="painel" id="painel-editar">
+<h2>✏️ Editar Conteúdo</h2>
+<div class="grupo">
+<label>📖 Estrutura das Aulas</label>
+<textarea id="editorConteudo" placeholder="Conteúdo aparecerá aqui..."></textarea>
+</div>
+<div class="grupo">
+<label>🎬 Código extra (vídeos/html)</label>
+<textarea id="htmlExtra" placeholder='Ex: <video src="aula.mp4"></video>'></textarea>
+</div>
+<div class="botoes">
+<button class="btn btn-azul" onclick="gerarPrevia()">👁️ Ver Prévia</button>
+<button class="btn btn-laranja" onclick="gerarCodigo()">📄 Gerar Código</button>
+</div>
+</div>
+
+<div class="painel" id="painel-previa">
+<h2>👁️ Prévia do Curso</h2>
+<div class="previa" id="caixaPrevia">
+<p style="color:#888;text-align:center;padding:2rem;">Aqui aparecerá a prévia...</p>
+</div>
+</div>
+
+<div class="painel" id="painel-publicar">
+<h2>🚀 Código Pronto — Copiar e Usar</h2>
+<p style="margin:1rem 0;">Copie → crie pasta → salve como <code>index.html</code> dentro da pasta.</p>
+<div class="codigo-resultado" id="codigoFinal">// Código aparecerá aqui</div>
+<div class="botoes">
+<button class="btn btn-verde" onclick="copiarCodigo()">📋 Copiar</button>
+<button class="btn btn-azul" onclick="baixarArquivo()">⬇️ Baixar</button>
+<button class="btn btn-laranja" onclick="adicionarNaLista()">➕ Adicionar à Lista</button>
+</div>
+<div class="sucesso" id="sucessoCopiar">✅ Copiado!</div>
+</div>
+
+<div class="painel" id="painel-lista">
+<h2>📋 Meus Cursos Cadastrados</h2>
+<p style="color:#666;margin-bottom:1rem;">Exportar → colar no aluno-dashboard e admin</p>
+<div class="lista-cursos" id="listaCursosSalvos">
+<p style="color:#888;text-align:center;padding:2rem;">Nenhum curso ainda.</p>
+</div>
+<div class="botoes" style="margin-top:2rem;">
+<button class="btn btn-verde" onclick="exportarLista()">📤 Exportar Lista</button>
+<button class="btn btn-vermelho" onclick="limparLista()">🗑️ Limpar Lista</button>
+</div>
+</div>
+
+</div>
+
+<script>
+let cursoAtual = {nome:'',pasta:'',senha:'',descricao:'',aulas:[],htmlExtra:''};
+const CHAVE_LISTA = 'ds_cursos_gerados';
+
+function trocarAba(nome){
+document.querySelectorAll('.aba').forEach(b=>b.classList.remove('ativa'));
+document.querySelectorAll('.painel').forEach(p=>p.classList.remove('ativa'));
+event.target.classList.add('ativa');
+document.getElementById('painel-'+nome).classList.add('ativa');
+}
+
+function soltouArquivo(e){
+e.preventDefault();
+document.getElementById('zonaUpload').classList.remove('arrastando');
+arquivoSelecionado(e.dataTransfer.files[0]);
+}
+
+function arquivoSelecionado(arq){
+if(!arq) return;
+const ext = arq.name.split('.').pop().toLowerCase();
+const nomeSemExt = arq.name.replace(/\.[^/.]+$/, '');
+document.getElementById('nomeCurso').value = nomeSemExt.replace(/-|_/g, ' ');
+document.getElementById('nomePasta').value = nomeSemExt.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+const leitor = new FileReader();
+leitor.onload = function(e){
+const conteudo = e.target.result;
+if(ext === 'txt' || ext === 'md'){
+textoParaAulas(conteudo);
+}else if(ext === 'html' || ext === 'htm'){
+document.getElementById('htmlExtra').value = conteudo;
+cursoAtual.aulas = [{titulo:'Conteúdo Importado',texto:'Arquivo HTML carregado.'}];
+}else if(['mp4','webm'].includes(ext)){
+document.getElementById('htmlExtra').value = `<video controls style="width:100%;border-radius:8px;" src="${arq.name}"></video>`;
+cursoAtual.aulas = [{titulo:'Vídeo — Aula 1',texto:'Salve o vídeo na mesma pasta.'}];
+}else{
+document.getElementById('erroImportar').style.display='block';
+document.getElementById('erroImportar').textContent='Formato .'+ext+' não suportado. Use .txt .html .mp4';
+return;
+}
+document.getElementById('sucessoImportar').style.display='block';
+setTimeout(()=>trocarAba('editar'), 800);
+};
+
+if(['txt','md','html','htm'].includes(ext)) leitor.readAsText(arq);
+else if(['mp4','webm'].includes(ext)){
+cursoAtual.aulas = [{titulo:'Vídeo',texto:'Arquivo: '+arq.name}];
+document.getElementById('sucessoImportar').style.display='block';
+setTimeout(()=>trocarAba('editar'), 800);
+}
+}
+
+function textoParaAulas(texto){
+const blocos = texto.split(/---\s*Aula\s*\d*\s*---/i).filter(b=>b.trim());
+if(blocos.length > 1){
+cursoAtual.aulas = blocos.map((b,i)=>({titulo:`Aula ${i+1}`,texto:b.trim()}));
+}else{
+const partes = texto.match(/[\s\S]{1,3000}/g) || [texto];
+cursoAtual.aulas = partes.map((p,i)=>({titulo:`Aula ${i+1}`,texto:p.trim()}));
+}
+atualizarEditor();
+}
+
+function atualizarEditor(){
+let saida = '';
+cursoAtual.aulas.forEach((a,i)=>saida += `--- Aula ${i+1} ---\nTítulo: ${a.titulo}\n\n${a.texto}\n\n`);
+document.getElementById('editorConteudo').value = saida;
+}
+
+function processarArquivo(){
+cursoAtual.nome = document.getElementById('nomeCurso').value.trim();
+cursoAtual.pasta = document.getElementById('nomePasta').value.trim();
+cursoAtual.senha = document.getElementById('senhaCurso').value.trim();
+cursoAtual.descricao = document.getElementById('descCurso').value.trim();
+cursoAtual.htmlExtra = document.getElementById('htmlExtra').value.trim();
+const conteudo = document.getElementById('editorConteudo').value;
+if(conteudo) textoParaAulas(conteudo);
+if(!cursoAtual.nome || !cursoAtual.pasta || !cursoAtual.senha){
+alert('⚠️ Preencha Nome, Pasta e Senha!');
+return;
+}
+gerarPrevia();
+gerarCodigo();
+trocarAba('previa');
+}
+
+function gerarPrevia(){
+cursoAtual.htmlExtra = document.getElementById('htmlExtra').value.trim();
+const conteudo = document.getElementById('editorConteudo').value;
+if(conteudo) textoParaAulas(conteudo);
+const caixa = document.getElementById('caixaPrevia');
+caixa.innerHTML = `<h2>📚 ${cursoAtual.nome||'Nome do Curso'}</h2><p style="color:#666;margin-bottom:1.5rem;">${cursoAtual.descricao||'Descrição...'}</p>${cursoAtual.htmlExtra?`<div style="background:#f0f8ff;padding:1rem;border-radius:8px;margin-bottom:1.5rem;">${cursoAtual.htmlExtra}</div>`:''}${cursoAtual.aulas.map(a=>`<div class="aula-previa"><h4 style="color:#2E7D32;margin-bottom:.5rem;">📖 ${a.titulo}</h4><div style="white-space:pre-wrap;line-height:1.7;">${a.texto}</div></div>`).join('')}`;
+}
+
+function gerarCodigo(){
+cursoAtual.nome = document.getElementById('nomeCurso').value.trim();
+cursoAtual.pasta = document.getElementById('nomePasta').value.trim();
+cursoAtual.senha = document.getElementById('senhaCurso').value.trim();
+cursoAtual.descricao = document.getElementById('descCurso').value.trim();
+cursoAtual.htmlExtra = document.getElementById('htmlExtra').value.trim();
+const conteudo = document.getElementById('editorConteudo').value;
+if(conteudo) textoParaAulas(conteudo);
+const senhaCodificada = btoa(cursoAtual.senha);
+
+let codigo = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${cursoAtual.nome} | DS Cursos</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+:root{--l:#FF7A00;--v:#2E7D32;--e:#1A1A1A;}
+body{background:#f5f5f5;line-height:1.7;}
+header{background:var(--e);padding:1rem;position:sticky;top:0;}
+.nav{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;}
+.logo{color:var(--l);font-size:1.4rem;font-weight:bold;text-decoration:none;}
+.voltar{color:#fff;text-decoration:none;}
+.bloco-senha{max-width:420px;margin:4rem auto;padding:2rem;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.1);text-align:center;}
+.bloco-senha h2{color:var(--l);margin-bottom:1rem;}
+.bloco-senha input{width:100%;padding:.9rem;margin:1rem 0;border:2px solid #ddd;border-radius:8px;font-size:1rem;}
+.btn{background:var(--l);color:#fff;border:none;padding:.9rem 2rem;border-radius:8px;font-size:1rem;font-weight:bold;cursor:pointer;}
+.btn:hover{background:#e66c00;}
+.erro{color:red;margin-top:1rem;display:none;}
+.conteudo-curso{display:none;max-width:900px;margin:0 auto;padding:2rem 1rem;}
+.topo-curso{background:linear-gradient(135deg,var(--l),#e66c00);color:#fff;padding:2rem;border-radius:12px;margin-bottom:2rem;}
+.aula{background:#fff;padding:1.5rem;margin-bottom:1.5rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.aula h3{color:var(--v);margin-bottom:1rem;}
+.extra{background:#f0f8ff;padding:1.2rem;border-radius:8px;margin:1.5rem 0;}
+footer{background:var(--e);color:#aaa;text-align:center;padding:2rem;margin-top:3rem;}
+</style>
+</head>
+<body>
+<header><div class="nav"><a href="../index.html" class="logo">DS Cursos</a><a href="../cursos.html" class="voltar">← Voltar</a></div></header>
+
+<div class="bloco-senha" id="telaSenha">
+<h2>🔒 Área do Aluno</h2>
+<p>Digite a senha:</p>
+<input type="password" id="campoSenha" placeholder="Senha...">
+<button class="btn" onclick="verificar()">Entrar</button>
+<div class="erro" id="msgErro">Senha incorreta!</div>
+</div>
+
+<div class="conteudo-curso" id="curso">
+<div class="topo-curso"><h1>📚 ${cursoAtual.nome}</h1><p>${cursoAtual.descricao}</p></div>
+${cursoAtual.htmlExtra?`<div class="extra">${cursoAtual.htmlExtra}</div>`:''}
+${cursoAtual.aulas.map(a=>`<div class="aula"><h3>📖 ${a.titulo}</h3><p>${a.texto.replace(/\n/g, '<br>')}</p></div>`).join('')}
+</div>
+
+<footer><p>© 2026 DS Cursos</p></footer>
+<script>const _ = "${senhaCodificada}";function verificar(){const d=document.getElementById('campoSenha').value;if(btoa(d)===_){document.getElementById('telaSenha').style.display='none';document.getElementById('curso').style.display='block';}else{document.getElementById('msgErro').style.display='block';}}</script>
+</body>
+</html>`;
+
+document.getElementById('codigoFinal').textContent = codigo;
+trocarAba('publicar');
+}
+
+function copiarCodigo(){
+navigator.clipboard.writeText(document.getElementById('codigoFinal').textContent).then(()=>{
+document.getElementById('sucessoCopiar').style.display='block';
+setTimeout(()=>document.getElementById('sucessoCopiar').style.display='none',3000);
+});
+}
+
+function baixarArquivo(){
+const blob = new Blob([document.getElementById('codigoFinal').textContent], {type:'text/html;charset=utf-8'});
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url; a.download = 'index.html'; a.click(); URL.revokeObjectURL(url);
+}
+
+function adicionarNaLista(){
+if(!cursoAtual.nome || !cursoAtual.pasta){alert('Gere o curso primeiro!');return;}
+let lista = JSON.parse(localStorage.getItem(CHAVE_LISTA) || '[]');
+if(!lista.find(c=>c.pasta===cursoAtual.pasta)){
+lista.push({id:cursoAtual.pasta,nome:cursoAtual.nome,descricao:cursoAtual.descricao,pasta:cursoAtual.pasta,senha:cursoAtual.senha,data:new Date().toLocaleString('pt-BR')});
+localStorage.setItem(CHAVE_LISTA, JSON.stringify(lista));
+alert('✅ Adicionado! Vá em "Meus Cursos".');
+carregarLista();
+}else{alert('Já existe!');}
+}
+
+function carregarLista(){
+const lista = JSON.parse(localStorage.getItem(CHAVE_LISTA) || '[]');
+const c = document.getElementById('listaCursosSalvos');
+if(lista.length===0){c.innerHTML='<p style="color:#888;text-align:center;padding:2rem;">Nenhum curso ainda.</p>';return;}
+c.innerHTML = lista.map(x=>`<div class="item-curso"><div><strong>${x.nome}</strong><br><span style="color:#666;font-size:.9rem;">📂 ${x.pasta}/ | 🔑 ${x.senha}</span></div><div style="display:flex;gap:.5rem;"><span class="etiqueta publicado">✅ Pronto</span><button class="btn btn-azul" style="padding:.4rem .8rem;font-size:.85rem;" onclick="usarCurso('${x.pasta}')">Usar</button><button class="btn btn-vermelho" style="padding:.4rem .8rem;font-size:.85rem;" onclick="removerCurso('${x.pasta}')">Excluir</button></div></div>`).join('');
+}
+
+function usarCurso(pasta){
+const c = JSON.parse(localStorage.getItem(CHAVE_LISTA) || '[]').find(x=>x.pasta===pasta);
+if(c){document.getElementById('nomeCurso').value=c.nome;document.getElementById('nomePasta').value=c.pasta;document.getElementById('senhaCurso').value=c.senha;document.getElementById('descCurso').value=c.descricao||'';trocarAba('importar');}
+}
+
+function removerCurso(pasta){
+if(confirm('Tem certeza?')){
+let lista = JSON.parse(localStorage.getItem(CHAVE_LISTA) || '[]');
+lista = lista.filter(x=>x.pasta!==pasta);
+localStorage.setItem(CHAVE_LISTA, JSON.stringify(lista));
+carregarLista();
+}
+}
+
+function exportarLista(){
+const lista = JSON.parse(localStorage.getItem(CHAVE_LISTA) || '[]');
+let saida = '// LISTA DE CURSOS — DS CURSOS\n// Cole no aluno-dashboard.html e admin.html\n\n';
+lista.forEach(c=>saida += `{id:'${c.pasta}',nome:'${c.nome}',desc:'${c.descricao||''}',link:'${c.pasta}/'},\n`);
+const blob = new Blob([saida], {type:'text/plain'});
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a'); a.href=url; a.download='lista-cursos.txt'; a.click();
+}
+
+function limparTudo(){
+cursoAtual={nome:'',pasta:'',senha:'',descricao:'',aulas:[],htmlExtra:''};
+document.getElementById('nomeCurso').value='';document.getElementById('nomePasta').value='';document.getElementById('senhaCurso').value='';document.getElementById('descCurso').value='';document.getElementById('editorConteudo').value='';document.getElementById('htmlExtra').value='';
+document.getElementById('sucessoImportar').style.display='none';document.getElementById('erroImportar').style.display='none';
+}
+
+function limparLista(){
+if(confirm('Apagar todos?')){localStorage.removeItem(CHAVE_LISTA);carregarLista();}
+}
+
+carregarLista();
+</script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACESSO — Nome do Curso | DS Cursos Online</title>
+    <meta name="description" content="Área restrita — DS Cursos Online" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Arial, sans-serif; }
+        :root {
+            --laranja: #FF7A00;
+            --laranja-escuro: #E66A00;
+            --verde: #2E7D32;
+            --vermelho: #C62828;
+            --azul: #0066CC;
+            --escuro: #1A1A1A;
+            --claro: #FAFAFA;
+            --branco: #FFFFFF;
+            --sombra: 0 4px 12px rgba(0,0,0,0.08);
+            --sombra-forte: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        body { background: linear-gradient(135deg, #2A2A2A, #1A1A1A); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+
+        /* CAIXA PRINCIPAL */
+        .caixa { background: var(--branco); border-radius: 16px; box-shadow: var(--sombra-forte); max-width: 440px; width: 100%; overflow: hidden; }
+        .cabecalho-curso { 
+            background: linear-gradient(135deg, var(--laranja), var(--laranja-escuro)); 
+            color: white; padding: 2rem; text-align: center;
+        }
+        .icone-curso { font-size: 3rem; margin-bottom: 0.5rem; }
+        .cabecalho-curso h1 { font-size: 1.4rem; margin-bottom: 0.3rem; }
+        .cabecalho-curso p { opacity: 0.9; font-size: 0.9rem; }
+
+        /* FORMULÁRIO */
+        .corpo { padding: 2rem; }
+        .etiqueta-info { background: #E3F2FD; border-left: 4px solid var(--azul); padding: 0.8rem; border-radius: 0 8px 8px 0; margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .grupo { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #444; }
+        input[type="password"] { 
+            width: 100%; padding: 1rem; border: 2px solid #eee; border-radius: 8px; font-size: 1rem; 
+            transition: border-color 0.3s;
+        }
+        input:focus { outline: none; border-color: var(--laranja); }
+        .btn { 
+            width: 100%; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; 
+            font-weight: bold; cursor: pointer; transition: all 0.3s;
+        }
+        .btn-entrar { background: var(--laranja); color: white; }
+        .btn-entrar:hover { background: var(--laranja-escuro); transform: translateY(-2px); }
+        .erro { color: var(--vermelho); margin-top: 1rem; display: none; font-weight: 500; text-align: center; }
+        .sucesso { display: none; text-align: center; padding: 1rem; }
+        .sucesso h2 { color: var(--verde); font-size: 1.3rem; margin-bottom: 1rem; }
+        .aviso-senha { margin-top: 1rem; font-size: 0.85rem; color: #666; text-align: center; }
+        .aviso-senha a { color: var(--laranja); text-decoration: none; }
+        .aviso-senha a:hover { text-decoration: underline; }
+        .voltar { display: block; text-align: center; margin-top: 1.5rem; color: #888; text-decoration: none; font-size: 0.9rem; }
+        .voltar:hover { color: var(--laranja); }
+
+        /* CONTEÚDO DO CURSO — SÓ APARECE APÓS ACERTO */
+        .conteudo-curso { display: none; padding: 0; }
+        .modulo { border: 1px solid #eee; border-radius: 10px; margin-bottom: 1rem; overflow: hidden; }
+        .modulo-titulo { 
+            background: #f9f9f9; padding: 1rem; cursor: pointer; font-weight: bold; 
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modulo-titulo:hover { background: #f0f0f0; }
+        .modulo-conteudo { display: none; padding: 1rem 1.5rem; background: #fcfcfc; }
+        .aula { padding: 0.7rem 0; border-bottom: 1px dashed #ddd; }
+        .aula:last-child { border-bottom: none; }
+        .aula-nome { font-weight: 500; }
+        .aula-duracao { font-size: 0.8rem; color: #888; margin-left: 0.5rem; }
+        .marcador { color: var(--verde); font-weight: bold; }
+        .progresso { background: #eee; height: 6px; border-radius: 3px; margin-top: 1rem; }
+        .progresso-barra { background: var(--verde); height: 100%; width: 0%; border-radius: 3px; transition: width 0.5s; }
+        .certificado-box { margin-top: 2rem; padding: 1.5rem; background: #FFF8E1; border-radius: 10px; text-align: center; border: 2px dashed var(--laranja); }
+        .btn-certificado { background: var(--verde); color: white; margin-top: 1rem; }
+        .btn-certificado:hover { background: #27692A; }
+    </style>
+</head>
+<body>
+
+<div class="caixa" id="caixa-login">
+    <!-- CABEÇALHO DO CURSO — ALTERE AQUI -->
+    <div class="cabecalho-curso">
+        <div class="icone-curso">📚</div>
+        <h1>Nome Completo do Curso</h1>
+        <p>120h de Estudo + Certificado ✅</p>
+    </div>
+
+    <div class="corpo">
+        <div class="etiqueta-info">
+            🔑 Digite a senha de acesso recebida no momento da compra
+        </div>
+
+        <div class="grupo">
+            <label for="senha-curso">Senha de Acesso</label>
+            <input type="password" id="senha-curso" placeholder="Digite sua senha aqui...">
+        </div>
+
+        <button class="btn btn-entrar" onclick="verificarSenha()">🔑 Acessar Curso</button>
+
+        <p class="erro" id="msg-erro">❌ Senha incorreta! Verifique e tente novamente.</p>
+
+        <p class="aviso-senha">
+            Esqueceu ou não recebeu?<br>
+            Chama no WhatsApp: <a href="https://wa.me/5567999030758" target="_blank">(67) 99903-0758</a>
+        </p>
+
+        <a href="../cursos.html" class="voltar">← Voltar para lista de cursos</a>
+    </div>
+</div>
+
+<!-- CONTEÚDO DO CURSO — SÓ APARECE DEPOIS DA SENHA -->
+<div class="caixa conteudo-curso" id="caixa-curso">
+    <div class="cabecalho-curso" style="background:linear-gradient(135deg, #2E7D32, #4CAF50);">
+        <div class="icone-curso">✅</div>
+        <h1>Curso Liberado!</h1>
+        <p>Bem-vindo(a)! Bons estudos 💙</p>
+    </div>
+
+    <div class="corpo">
+        <h3 style="margin-bottom: 0.5rem;">📖 Módulos e Aulas</h3>
+        <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Clique no módulo para expandir</p>
+
+        <!-- PROGRESSO -->
+        <div style="margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 0.3rem;">
+                <span>Seu progresso</span>
+                <span id="texto-progresso">0% concluído</span>
+            </div>
+            <div class="progresso">
+                <div class="progresso-barra" id="barra-progresso"></div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 1 -->
+        <div class="modulo">
+            <div class="modulo-titulo" onclick="alternarModulo(this)">
+                📘 Módulo 1 — Introdução
+                <span>▼</span>
+            </div>
+            <div class="modulo-conteudo">
+                <div class="aula">
+                    <label class="aula-nome">
+                        <input type="checkbox" onchange="atualizarProgresso()"> 
+                        Apresentação do Curso
+                    </label>
+                    <span class="aula-duracao">15 min</span>
+                </div>
+                <div class="aula">
+                    <label class="aula-nome">
+                        <input type="checkbox" onchange="atualizarProgresso()"> 
+                        Material de Apoio e Apostila
+                    </label>
+                    <span class="aula-duracao">Download</span>
+                </div>
+                <div class="aula">
+                    <label class="aula-nome">
+                        <input type="checkbox" onchange="atualizarProgresso()"> 
+                        Preparando o Ambiente de Estudo
+                    </label>
+                    <span class="aula-duracao">20 min</span>
+                </div>
+                <div class="aula">
+                    <label class="aula-nome">
+                        <input type="checkbox" onchange="atualizarProgresso()"> 
+                        Conceitos Fundamentais
+                    </label>
+                    <span class="aula-duracao">30 min</span>
+                </div>
+                <div class="aula">
+                    <label class="aula-nome">
+                        <input type="checkbox" onchange="atualizarProgresso()"> 
+                        Primeiros Passos na Prática
+                    </label>
+                    <span class="aula-duracao">45 min</span>
+                </div>
+                <div class="aula">
+                    <label class="aula-nome">
+                        <input type="checkbox" onchange="atualizarProgresso()"> 
+                        Exercícios e Revisão
+                    </label>
+                    <span class="aula-duracao">30 min</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 2 -->
+        <div class="modulo">
+            <div class="modulo-titulo" onclick="alternarModulo(this)">
+                📘 Módulo 2 — Fundamentos
+                <span>▼</span>
+            </div>
+            <div class="modulo-conteudo">
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 1. Conceitos Essenciais</label><span class="aula-duracao">35 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 2. Ferramentas Necessárias</label><span class="aula-duracao">25 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 3. Técnicas Básicas</label><span class="aula-duracao">40 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 4. Erros Comuns e Como Evitar</label><span class="aula-duracao">30 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 5. Projeto Prático</label><span class="aula-duracao">60 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 6. Avaliação do Módulo</label><span class="aula-duracao">20 min</span></div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 3 -->
+        <div class="modulo">
+            <div class="modulo-titulo" onclick="alternarModulo(this)">
+                📘 Módulo 3 — Aprofundamento
+                <span>▼</span>
+            </div>
+            <div class="modulo-conteudo">
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 1. Análise Completa</label><span class="aula-duracao">45 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 2. Procedimentos Detalhados</label><span class="aula-duracao">50 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 3. Resolução de Problemas</label><span class="aula-duracao">40 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 4. Casos Práticos Reais</label><span class="aula-duracao">55 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 5. Otimização e Eficiência</label><span class="aula-duracao">35 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 6. Revisão Geral</label><span class="aula-duracao">30 min</span></div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 4 -->
+        <div class="modulo">
+            <div class="modulo-titulo" onclick="alternarModulo(this)">
+                📘 Módulo 4 — Aplicação Prática
+                <span>▼</span>
+            </div>
+            <div class="modulo-conteudo">
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 1. Montagem Completa</label><span class="aula-duracao">60 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 2. Testes e Ajustes</label><span class="aula-duracao">45 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 3. Documentação do Projeto</label><span class="aula-duracao">35 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 4. Padrões Profissionais</label><span class="aula-duracao">40 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 5. Simulação de Cenários Reais</label><span class="aula-duracao">50 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 6. Apresentação Final</label><span class="aula-duracao">30 min</span></div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 5 -->
+        <div class="modulo">
+            <div class="modulo-titulo" onclick="alternarModulo(this)">
+                📘 Módulo 5 — Técnicas Avançadas
+                <span>▼</span>
+            </div>
+            <div class="modulo-conteudo">
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 1. Recursos Especiais</label><span class="aula-duracao">45 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 2. Automação e Agilidade</label><span class="aula-duracao">50 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 3. Soluções Inovadoras</label><span class="aula-duracao">40 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 4. Prevenção de Riscos</label><span class="aula-duracao">35 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 5. Atualizações e Tendências</label><span class="aula-duracao">30 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 6. Projeto Avançado Final</label><span class="aula-duracao">90 min</span></div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 6 -->
+        <div class="modulo">
+            <div class="modulo-titulo" onclick="alternarModulo(this)">
+                📘 Módulo 6 — Conclusão e Certificação
+                <span>▼</span>
+            </div>
+            <div class="modulo-conteudo">
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 1. Revisão Completa de Todo o Curso</label><span class="aula-duracao">45 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 2. Dúvidas Frequentes</label><span class="aula-duracao">30 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 3. Mercado de Trabalho e Oportunidades</label><span class="aula-duracao">35 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 4. Próximos Passos na Carreira</label><span class="aula-duracao">25 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 5. Avaliação Final</label><span class="aula-duracao">40 min</span></div>
+                <div class="aula"><label class="aula-nome"><input type="checkbox" onchange="atualizarProgresso()"> 6. Solicitação do Certificado ✅</label><span class="aula-duracao">—</span></div>
+            </div>
+        </div>
+
+        <!-- CERTIFICADO -->
+        <div class="certificado-box" id="caixa-certificado" style="opacity: 0.4; pointer-events: none;">
+            <h3>🏆 Certificado de Conclusão</h3>
+            <p style="font-size: 0.9rem; color: #666; margin: 0.5rem 0;">Conclua todas as aulas para liberar</p>
+            <button class="btn btn-certificado" disabled>🔒 Conclua 100% para Liberar</button>
+        </div>
+
+        <a href="../aluno.html" class="voltar">← Voltar à Área do Aluno</a>
+    </div>
+</div>
+
+<script>
+// ✅ ALTERE A SENHA AQUI PARA CADA CURSO!
+const SENHA_CORRETA = "SenhaDoCurso2026!";
+// Exemplo: const SENHA_CORRETA = "Apicultura2026!";
+
+function verificarSenha() {
+    const digitada = document.getElementById('senha-curso').value;
+    
+    if (digitada === SENHA_CORRETA) {
+        document.getElementById('caixa-login').style.display = 'none';
+        document.getElementById('caixa-curso').style.display = 'block';
+        // Salva acesso para não pedir de novo
+        localStorage.setItem('acesso_' + location.pathname, 'liberado');
+        // Abre primeiro módulo automaticamente
+        document.querySelector('.modulo-titulo').click();
+    } else {
+        document.getElementById('msg-erro').style.display = 'block';
+        setTimeout(() => document.getElementById('msg-erro').style.display = 'none', 3500);
+    }
+}
+
+// Mantém acesso liberado se já digitou antes
+window.onload = function() {
+    if (localStorage.getItem('acesso_' + location.pathname) === 'liberado') {
+        document.getElementById('caixa-login').style.display = 'none';
+        document.getElementById('caixa-curso').style.display = 'block';
+        document.querySelector('.modulo-titulo').click();
+    }
+};
+
+// Expandir/Recolher módulo
+function alternarModulo(titulo) {
+    const conteudo = titulo.nextElementSibling;
+    const seta = titulo.querySelector('span');
+    
+    if (conteudo.style.display === 'block') {
+        conteudo.style.display = 'none';
+        seta.textContent = '▼';
+    } else {
+        conteudo.style.display = 'block';
+        seta.textContent = '▲';
+    }
+}
+
+// Atualiza barra de progresso
+function atualizarProgresso() {
+    const todas = document.querySelectorAll('input[type="checkbox"]');
+    const concluidas = document.querySelectorAll('input[type="checkbox"]:checked').length;
+    const porcentagem = Math.round((concluidas / todas.length) * 100);
+    
+    document.getElementById('barra-progresso').style.width = porcentagem + '%';
+    document.getElementById('texto-progresso').textContent = `${porcentagem}% concluído`;
+    
+    // Libera certificado em 100%
+    const caixaCert = document.getElementById('caixa-certificado');
+    if (porcentagem === 100) {
+        caixaCert.style.opacity = '1';
+        caixaCert.style.pointerEvents = 'auto';
+        caixaCert.querySelector('button').disabled = false;
+        caixaCert.querySelector('button').textContent = '📜 Gerar Certificado Agora';
+        caixaCert.querySelector('button').onclick = function() {
+            alert('🎉 Parabéns! Você concluiu o curso!\\n\\n📜 Certificado sendo gerado...\\n📧 Enviado para seu e-mail e disponível na Área do Aluno!\\n\\nContinue aprendendo! 💙');
+        };
+    }
+}
+
+// Enter = botão acessar
+document.getElementById('senha-curso').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') verificarSenha();
+});
+</script>
+
+</body>
+  </html>
+  

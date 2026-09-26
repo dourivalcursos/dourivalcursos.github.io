@@ -3,303 +3,362 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nossos Cursos — DSCursos Online</title>
-    <style> 
+    <title>Todos os Cursos | DS Cursos Online</title>
+    <meta name="description" content="Mais de 15 cursos online com certificado — Elétrica, Agrícola, Informática, Mecânica e muito mais!" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Arial, sans-serif; }
+        :root {
+            --laranja: #FF7A00;
+            --laranja-escuro: #E66A00;
+            --azul: #0066CC;
+            --escuro: #1A1A1A;
+            --cinza-claro: #F5F5F5;
+            --branco: #FFFFFF;
+            --sombra: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        body { line-height: 1.6; color: #333; background: #FAFAFA; padding-bottom: 3rem; }
 
+        /* CABEÇALHO */
+        header { background: var(--branco); box-shadow: var(--sombra); position: sticky; top: 0; z-index: 1000; }
+        .header-container { max-width: 1200px; margin: 0 auto; padding: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .logo { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; color: var(--escuro); font-weight: bold; font-size: 1.4rem; }
+        .logo-icon { width: 45px; height: 45px; background: linear-gradient(135deg, var(--laranja), var(--laranja-escuro)); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; }
+        nav { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+        nav a { color: #444; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        nav a:hover, nav a.ativo { color: var(--laranja); }
+        .btn { padding: 0.7rem 1.4rem; border-radius: 8px; font-weight: bold; text-decoration: none; transition: all 0.3s; display: inline-block; border: none; cursor: pointer; font-size: 1rem; }
+        .btn-laranja { background: var(--laranja); color: white; }
+        .btn-laranja:hover { background: var(--laranja-escuro); transform: translateY(-2px); }
+        .btn-voltar { background: transparent; color: var(--laranja); border: 2px solid var(--laranja); }
+        .btn-voltar:hover { background: var(--laranja); color: white; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        :root { --laranja: #FF7A00; --laranja-escuro: #E66A00; --escuro: #1A1A1A; }
-        body { background: #f5f5f5; color: #333; line-height: 1.7; }
-        
-        header { background: var(--escuro); padding: 1rem 2rem; }
-        .cabecalho { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-        .logo { color: white; font-size: 1.5rem; font-weight: bold; }
-        .logo span { color: var(--laranja); }
-        nav a { color: white; text-decoration: none; margin-left: 1.5rem; font-weight: 500; }
-        nav a:hover { color: var(--laranja); }
+        /* CABEÇALHO DA PÁGINA */
+        .pagina-cabecalho { background: linear-gradient(135deg, #2A2A2A, #1A1A1A); color: white; padding: 3rem 1rem; text-align: center; }
+        .pagina-cabecalho h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+        .pagina-cabecalho h1 span { color: var(--laranja); }
+        .pagina-cabecalho p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem; }
+        .barra-busca { max-width: 500px; margin: 0 auto; display: flex; gap: 0.5rem; }
+        .barra-busca input { flex: 1; padding: 0.9rem 1.2rem; border-radius: 8px; border: none; font-size: 1rem; }
 
-        .container { max-width: 1100px; margin: 3rem auto; padding: 0 1rem; }
-        h1 { text-align: center; font-size: 2rem; margin-bottom: 3rem; color: var(--escuro); }
-        
-        .grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem; }
-        .card { border-radius: 16px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.08); transition: transform 0.3s; }
-        .card:hover { transform: translateY(-5px); }
-        .card-iniciante { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); }
-        .card-avancado { background: linear-gradient(135deg, #E3F2FD, #90CAF9); }
-        .card-corpo { padding: 2rem; }
-        .etiqueta { display: inline-block; padding: 0.4rem 1rem; border-radius: 20px; font-weight: bold; margin-bottom: 1rem; color: white; }
-        .etiqueta-iniciante { background: #4CAF50; }
-        .etiqueta-avancado { background: #1976D2; }
-        .card h2 { font-size: 1.5rem; margin-bottom: 1rem; }
-        .card p { margin-bottom: 1.5rem; }
-        .card ul { list-style: none; margin-bottom: 2rem; }
-        .card li { padding: 0.4rem 0; display: flex; align-items: center; gap: 0.5rem; }
-        .card li::before { content: "✅"; }
-        .botao { display: inline-block; padding: 0.9rem 1.8rem; background: var(--laranja); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: background 0.3s; margin-right: 0.5rem; margin-bottom: 0.5rem; }
-        .botao:hover { background: var(--laranja-escuro); }
-        .botao-secundario { background: white; color: var(--laranja); border: 2px solid var(--laranja); }
-        .botao-secundario:hover { background: #FFF3E8; }
-        .preco { font-size: 1.8rem; font-weight: bold; margin: 1rem 0; }
-        .preco span { font-size: 1rem; color: #666; }
+        /* FILTROS */
+        .filtros { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; display: flex; gap: 0.8rem; flex-wrap: wrap; }
+        .filtro { padding: 0.6rem 1.2rem; border-radius: 20px; border: 2px solid #ddd; background: white; cursor: pointer; transition: all 0.3s; font-weight: 500; }
+        .filtro.ativo, .filtro:hover { border-color: var(--laranja); background: var(--laranja); color: white; }
 
-        footer { background: var(--escuro); color: white; padding: 2rem; text-align: center; margin-top: 3rem; }
-        footer a { color: #ccc; margin: 0 0.5rem; text-decoration: none; }
-        footer a:hover { color: var(--laranja); }
+        /* LISTA DE CURSOS */
+        .conteudo { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .grupo-titulo { font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--laranja); border-bottom: 2px solid #eee; padding-bottom: 0.5rem; }
+        .grade-cursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+        .card-curso { background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--sombra); transition: transform 0.3s, box-shadow 0.3s; text-decoration: none; display: block; }
+        .card-curso:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+        .card-cabecalho { height: 130px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: white; }
+        .card-corpo { padding: 1.2rem; }
+        .card-tag { display: inline-block; background: #E8F5E9; color: #2E7D32; padding: 0.25rem 0.7rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 0.7rem; }
+        .card-titulo { font-size: 1rem; font-weight: bold; color: #333; margin-bottom: 0.5rem; line-height: 1.4; }
+        .card-desc { font-size: 0.85rem; color: #666; margin-bottom: 0.8rem; }
+        .card-info { display: flex; justify-content: space-between; font-size: 0.8rem; color: #888; }
+        .card-senha { font-size: 0.75rem; color: var(--laranja); margin-top: 0.5rem; }
+
+        /* RODAPÉ */
+        footer { background: var(--escuro); color: white; padding: 2rem 1rem; margin-top: 4rem; text-align: center; font-size: 0.9rem; color: #777; }
+        footer a { color: var(--laranja); text-decoration: none; }
+
+        /* DUDA */
+        .duda { position: fixed; bottom: 2rem; right: 2rem; background: var(--laranja); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.25); z-index: 999; }
+        .duda:hover { transform: scale(1.1); }
+
+        @media (max-width: 768px) {
+            .barra-busca { flex-direction: column; }
+            .grade-cursos { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
+<!-- CABEÇALHO -->
 <header>
-    <div class="cabecalho">
-        <div class="logo"><span>DS</span>Cursos Online</div>
+    <div class="header-container">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">DS</div>
+            <span>DS Cursos Online</span>
+        </a>
         <nav>
-            <a href="index.html">Início</a>
-            <a href="cursos.html" style="color: var(--laranja);">Cursos</a>
-            <a href="contato.html">Contato</a>
+            <a href="index.html">🏠 Início</a>
+            <a href="cursos.html" class="ativo">📚 Cursos</a>
+            <a href="contato.html">📞 Contato</a>
         </nav>
     </div>
 </header>
-<div class="container">
-    <h1>📚 Nossos Cursos</h1>
-    <div class="curso iniciante" data-nome="informática básica windows word excel internet digitação primeiro emprego">
-    <span class="etiqueta iniciante">🟠 Para Iniciantes</span>
-    <h3>🚀 pedreiro-profisional</h3>
-    <p>Aprenda tudo sem 100% online! Conquiste sua vaga! 💼</p>
-    <div class="botoes">
-        <a href="iniciante/senha.html" class="botao principal">🔐 Já sou Aluno →</a>
-        <a href="contato.html" class="botao secundario">Quero Saber Mais</a>
-    </div><div class="curso avancado" data-nome="cftv segurança câmeras instalação configuração monitoramento">
-    <span class="etiqueta avancado">🔵 Segurança Eletrônica</span>
-    <h3>📹 CFTV — Instalação e Configuração Profissional</h3>
-    <p>Aprenda a instalar e configurar sistemas de câmeras! Do zero ao primeiro serviço! 🛡️💰</p>
-    <div class="botoes">
-        <a href="cftv/senha.html" class="botao principal">🔐 Já sou Aluno →</a>
-        <a href="contato.html" class="botao secundario">Quero Saber Mais</a>
-<div class="container">
-    <h1>📚 Nossos Cursos</h1>
-    <div class="curso iniciante" data-nome="informática básica windows word excel internet digitação primeiro emprego">
-    <span class="etiqueta iniciante">🟠 Para Iniciantes</span>
-    <h3>🚀 Informática do Zero ao Primeiro Emprego</h3>
-    <p>Aprenda tudo sem precisar saber nada! Windows, Word, Excel, Internet e muito mais! Conquiste sua vaga! 💼</p>
-    <div class="botoes">
-        <a href="iniciante/senha.html" class="botao principal">🔐 Já sou Aluno →</a>
-        <a href="contato.html" class="botao secundario">Quero Saber Mais</a>
-    </div><div class="curso avancado" data-nome="cftv segurança câmeras instalação configuração monitoramento">
-    <span class="etiqueta avancado">🔵 Segurança Eletrônica</span>
-    <h3>📹 CFTV — Instalação e Configuração Profissional</h3>
-    <p>Aprenda a instalar e configurar sistemas de câmeras! Do zero ao primeiro serviço! 🛡️💰</p>
-    <div class="botoes">
-        <a href="cftv/senha.html" class="botao principal">🔐 Já sou Aluno →</a>
-        <a href="contato.html" class="botao secundario">Quero Saber Mais</a>
-    </div>
-</div>
-</div>
-    </div>
-</div><div class="curso avancado" data-nome="auto elétrica automotiva diagnóstico injeção eletrônica 120h glossário">
-    <span class="etiqueta avancado">🔵 Master Diagnóstico</span>
-    <h3>⚡ Auto Elétrica — Torne-se Especialista</h3>
-    <p>Formação Completa com Glossário! Injeção Eletrônica, Diagramas, Diagnóstico e Reparos. 120h de conteúdo! 🏆🚗</p>
-    <div class="botoes">
-        <a href="auto-eletrica/senha.html" class="botao principal">🔐 Já sou Aluno →</a>
-        <a href="contato.html" class="botao secundario">Quero Saber Mais</a>
-    </div>
-</div>
-        </div>
 
-        <div class="curso avancado" data-nome="excel avançado inteligência artificial manutenção windows profissional">
-    <span class="etiqueta avancado">🔵 Profissional</span>
-    <h3>💻 Informática Profissional — Destaque-se!</h3>
-    <p>Excel Avançado, Inteligência Artificial, Manutenção e Otimização. Torne-se indispensável no mercado! 🏆</p>
-    <div class="botoes">
-        <a href="avancado/senha.html" class="botao principal">🔐 Já sou Aluno →</a>
-        <a href="contato.html" class="botao secundario">Quero Saber Mais</a>
+<!-- TÍTULO DA PÁGINA -->
+<section class="pagina-cabecalho">
+    <h1>Nossos <span>Cursos</span></h1>
+    <p>Escolha o seu caminho e comece a aprender agora! 17 cursos disponíveis com certificado ✅</p>
+    <div class="barra-busca">
+        <input type="search" id="busca" placeholder="Buscar curso..." oninput="filtrarCursos()">
+        <button class="btn btn-laranja" style="padding:0.9rem 1.2rem;">🔍</button>
     </div>
+</section>
+
+<!-- FILTROS -->
+<div class="filtros">
+    <span class="filtro ativo" data-filtro="todos" onclick="aplicarFiltro('todos')">Todos</span>
+    <span class="filtro" data-filtro="agricola" onclick="aplicarFiltro('agricola')">🌾 Agrícola</span>
+    <span class="filtro" data-filtro="eletrica" onclick="aplicarFiltro('eletrica')">⚡ Elétrica</span>
+    <span class="filtro" data-filtro="tecnologia" onclick="aplicarFiltro('tecnologia')">💻 Tecnologia</span>
+    <span class="filtro" data-filtro="construcao" onclick="aplicarFiltro('construcao')">🏗️ Construção</span>
+    <span class="filtro" data-filtro="automotiva" onclick="aplicarFiltro('automotiva')">🚗 Automotiva</span>
 </div>
+
+<!-- LISTA DE CURSOS -->
+<div class="conteudo" id="lista-cursos">
+
+    <!-- GRUPO 1 — AGRÍCOLA -->
+    <h2 class="grupo-titulo">🌾 Área Agrícola</h2>
+    <div class="grade-cursos">
+
+        <a href="apicultura/senha.html" class="card-curso" data-categorias="agricola">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #FF7A00, #FFB347);">🐝</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Apicultura e Meliponicultura</h3>
+                <p class="card-desc">Mel, Própolis e Jataí Sem Ferrão — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: Apicultura2026!</p>
             </div>
-        </div>
+        </a>
+
+        <a href="agronomia/senha.html" class="card-curso" data-categorias="agricola">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #2E7D32, #4CAF50);">🌱</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Agronomia Avançada</h3>
+                <p class="card-desc">Cultivo, Solo, Adubação e Manejo — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: Agronomia2026!</p>
+            </div>
+        </a>
+
+        <a href="trator/senha.html" class="card-curso" data-categorias="agricola">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #4E342E, #795548);">🚜</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Operador de Trator e Máquinas</h3>
+                <p class="card-desc">Tratorista Profissional — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: Trator2026!</p>
+            </div>
+        </a>
+
+        <a href="irrigacao/senha.html" class="card-curso" data-categorias="agricola">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #0277BD, #03A9F4);">💧</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Irrigação de Precisão</h3>
+                <p class="card-desc">Pivô, Gotejamento, Aspersão — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: Irrigacao2026!</p>
+            </div>
+        </a>
     </div>
+
+    <!-- GRUPO 2 — ELÉTRICA -->
+    <h2 class="grupo-titulo">⚡ Área Elétrica</h2>
+    <div class="grade-cursos">
+
+        <a href="eletrica-residencial/senha.html" class="card-curso" data-categorias="eletrica">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #F57F17, #FFC107);">🔌</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Elétrica Residencial Completa</h3>
+                <p class="card-desc">Instalação do Zero ao Projeto — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: EletricaRes2026!</p>
+            </div>
+        </a>
+
+        <a href="eletrica-predial/senha.html" class="card-curso" data-categorias="eletrica">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #37474F, #607D8B);">🏢</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Elétrica Predial e Industrial</h3>
+                <p class="card-desc">Projetos e Execução — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: EletricaInd2026!</p>
+            </div>
+        </a>
+
+        <a href="cftv/senha.html" class="card-curso" data-categorias="eletrica">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #283593, #3F51B5);">📹</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">CFTV — Circuito Fechado de TV</h3>
+                <p class="card-desc">Instalação e Configuração — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: CFTV2026!</p>
+            </div>
+        </a>
+    </div>
+
+    <!-- GRUPO 3 — AUTOMOTIVA -->
+    <h2 class="grupo-titulo">🚗 Área Automotiva</h2>
+    <div class="grade-cursos">
+
+        <a href="auto-eletrica/senha.html" class="card-curso" data-categorias="automotiva">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #E65100, #FF6D00);">⚡</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Auto Elétrica — Master Diagnóstico</h3>
+                <p class="card-desc">Completo Passo a Passo — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: AutoEletrica2026!</p>
+            </div>
+        </a>
+
+        <a href="mecanica/senha.html" class="card-curso" data-categorias="automotiva">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #37474F, #546E7A);">🔧</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Mecânica Automotiva</h3>
+                <p class="card-desc">Didático Simplificado — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: Mecanica2026!</p>
+            </div>
+        </a>
+    </div>
+
+    <!-- GRUPO 4 — CONSTRUÇÃO -->
+    <h2 class="grupo-titulo">🏗️ Construção Civil</h2>
+    <div class="grade-cursos">
+
+        <a href="hidraulica/senha.html" class="card-curso" data-categorias="construcao">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #006064, #00ACC1);">🚿</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Hidráulica, Água e Esgoto</h3>
+                <p class="card-desc">Prumadas e Instalações — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: Hidraulica2026!</p>
+            </div>
+        </a>
+
+        <a href="pedreiro/senha.html" class="card-curso" data-categorias="construcao">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #5D4037, #8D6E63);">🧱</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Pedreiro — Alvenaria e Acabamento</h3>
+                <p class="card-desc">Fundação, Reboco, Pintura — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: Pedreiro2026!</p>
+            </div>
+        </a>
+    </div>
+
+    <!-- GRUPO 5 — TECNOLOGIA / INFORMÁTICA -->
+    <h2 class="grupo-titulo">💻 Tecnologia & Informática</h2>
+    <div class="grade-cursos">
+
+        <a href="informatica-iniciante/senha.html" class="card-curso" data-categorias="tecnologia">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #1565C0, #42A5F5);">🟢</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Informática Iniciante</h3>
+                <p class="card-desc">Windows, Word, Excel, PowerPoint — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: Iniciante2026!</p>
+            </div>
+        </a>
+
+        <a href="informatica-avancada/senha.html" class="card-curso" data-categorias="tecnologia">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #0D47A1, #2979FF);">💻</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Informática Avançada</h3>
+                <p class="card-desc">Internet, E-mail, IA, Linux — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: InfoAvancada2026!</p>
+            </div>
+        </a>
+
+        <a href="excel/senha.html" class="card-curso" data-categorias="tecnologia">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #2E7D32, #66BB6A);">📊</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Excel Completo</h3>
+                <p class="card-desc">Básico ao Avançado — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: Excel2026!</p>
+            </div>
+        </a>
+
+        <a href="word/senha.html" class="card-curso" data-categorias="tecnologia">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #1565C0, #64B5F6);">📝</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Word Completo</h3>
+                <p class="card-desc">Documentos Profissionais — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: Word2026!</p>
+            </div>
+        </a>
+
+        <a href="powerpoint/senha.html" class="card-curso" data-categorias="tecnologia">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #C62828, #EF5350);">📈</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">PowerPoint</h3>
+                <p class="card-desc">Apresentações de Impacto — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: PowerPoint2026!</p>
+            </div>
+        </a>
+
+        <a href="ia/senha.html" class="card-curso" data-categorias="tecnologia">
+            <div class="card-cabecalho" style="background:linear-gradient(135deg, #6A1B9A, #AB47BC);">🤖</div>
+            <div class="card-corpo">
+                <span class="card-tag">Disponível</span>
+                <h3 class="card-titulo">Inteligência Artificial para Todos</h3>
+                <p class="card-desc">Ferramentas e Aplicações — 120h</p>
+                <div class="card-info"><span>120h</span><span>🏆 Certificado</span></div>
+                <p class="card-senha">🔑 Senha: IA2026!</p>
+            </div>
+        </a>
+    </div>
+
 </div>
 
+<!-- RODAPÉ -->
 <footer>
-    <p>DSCURSOS ONLINE — Educação e Capacitação Profissional</p>
-    <p>Itaquirai / MS — Dourival Silva — CPF: 729.011.529-53</p>
-    <p style="margin: 1rem 0;">
-        <a href="termos.html">Termos de Uso</a> |
-        <a href="privacidade.html">Política de Privacidade</a> |
-        <a href="contato.html">Contato</a>
-    </p>
-    <p style="color: #888; font-size: 0.9rem;">📧 redelinecftv@gmail.com | 📱 (67) 99903-0758</p>
+    <p>© 2026 DS Cursos Online — Dourival Silva</p>
+    <p>📧 redelinecftv@gmail.com | 📱 (67) 99903-0758</p>
+    <p><a href="index.html">← Voltar à Página Inicial</a></p>
 </footer>
-<!-- DUDA ASSISTENTE VIRTUAL -->
-<style>
-#duda-assistente {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;
-    cursor: pointer;
-}
-.duda-botao {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #FF7A00, #E66A00);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transition: transform 0.3s;
-}
-.duda-botao:hover { transform: scale(1.1); }
-#duda-chat {
-    position: fixed;
-    bottom: 90px;
-    right: 20px;
-    width: 350px;
-    max-height: 500px;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-    display: none;
-    flex-direction: column;
-    z-index: 9998;
-}
-.duda-cabecalho {
-    background: linear-gradient(135deg, #FF7A00, #E66A00);
-    color: white;
-    padding: 15px;
-    border-radius: 16px 16px 0 0;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.duda-cabecalho button {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-}
-.duda-mensagens {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-    background: #f9f9f9;
-    min-height: 300px;
-}
-.duda-msg {
-    padding: 12px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    max-width: 90%;
-}
-.duda-msg-eu {
-    background: #FFF3E8;
-    margin-left: auto;
-}
-.duda-msg-duda {
-    background: #E8F0FE;
-    margin-right: auto;
-}
-.duda-entrada {
-    padding: 15px;
-    border-top: 1px solid #eee;
-    display: flex;
-}
-.duda-entrada input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    outline: none;
-}
-.duda-entrada button {
-    margin-left: 8px;
-    background: #FF7A00;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-}
-.duda-entrada button:hover { background: #E66A00; }
-@media (max-width: 400px) {
-    #duda-chat { width: calc(100% - 40px); }
-}
-</style>
 
-<div id="duda-assistente">
-    <div class="duda-botao" onclick="alternarDuda()">🤖</div>
-</div>
+<!-- DUDA -->
+<div class="duda" title="Duda — Assistente" onclick="alert('Olá! 💙 Eu sou a Duda!\\n\\nVeja as senhas de acesso em cada cartão de curso. É só digitar e entrar!')">🤖</div>
 
-<div id="duda-chat">
-    <div class="duda-cabecalho">
-        🤖 Duda — Assistente Virtual
-        <button onclick="fecharDuda()">×</button>
-    </div>
-    <div class="duda-mensagens" id="duda-mensagens">
-        <div class="duda-msg duda-msg-duda">
-            <strong>Duda 💙</strong><br>
-            Olá! Tudo bem? Sou a Duda, sua assistente virtual da DSCursos Online! 😊<br>
-            Em que posso te ajudar hoje?
-        </div>
-    </div>
-    <div class="duda-entrada">
-        <input type="text" id="duda-input" placeholder="Digite sua pergunta...">
-        <button onclick="enviarMensagemDuda()">Enviar</button>
-    </div>
-</div>
-
+<!-- FILTROS E BUSCA -->
 <script>
-const baseDuda = {
-  "duda": "Sou a sua assistente virtual! 💙 Estou aqui para te ajudar com tudo sobre os cursos, acesso, senhas, certificado e muito mais! É só perguntar!",
-  "contato": "Fale com a gente! 📧 redelinecftv@gmail.com | 📱 (67) 99903-0758 — Respondemos em até 48h úteis! 💙",
-  "senha": "A senha do Curso Iniciante é: Iniciante2026! ✅ Se não funcionar, contate-nos que enviamos novamente! 💙",
-  "acesso": "Vá em Cursos → Já sou aluno → digite a senha → entra no painel com todas as aulas! 📚",
-  "certificado": "Após concluir todas as aulas e entregar o projeto, você recebe o certificado gratuitamente por e-mail! 📄✅",
-  "projeto": "Reúna todos os arquivos criados nas aulas, compacte em .ZIP e envie para redelinecftv@gmail.com! 💙",
-  "preço": "Entre em contato pelo WhatsApp (67) 99903-0758 que combinamos tudo! 💙",
-  "horário": "Atendemos em dias úteis, das 8h às 18h, horário de Mato Grosso do Sul! ⏰",
-  "dourival": "É o Dourival Silva, nosso professor e responsável! 💙 CPF 729.011.529-53 — Itaquirai/MS!",
-  "obrigado": "De nada! 🥰 É um prazer te ajudar! Conte comigo sempre! 💙💙",
-  "obrigada": "De nada! 🥰 É um prazer te ajudar! Conte comigo sempre! 💙💙"
-};
-
-const naoSabe = "Desculpe 😊 Ainda não fui treinada para responder isso! Mas pode perguntar sobre os cursos, acesso, certificado e contato que te ajudo! 💙";
-const palavrasChave = ["duda", "contato", "email", "telefone", "senha", "acesso", "certificado", "projeto", "preço", "valor", "pagamento", "horário", "dourival", "professor", "obrigado", "obrigada"];
-
-function alternarDuda() {
-  const chat = document.getElementById('duda-chat');
-  chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
-}
-function fecharDuda() {
-  document.getElementById('duda-chat').style.display = 'none';
-}
-function enviarMensagemDuda() {
-  const input = document.getElementById('duda-input');
-  const mensagem = input.value.trim();
-  if (!mensagem) return;
-  const caixa = document.getElementById('duda-mensagens');
-  caixa.innerHTML += `<div class="duda-msg duda-msg-eu">${mensagem}</div>`;
-  input.value = '';
-
-  setTimeout(() => {
-    let resposta = naoSabe;
-    const pergunta = mensagem.toLowerCase();
-    for (const [chave, resp] of Object.entries(baseDuda)) {
-      if (pergunta.includes(chave)) { resposta = resp; break; }
-    }
-    const relevante = palavrasChave.some(palavra => pergunta.includes(palavra));
-    if (!relevante) resposta = naoSabe;
+function aplicarFiltro(categoria) {
+    document.querySelectorAll('.filtro').forEach(f => f.classList.remove('ativo'));
+    document.querySelector(`[data-filtro="${categoria}"]`).classList.add('ativo');
     
-    caixa.innerHTML += `<div class="duda-msg duda-msg-duda"><strong>Duda 💙</strong><br>${resposta}</div>`;
-    caixa.scrollTop = caixa.scrollHeight;
-  }, 600);
+    const cards = document.querySelectorAll('.card-curso');
+    cards.forEach(card => {
+        const cats = card.getAttribute('data-categorias').split(' ');
+        card.style.display = (categoria === 'todos' || cats.includes(categoria)) ? 'block' : 'none';
+    });
 }
-document.getElementById('duda-input').addEventListener('keypress', e => e.key === 'Enter' && enviarMensagemDuda());
+
+function filtrarCursos() {
+    const termo = document.getElementById('busca').value.toLowerCase();
+    const cards = document.querySelectorAll('.card-curso');
+    cards.forEach(card => {
+        const texto = card.textContent.toLowerCase();
+        card.style.display = texto.includes(termo) ? 'block' : 'none';
+    });
+}
 </script>
+
 </body>
 </html>

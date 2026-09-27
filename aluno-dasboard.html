@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+ <html lang="pt-BR">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Meus Cursos | DS Cursos</title>
+ <style>
+ *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+ :root{--l:#FF7A00;--v:#2E7D32;--e:#1A1A1A;}
+ body{background:#f5f5f5;}
+ header{background:var(--e);padding:1rem;position:sticky;top:0;z-index:100;}
+ .nav{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;}
+ .logo{color:var(--l);font-size:1.4rem;font-weight:bold;text-decoration:none;}
+ .user-info{color:#fff;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+ .sair{background:transparent;border:2px solid #ff4444;color:#ff4444;padding:.5rem 1rem;border-radius:8px;cursor:pointer;font-weight:bold;}
+ .sair:hover{background:#ff4444;color:#fff;}
+ .conteudo{max-width:1100px;margin:2rem auto;padding:0 1rem;}
+ .saudacao{background:linear-gradient(135deg,var(--l),#e66c00);color:#fff;padding:2rem;border-radius:12px;margin-bottom:2rem;}
+ .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;}
+ .card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08);transition:.3s;}
+ .card:hover{transform:translateY(-5px);box-shadow:0 8px 20px rgba(0,0,0,.12);}
+ .card-cab{background:var(--v);color:#fff;padding:1rem;font-weight:bold;}
+ .card-corpo{padding:1.2rem;}
+ .card-corpo p{color:#666;margin-bottom:1rem;min-height:40px;}
+ .btn{display:block;text-align:center;padding:.8rem;border-radius:8px;text-decoration:none;font-weight:bold;transition:.3s;}
+ .btn-verde{background:var(--v);color:#fff;}
+ .btn-verde:hover{background:#266d2b;}
+ .btn-bloqueado{background:#eee;color:#999;cursor:not-allowed;}
+ .nenhum{text-align:center;padding:3rem;color:#666;}
+ </style>
+ </head>
+ <body>
+ <header>
+ <div class="nav">
+ <a href="index.html" class="logo">DS Cursos</a>
+ <div class="user-info">
+ <span id="nomeAluno"></span>
+ <button class="sair" onclick="sair()">Sair</button>
+ </div>
+ </div>
+ </header>
+ <div class="conteudo">
+ <div class="saudacao">
+ <h1>Bem-vindo, <span id="nomeAqui"></span>!</h1>
+ <p>Aqui estão os cursos liberados para você. Bom estudo!</p>
+ </div>
+ <h2>Meus Cursos</h2>
+ <div class="grid" id="listaCursos">
+ <div class="nenhum">Carregando...</div>
+ </div>
+ </div>
+ <script>
+ const CHAVE = 'dscursos_2026_seguro';
+ const listaTodosCursos = [
+   {id:'iniciante',nome:'Informática Iniciante',desc:'Windows, Word, Excel, PowerPoint',link:'iniciante/',cor:'#0066CC'},
+   {id:'avancado',nome:'Informática Avançada',desc:'Ferramentas, Internet, IA',link:'avancado/',cor:'#0066CC'},
+   {id:'word',nome:'Word Completo',desc:'Documentos profissionais',link:'word/',cor:'#0066CC'},
+   {id:'excel',nome:'Excel Completo',desc:'Fórmulas e planilhas',link:'excel/',cor:'#0066CC'},
+   {id:'pedreiro',nome:'Pedreiro',desc:'Construção e acabamento',link:'pedreiro/',cor:'#FF6F00'},
+   {id:'apicultura',nome:'Apicultura',desc:'Criação de abelhas',link:'apicultura/',cor:'#2E7D32'}
+ ];
+ const logado = sessionStorage.getItem('alunoLogado');
+ if(!logado){
+   window.location.href='login.html';
+ }
+ const aluno = JSON.parse(logado);
+ document.getElementById('nomeAluno').textContent = aluno.nome;
+ document.getElementById('nomeAqui').textContent = aluno.nome;
+ function carregarCursos(){
+   const container = document.getElementById('listaCursos');
+   const cursosAluno = aluno.cursos || [];
+   if(cursosAluno.length === 0){
+     container.innerHTML = '<div class="nenhum">Nenhum curso liberado ainda. Aguarde!</div>';
+     return;
+   }
+   container.innerHTML = '';
+   for(let i=0; i<listaTodosCursos.length; i++){
+     const curso = listaTodosCursos[i];
+     const liberado = cursosAluno.includes(curso.id);
+     let botao = '';
+     if(liberado){
+       botao = '<a href="'+curso.link+'" class="btn btn-verde">Acessar</a>';
+     }else{
+       botao = '<button class="btn btn-bloqueado" disabled>Aguardando</button>';
+     }
+     container.innerHTML += '<div class="card"><div class="card-cab" style="background:'+(liberado ? (curso.cor || '#2E7D32') : '#999')+'">'+curso.nome+'</div><div class="card-corpo"><p>'+curso.desc+'</p>'+botao+'</div></div>';
+   }
+ }
+ function sair(){
+   sessionStorage.removeItem('alunoLogado');
+   window.location.href='login.html';
+ }
+ carregarCursos();
+ </script>
+ </body>
+ </html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSCursos — Online 💙</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { background: linear-gradient(135deg, #0f172a, #1e293b); min-height: 100vh; color: #fff; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+    
+    /* CABEÇALHO */
+    header { text-align: center; padding: 30px 20px; }
+    header h1 { font-size: 2.5rem; color: #22c55e; margin-bottom: 10px; }
+    header p { color: #94a3b8; font-size: 1.1rem; }
+    
+    /* BOTÃO ADMIN */
+    .botao-adm { text-align: right; margin-bottom: 10px; }
+    .btn-adm { background: #334155; color: #94a3b8; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+    .btn-adm:hover { background: #475569; color: #fff; }
+    
+    /* TELA DE LOGIN ADM */
+    .tela-login-adm { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 2000; display: none; }
+    .tela-login-adm.ativa { display: flex; }
+    .caixa-login { background: #1e293b; padding: 30px; border-radius: 16px; border: 2px solid #334155; width: 90%; max-width: 400px; }
+    .caixa-login h3 { color: #22c55e; text-align: center; margin-bottom: 20px; }
+    .caixa-login input { width: 100%; padding: 12px; margin: 8px 0 16px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 1rem; }
+    .caixa-login button { width: 100%; padding: 12px; border-radius: 8px; border: none; font-size: 1rem; font-weight: bold; cursor: pointer; }
+    .btn-entrar { background: #22c55e; color: white; margin-bottom: 10px; }
+    .btn-fechar { background: #475569; color: white; }
+    .erro-senha { color: #ef4444; margin-top: 10px; display: none; text-align: center; }
+    
+    /* PAINEL DE STATUS — SÓ APARECE SE LOGADO */
+    .painel { background: rgba(30, 41, 59, 0.8); border-radius: 16px; padding: 25px; margin: 20px 0; border: 2px solid #334155; display: none; }
+    .painel.visivel { display: block; }
+    .painel h2 { color: #22c55e; margin-bottom: 20px; text-align: center; }
+    .grid-status { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+    .card { background: #1e293b; border-radius: 12px; padding: 20px; text-align: center; }
+    .card .numero { font-size: 2rem; font-weight: bold; color: #22c55e; }
+    .card .rotulo { color: #94a3b8; margin-top: 5px; }
+    .status-online { color: #22c55e; font-weight: bold; text-align: center; margin-top: 10px; }
+    .btn-sair { text-align: right; margin-bottom: 15px; }
+    .sair { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
+    
+    /* VITRINE DE CURSOS — TODOS VEEM */
+    .vitrine { margin: 40px 0; }
+    .vitrine h2 { text-align: center; color: #22c55e; margin-bottom: 30px; font-size: 1.8rem; }
+    .curso-card { background: rgba(30, 41, 59, 0.8); border-radius: 16px; padding: 30px; border: 2px solid #334155; text-align: center; }
+    .curso-nome { font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
+    .curso-desc { color: #cbd5e1; margin-bottom: 15px; }
+    .curso-preco { font-size: 2rem; color: #22c55e; font-weight: bold; margin: 20px 0; }
+    .curso-tag { display: inline-block; background: rgba(34, 197, 94, 0.2); color: #22c55e; padding: 6px 12px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px; }
+    
+    /* BOTÕES DE COMPRA */
+    .botoes { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 20px; }
+    .btn { padding: 14px 30px; border-radius: 10px; font-size: 1rem; font-weight: bold; text-decoration: none; transition: transform 0.2s; border: none; cursor: pointer; }
+    .btn:hover { transform: scale(1.05); }
+    .btn-hotmart { background: linear-gradient(135deg, #ff6b00, #e65100); color: white; }
+    .btn-kiwify { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; }
+    
+    /* DUDA — BOTÃO FLUTUANTE */
+    .duda-btn { position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; border-radius: 50%; background: linear-gradient(135deg, #22c55e, #16a34a); border: none; font-size: 32px; cursor: pointer; box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4); z-index: 1000; transition: transform 0.3s; }
+    .duda-btn:hover { transform: scale(1.15); }
+    .duda-chat { position: fixed; bottom: 100px; right: 25px; width: 340px; background: #1e293b; border-radius: 16px; border: 2px solid #334155; padding: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.3); z-index: 999; display: none; }
+    .duda-chat.aberto { display: block; animation: aparece 0.3s ease; }
+    @keyframes aparece { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .duda-mensagem { background: #334155; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+    .duda-pergunta { background: #22c55e; color: white; border: none; padding: 10px 14px; border-radius: 20px; margin: 5px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+    .duda-pergunta:hover { background: #16a34a; }
+    .fechar { float: right; background: none; border: none; color: #94a3b8; font-size: 1.2rem; cursor: pointer; }
+    
+    /* RODAPÉ */
+    footer { text-align: center; padding: 30px; color: #64748b; font-size: 0.9rem; margin-top: 50px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- BOTÃO ADMIN NO CANTO SUPERIOR DIREITO -->
+    <div class="botao-adm">
+      <button class="btn-adm" onclick="abrirLoginAdm()">🔐 Administrador</button>
+    </div>
+
+    <!-- CABEÇALHO -->
+    <header>
+      <h1>💙 DSCursos</h1>
+      <p>Educação para Todos — Acesso Vitalício ♾️</p>
+    </header>
+
+    <!-- PAINEL ADMIN — SÓ VÊ SE ESTIVER LOGADO -->
+    <div class="painel" id="painelAdm">
+      <div class="btn-sair">
+        <button class="sair" onclick="sairAdm()">Sair ✕</button>
+      </div>
+      <h2>📊 Painel de Controle Administrativo</h2>
+      <div class="grid-status">
+        <div class="card">
+          <div class="numero" id="totalAlunos">--</div>
+          <div class="rotulo">Alunos Cadastrados</div>
+        </div>
+        <div class="card">
+          <div class="numero" id="liberados">--</div>
+          <div class="rotulo">Acessos Liberados</div>
+        </div>
+        <div class="card">
+          <div class="numero" id="pendentes">--</div>
+          <div class="rotulo">Aguardando Liberação</div>
+        </div>
+        <div class="card">
+          <div class="status-online" id="statusSistema">Conectando...</div>
+          <div class="rotulo">Sistema</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VITRINE DE CURSOS — TODOS ACESSAM SEM SENHA -->
+    <div class="vitrine">
+      <h2>📚 Nossos Cursos</h2>
+      
+      <div class="curso-card">
+        <div class="curso-nome">Curso 50 — Instalações Completas</div>
+        <div class="curso-desc">Formação completa para profissionalizar e trabalhar na área. Tutoria + Certificado ♾️</div>
+        <span class="curso-tag">♾️ Acesso Vitalício</span>
+        <div class="curso-preco">R$ 64,90</div>
+        
+        <div class="botoes">
+          <!-- BOTÃO HOTMART — COLOQUE SEU LINK ABAIXO -->
+          <a href="LINK_DA_HOTMART_AQUI" target="_blank" class="btn btn-hotmart">
+            🟠 Comprar — Hotmart
+          </a>
+          <!-- BOTÃO KIWIFY — COLOQUE SEU LINK ABAIXO -->
+          <a href="LINK_DA_KIWIFY_AQUI" target="_blank" class="btn btn-kiwify">
+            🟢 Comprar — Kiwify
+          </a>
+        </div>
+        
+        <p style="color:#94a3b8; margin-top:20px; font-size:0.9rem;">
+          ✅ Liberação Imediata · ♾️ Acesso Vitalício · 📱 2 Aparelhos · 📄 Certificado
+        </p>
+      </div>
+    </div>
+
+    <!-- RODAPÉ -->
+    <footer>
+      DSCursos — Educação para Todos 💙✨<br>
+      © 2026 — Todos os direitos reservados
+    </footer>
+  </div>
+
+  <!-- TELA DE LOGIN ADMIN -->
+  <div class="tela-login-adm" id="telaLoginAdm">
+    <div class="caixa-login">
+      <h3>🔐 Acesso Administrativo</h3>
+      <input type="password" id="senhaAdm" placeholder="Digite a senha...">
+      <div class="erro-senha" id="erroSenha">Senha incorreta! Tente novamente.</div>
+      <button class="btn-entrar" onclick="verificarSenha()">Entrar</button>
+      <button class="btn-fechar" onclick="fecharLoginAdm()">Voltar</button>
+    </div>
+  </div>
+
+  <!-- DUDA — ASSISTENTE FLUTUANTE -->
+  <button class="duda-btn" onclick="alternarDuda()">🤖</button>
+  
+  <div class="duda-chat" id="caixaDuda">
+    <button class="fechar" onclick="alternarDuda()">×</button>
+    <h3 style="color:#22c55e; margin-bottom:15px;">🤖 Sou a Duda!</h3>
+    
+    <div class="duda-mensagem" id="respostaDuda">
+      Olá! 💙 Tudo bem?<br>Eu sou a assistente do DSCursos e estou aqui para te ajudar! 💬
+    </div>
+    
+    <div style="margin-top:10px;">
+      <button class="duda-pergunta" onclick="respostaDuda('acesso')">♾️ Como funciona o acesso?</button>
+      <button class="duda-pergunta" onclick="respostaDuda('compra')">🛒 Comprei, quando liberam?</button>
+      <button class="duda-pergunta" onclick="respostaDuda('aparelhos')">📱 Quantos aparelhos posso usar?</button>
+      <button class="duda-pergunta" onclick="respostaDuda('certificado')">📄 Tem certificado?</button>
+    </div>
+  </div>
+
+  <!-- SCRIPT GERAL -->
+  <script>
+    // 🔑 CONFIGURAÇÕES — ALTERE AQUI!
+    const SENHA_ADMIN = "123456"; // ← TROQUE PELA SUA SENHA!
+    const LINK_SCRIPT = "https://script.google.com/macros/s/AKfycbw-mb4ww0t1vCSZFNoOsREOb2P0Ru_F208dfehZWdUiz8fhbaHI1r7vsOV8iKi_OLAL/exec";
+
+    // 🔐 CONTROLE DE ACESSO ADMIN
+    function abrirLoginAdm() {
+      document.getElementById("telaLoginAdm").classList.add("ativa");
+      document.getElementById("senhaAdm").value = "";
+      document.getElementById("erroSenha").style.display = "none";
+    }
+
+    function fecharLoginAdm() {
+      document.getElementById("telaLoginAdm").classList.remove("ativa");
+    }
+
+    function verificarSenha() {
+      const digitada = document.getElementById("senhaAdm").value;
+      if (digitada === SENHA_ADMIN) {
+        // Senha correta → libera painel
+        document.getElementById("painelAdm").classList.add("visivel");
+        fecharLoginAdm();
+        carregarDados(); // Carrega dados da planilha
+        localStorage.setItem("admLogado", "sim"); // Mantém logado
+      } else {
+        document.getElementById("erroSenha").style.display = "block";
+      }
+    }
+
+    function sairAdm() {
+      document.getElementById("painelAdm").classList.remove("visivel");
+      localStorage.removeItem("admLogado");
+    }
+
+    // Verifica se já estava logado ao abrir a página
+    if (localStorage.getItem("admLogado") === "sim") {
+      document.getElementById("painelAdm").classList.add("visivel");
+      carregarDados();
+    }
+
+    // 📊 CARREGAR DADOS DA PLANILHA
+    async function carregarDados() {
+      try {
+        const res = await fetch(LINK_SCRIPT);
+        const dados = await res.json();
+        
+        document.getElementById("totalAlunos").textContent = dados.totalAlunos || 0;
+        document.getElementById("liberados").textContent = dados.liberados?.length || 0;
+        document.getElementById("pendentes").textContent = dados.pendentes?.length || 0;
+        document.getElementById("statusSistema").textContent = dados.status || "ONLINE ✅";
+        document.getElementById("statusSistema").style.color = "#22c55e";
+      } catch (erro) {
+        document.getElementById("statusSistema").textContent = "Offline ⚠️";
+        document.getElementById("statusSistema").style.color = "#f97316";
+      }
+    }
+
+    // 🤖 DUDA
+    function alternarDuda() {
+      const caixa = document.getElementById("caixaDuda");
+      caixa.classList.toggle("aberto");
+    }
+
+    function respostaDuda(tipo) {
+      const respostas = {
+        acesso: "Seu acesso é <strong>VITALÍCIO ♾️</strong>! Nunca expira! Pode estudar no seu ritmo! 💙",
+        compra: "Assim que o pagamento é aprovado, liberamos em instantes! ✅ Você recebe o acesso no e-mail cadastrado 📩",
+        aparelhos: "O limite é de <strong>2 aparelhos por conta</strong> 📱💻 Isso protege seu acesso! Proibido compartilhar 🔒",
+        certificado: "Tem sim! 📄 Após concluir todas as aulas, o certificado é liberado automaticamente! ✅"
+      };
+      
+      document.getElementById("respostaDuda").innerHTML = respostas[tipo] || "Pode perguntar! 💙";
+    }
+
+    // Permite pressionar Enter na senha
+    document.getElementById("senhaAdm").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") verificarSenha();
+    });
+  </script>
+
+</body>
+</html>

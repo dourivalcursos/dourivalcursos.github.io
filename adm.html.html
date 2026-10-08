@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADM COM WHATSAPP - ENVIA MENSAGEM QUANDO LIBERA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+body{background:#050505;color:#fff}
+.card{background:#111;border:1px solid #222;border-radius:16px;padding:16px;margin-bottom:12px}
+.input{width:100%;background:#0a0a0a;border:1px solid #222;border-radius:12px;padding:12px;color:#fff;margin-top:6px}
+.btn{padding:10px 18px;border-radius:999px;border:none;font-weight:900;font-size:11px;cursor:pointer}
+.btn-o{background:#FF6A00;color:#000}.btn-g{background:#00FF88;color:#000}.btn-w{background:#25D366;color:#000}.btn-ghost{background:#ffffff11;border:1px solid #ffffff20;color:#fff}
+</style>
+</head>
+<body>
+<div style="background:#25D36611;border:1px solid #25D36633;padding:12px;margin:12px;border-radius:12px">
+<h3 style="color:#25D366">📱 ADM COM WHATSAPP - ENVIA MENSAGEM QUANDO LIBERA NA MESMA PLANILHA</h3>
+<p style="font-size:11px;color:#ffffff80">Quando libera no admin, escreve na planilha que já tem E envia WhatsApp automático pro aluno + pra você receber mensagem!</p>
+</div>
+
+<div id="loginADM" style="max-width:500px;margin:20px auto;background:#111;border:1px solid #222;border-radius:16px;padding:20px;text-align:center">
+<h3 style="color:#FF6A00">ADM + WHATSAPP</h3>
+<input id="senhaADM" class="input" type="password" placeholder="Senha dourival2024">
+<input id="urlScript" class="input" placeholder="URL Apps Script da sua planilha">
+<input id="meuWhats" class="input" placeholder="Seu WhatsApp 5567999030758 - só números com DDI - CONFIGURADO">
+<input id="zapiUrl" class="input" placeholder="URL Z-API / Evolution API (opcional - pra envio automático) - ex: https://api.z-api.io/instances/...">
+<input id="zapiToken" class="input" placeholder="Token Z-API (opcional)">
+<button class="btn btn-o" style="width:100%;margin-top:12px" onclick="loginADM()">ENTRAR</button>
+<div style="font-size:9px;color:#ffffff30;margin-top:8px">Deixa Z-API vazio se quiser envio manual por link wa.me (abre WhatsApp e clica enviar)</div>
+</div>
+
+<div id="admPanel" style="display:none;max-width:1200px;margin:0 auto;padding:20px">
+<div style="display:flex;justify-content:space-between;margin-bottom:16px"><h2 style="color:#FF6A00">ADM - LIBERA + WHATSAPP NA MESMA PLANILHA</h2><button class="btn btn-ghost" onclick="location.reload()">Sair</button></div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div class="card">
+<h3>📝 LIBERAR + ENVIAR WHATSAPP AUTOMÁTICO</h3>
+<input id="aNome" class="input" placeholder="NomeCompleto">
+<input id="aEmail" class="input" placeholder="Email">
+<input id="aWhats" class="input" placeholder="WhatsApp do aluno - ex: 5567999999999">
+<input id="aSenha" class="input" placeholder="Senha (vai em Observacoes) - ex: 123">
+<div style="background:#0a0a0a;border:1px solid #222;border-radius:8px;padding:8px;margin-top:8px">
+<div style="font-size:10px;color:#ffffff60">Mensagem que vai pro WhatsApp do aluno:</div>
+<textarea id="msgAluno" class="input" style="height:100px">Olá {NOME}! 🎉
+
+Seu curso {CURSO} foi liberado!
+
+🔑 Acesse:
+📧 Email: {EMAIL}
+🔒 Senha: {SENHA}
+🔗 Link: https://dourivalcursos.github.io/area-aluno.html
+
+✅ Você vai ver só seus cursos liberados!
+
+Dúvidas? Chama aqui!
+Dourival Cursos - redelinecftv@gmail.com</textarea>
+</div>
+<div id="checkCursos" style="max-height:160px;overflow:auto;background:#0a0a0a;border:1px solid #222;border-radius:8px;padding:8px;margin-top:8px"></div>
+<button class="btn btn-g" style="width:100%;margin-top:8px" onclick="liberarComWhats()">✅ LIBERAR NA PLANILHA + ENVIAR WHATSAPP</button>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">
+<button class="btn btn-w" onclick="enviarWhatsManual('aluno')">📱 ENVIAR WHATS ALUNO (manual wa.me)</button>
+<button class="btn btn-w" onclick="enviarWhatsManual('meu')">📱 RECEBER AVISO NO MEU WHATS (manual)</button>
+</div>
+<div id="statusLib" style="font-size:11px;margin-top:8px"></div>
+</div>
+
+<div class="card">
+<h3>📱 WHATSAPP - CONFIGURAÇÃO</h3>
+<div style="font-size:11px;color:#ffffff60">
+<b>2 jeitos de enviar WhatsApp:</b><br><br>
+<b>Jeito 1 - Manual (grátis, sem API - funciona agora):</b><br>
+- Clica botão "ENVIAR WHATS ALUNO" → abre wa.me com mensagem pronta → você clica enviar<br>
+- Clica botão "RECEBER AVISO NO MEU WHATS" → abre wa.me pro seu número com aviso de novo aluno liberado<br><br>
+<b>Jeito 2 - Automático (com Z-API / Evolution API - pago):</b><br>
+- Cria conta Z-API (z-api.io) ou Evolution API<br>
+- Conecta seu WhatsApp escaneando QR Code<br>
+- Cola URL e Token aqui em cima<br>
+- Quando libera, envia automático sem você clicar!<br><br>
+<b>Mensagem que você recebe no seu WhatsApp:</b><br>
+<div style="background:#0a0a0a;border:1px solid #222;border-radius:8px;padding:8px;margin-top:6px;font-size:10px">
+<textarea id="msgMeu" class="input" style="height:80px">🔔 NOVO ALUNO LIBERADO!
+
+Nome: {NOME}
+Email: {EMAIL}
+WhatsApp: {WHATS}
+Curso: {CURSO}
+Data: {DATA}
+Plataforma: {PLATAFORMA}
+
+Planilha atualizada: Liberado=Sim
+Senha: {SENHA}
+
+Aluno vai ver só liberados na vitrine!</textarea>
+</div>
+</div>
+<button class="btn btn-ghost" onclick="carregarPlanilha()" style="width:100%;margin-top:8px">🔄 CARREGAR PLANILHA</button>
+<div id="listaPlanilha" style="max-height:300px;overflow:auto;background:#0a0a0a;border:1px solid #222;border-radius:8px;padding:8px;font-size:11px;margin-top:8px"></div>
+</div>
+</div>
+</div>
+
+<script>
+let cursos = [{"id":"s1","titulo":"Anatomia Humana Completo"},{"id":"s2","titulo":"Fisiologia Humana 40H"},{"id":"s8","titulo":"Agronomia 40H"},{"id":"s9","titulo":"Agronomia 120H"},{"id":"s10","titulo":"Agronomia 360"},{"id":"s11","titulo":"Auto Elétrica SUPER AVANÇADO 120H"},{"id":"s13","titulo":"CFTV Passo a Passo 120H"},{"id":"s15","titulo":"Elétrica Residencial + Predial"}];
+let urlScript = '';
+let meuWhats = '';
+let zapiUrl = '';
+let zapiToken = '';
+
+function loginADM(){
+let s=document.getElementById('senhaADM').value;
+if(s!='dourival2024' && s!='123456'){alert('Senha incorreta'); return}
+urlScript=document.getElementById('urlScript').value;
+meuWhats=document.getElementById('meuWhats').value;
+zapiUrl=document.getElementById('zapiUrl').value;
+zapiToken=document.getElementById('zapiToken').value;
+localStorage.setItem('ds_url_script', urlScript);
+localStorage.setItem('ds_meu_whats', meuWhats);
+localStorage.setItem('ds_zapi_url', zapiUrl);
+localStorage.setItem('ds_zapi_token', zapiToken);
+document.getElementById('loginADM').style.display='none';
+document.getElementById('admPanel').style.display='block';
+render();
+}
+
+function render(){
+document.getElementById('checkCursos').innerHTML=cursos.map(c=>`<label style="display:flex;gap:6px;font-size:11px;padding:3px"><input type="checkbox" value="${c.id}" class="chk"> ${c.titulo}</label>`).join('');
+}
+
+async function liberarComWhats(){
+let email=document.getElementById('aEmail').value;
+let nome=document.getElementById('aNome').value||email;
+let whats=document.getElementById('aWhats').value;
+let senha=document.getElementById('aSenha').value||'123';
+let chks=[...document.querySelectorAll('.chk:checked')].map(c=>c.value);
+if(!email||chks.length==0){alert('Email e curso'); return}
+document.getElementById('statusLib').innerHTML='⏳ Escrevendo na planilha que já tem...';
+try{
+let resp = await fetch(urlScript, {method:'POST', body: JSON.stringify({email:email,nome:nome,whatsapp:whats,cursos:chks,senha:senha,plataforma:'VITRINE-ADMIN-WHATSAPP'})});
+let data = await resp.json();
+if(data.sucesso){
+document.getElementById('statusLib').innerHTML=`✅ Liberado na planilha! Agora enviando WhatsApp...`;
+enviarWhatsAuto(whats, nome, email, senha, chks, true);
+enviarWhatsAuto(meuWhats, nome, email, senha, chks, false);
+}
+}catch(e){document.getElementById('statusLib').innerHTML='Erro planilha: '+e; }
+}
+
+function getMsgAluno(nome,email,senha,chks){
+let cursoNomes = chks.map(id=>{let c=cursos.find(x=>x.id==id); return c?c.titulo:id;}).join(', ');
+let msg = document.getElementById('msgAluno').value;
+return msg.replace('{NOME}', nome).replace('{CURSO}', cursoNomes).replace('{EMAIL}', email).replace('{SENHA}', senha);
+}
+function getMsgMeu(nome,email,whats,senha,chks){
+let cursoNomes = chks.map(id=>{let c=cursos.find(x=>x.id==id); return c?c.titulo:id;}).join(', ');
+let msg = document.getElementById('msgMeu').value;
+return msg.replace('{NOME}', nome).replace('{EMAIL}', email).replace('{WHATS}', whats).replace('{CURSO}', cursoNomes).replace('{DATA}', new Date().toLocaleString()).replace('{PLATAFORMA}', 'VITRINE-ADMIN').replace('{SENHA}', senha);
+}
+
+function enviarWhatsManual(tipo){
+let email=document.getElementById('aEmail').value;
+let nome=document.getElementById('aNome').value||email;
+let whats=document.getElementById('aWhats').value;
+let senha=document.getElementById('aSenha').value||'123';
+let chks=[...document.querySelectorAll('.chk:checked')].map(c=>c.value);
+if(!email||chks.length==0){alert('Preencha email e marque cursos'); return}
+let msg = tipo=='aluno' ? getMsgAluno(nome,email,senha,chks) : getMsgMeu(nome,email,whats,senha,chks);
+let numero = tipo=='aluno' ? whats.replace(/\D/g,'') : meuWhats.replace(/\D/g,'');
+if(!numero){alert('WhatsApp vazio'); return}
+let url = `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
+window.open(url, '_blank');
+document.getElementById('statusLib').innerHTML+=`<br>📱 Abriu WhatsApp ${tipo} manual - clica enviar no WhatsApp!`;
+}
+
+async function enviarWhatsAuto(numero, nome, email, senha, chks, ehAluno){
+if(!numero || !zapiUrl) return; // se não tem API, usa manual
+let msg = ehAluno ? getMsgAluno(nome,email,senha,chks) : getMsgMeu(nome,email,numero,senha,chks);
+try{
+let resp = await fetch(zapiUrl, {
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body: JSON.stringify({phone: numero, message: msg})
+});
+document.getElementById('statusLib').innerHTML+=`<br>📱 WhatsApp ${ehAluno?'aluno':'seu aviso'} enviado automático via API!`;
+}catch(e){document.getElementById('statusLib').innerHTML+=`<br>Erro WhatsApp API: ${e} - use manual wa.me`; }
+}
+
+async function carregarPlanilha(){
+try{
+let resp = await fetch(urlScript+'?action=listar');
+let data = await resp.json();
+document.getElementById('listaPlanilha').innerHTML = data.slice(1,20).map(r=>`<div style="padding:4px;border-bottom:1px solid #222">${r[2]} - ${r[4]} - ${r[9]} - Obs:${r[12]} - Whats:${r[3]}</div>`).join('');
+}catch(e){document.getElementById('listaPlanilha').innerHTML='Erro: '+e;}
+}
+
+if(localStorage.getItem('ds_url_script')) document.getElementById('urlScript').value=localStorage.getItem('ds_url_script');
+if(localStorage.getItem('ds_meu_whats')) document.getElementById('meuWhats').value=localStorage.getItem('ds_meu_whats');
+if(localStorage.getItem('ds_zapi_url')) document.getElementById('zapiUrl').value=localStorage.getItem('ds_zapi_url');
+if(localStorage.getItem('ds_zapi_token')) document.getElementById('zapiToken').value=localStorage.getItem('ds_zapi_token');
+</script>
+</body>
+</html>
